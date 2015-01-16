@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import model.EmployeeDAO;
+import model.Model;
 
 import org.genericdao.RollbackException;
 import org.mybeans.form.FormBeanException;
@@ -21,6 +22,10 @@ public class CreateEmployeeAccountAction extends Action {
 			.getInstance(CreateEmployeeAccoutForm.class);
 
 	EmployeeDAO employeeDAO;
+	
+	public CreateEmployeeAccountAction(Model model) {
+		employeeDAO = model.getEmployeeDAO();
+	}
 
 	@Override
 	public String getName() {
@@ -37,11 +42,11 @@ public class CreateEmployeeAccountAction extends Action {
 			request.setAttribute("form", form);
 			
 			if (!form.isPresent()) {
-				return "createEmployeeAccount.jsp";
+				return "createEmployeeAccount.do";
 			}
 			errors.addAll(form.getValidationErrors());
 			if (!errors.isEmpty()) {
-				return "createEmployeeAccount.jsp";
+				return "createEmployeeAccount.do";
 			}	
 			
 			EmployeeBean employee = new EmployeeBean();
