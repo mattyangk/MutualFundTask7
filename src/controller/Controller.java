@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import databeans.CustomerBean;
+import databeans.EmployeeBean;
 import model.Model;
 
 @SuppressWarnings("serial")
@@ -27,6 +28,7 @@ public class Controller extends HttpServlet {
         Model model = new Model(getServletConfig());
 
         Action.add(new LoginAction(model));
+        Action.add(new LogoutAction(model));
         
 
     }
@@ -49,7 +51,8 @@ public class Controller extends HttpServlet {
     private String performTheAction(HttpServletRequest request) {
         HttpSession session     = request.getSession(true);
         String      servletPath = request.getServletPath();
-        CustomerBean    user = (CustomerBean) session.getAttribute("customer");
+        CustomerBean    customer = (CustomerBean) session.getAttribute("customer");
+        EmployeeBean employee =(EmployeeBean) session.getAttribute("employee");
         String      action = getActionName(servletPath);
 
         // System.out.println("servletPath="+servletPath+" requestURI="+request.getRequestURI()+"  user="+user);
@@ -59,7 +62,7 @@ public class Controller extends HttpServlet {
 			return Action.perform(action,request);
         }
         
-        if (user == null) {
+        if (customer == null && employee == null) {
         	// If the user hasn't logged in, direct him to the login page
 			return Action.perform("login.do",request);
         }

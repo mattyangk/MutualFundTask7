@@ -55,10 +55,10 @@
 				<button type="submit" class="btn btn-default">Login</button>
 			</form>
 			<%
-				} else {
+				} else {	
 			%>
 			<form class="navbar-form navbar-right" role="form" method="POST" action="logout.do">
-				<button type="submit" class="btn btn-default">Login</button>
+				<button type="submit" class="btn btn-default">Logout</button>
 			</form>
 
 			<%

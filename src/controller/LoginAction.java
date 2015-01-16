@@ -36,10 +36,11 @@ import formbeans.LoginForm;
  * his favorites.
  */
 public class LoginAction extends Action {
-	private FormBeanFactory<LoginForm> formBeanFactory = FormBeanFactory.getInstance(LoginForm.class);
-	
+	private FormBeanFactory<LoginForm> formBeanFactory = FormBeanFactory
+			.getInstance(LoginForm.class);
+
 	private CustomerDAO customerDAO;
-	
+
 	private EmployeeDAO employeeDAO;
 
 	public LoginAction(Model model) {
@@ -47,70 +48,76 @@ public class LoginAction extends Action {
 		employeeDAO = model.getEmployeeDAO();
 	}
 
-	public String getName() { return "index.do"; }
-    
-    public String perform(HttpServletRequest request) {
-        List<String> errors = new ArrayList<String>();
-        request.setAttribute("errors",errors);
-        
-        try {
-        	HttpSession session = request.getSession();
-        	
-	    	LoginForm form = formBeanFactory.create(request);
-	        request.setAttribute("form",form);
+	public String getName() {
+		return "index.do";
+	}
 
-	        // If no params were passed, return with no errors so that the form will be
-	        // presented (we assume for the first time).
-	        if (!form.isPresent()) {
-	            return "index.jsp";
-	        }
+	public String perform(HttpServletRequest request) {
+		List<String> errors = new ArrayList<String>();
+		request.setAttribute("errors", errors);
 
-	        // Any validation errors?
-	        errors.addAll(form.getValidationErrors());
-	        if (errors.size() != 0) {
-	            return "index.jsp";
-	        }
+		try {
+			HttpSession session = request.getSession();
 
-	        // Look up the user
-//	        System.out.println(form.getUsername());
-//	        System.out.println(form.getPassword());
-	        CustomerBean customer = customerDAO.getCustomerByUsername(form.getUsername());
-	        EmployeeBean employee = employeeDAO.getEmployeeByUsername(form.getUsername());
-	        
-	        if (customer == null && employee == null) {
-	            errors.add("User Name not found");
-	            return "index.jsp";
-	        }
+			LoginForm form = formBeanFactory.create(request);
+			request.setAttribute("form", form);
 
-	        // Check the password
-	        if(customer!=null){
-	        if (customer.getPassword().equals(form.getPassword())) {
-	        	session.setAttribute("customer",customer);
-	        	return "index.jsp";
-	        }
-	        }
-	        
-	        if(employee!=null){
-	            
-	         if (employee.getPassword().equals(form.getPassword())) {
-	        	session.setAttribute("employee", employee);
-	        	System.out.println("entered");
-	        	return "index.jsp";
-	        } else {
-	        	errors.add("Incorrect password");
-//	            System.out.println("Incorrect password");
-	            return "index.jsp";
-	        }
-	        }
-	        return "index.jsp";
-	
+			// If no params were passed, return with no errors so that the form
+			// will be
+			// presented (we assume for the first time).
+			if (!form.isPresent()) {
+				return "index.jsp";
+			}
 
-        } catch (RollbackException e) {
-        	errors.add(e.getMessage());
-        	return "index.jsp";
-        } catch (FormBeanException e) {
-        	errors.add(e.getMessage());
-        	return "index.jsp";
-        } 
-    }
+			// Any validation errors?
+			errors.addAll(form.getValidationErrors());
+			if (errors.size() != 0) {
+				return "index.jsp";
+			}
+
+			// Look up the user
+			// System.out.println(form.getUsername());
+			// System.out.println(form.getPassword());
+			CustomerBean customer = customerDAO.getCustomerByUsername(form
+					.getUsername());
+			EmployeeBean employee = employeeDAO.getEmployeeByUsername(form
+					.getUsername());
+
+			if (customer == null && employee == null) {
+				errors.add("User Name not found");
+				return "index.jsp";
+			}
+
+			// Check the password
+			if (customer != null) {
+				if (customer.getPassword().equals(form.getPassword())) {
+					System.out.println("adding customer to session" + customer.getUsername());
+					session.setAttribute("customer", customer);
+					return "manage.jsp";
+				}
+			}
+
+			else if (employee != null) {
+
+				if (employee.getPassword().equals(form.getPassword())) {
+					System.out.println("adding employee to session" + employee.getUsername());
+					session.setAttribute("employee", employee);
+					return "manage.jsp";
+				} 
+			}
+			else {
+				errors.add("Incorrect password");
+				// System.out.println("Incorrect password");
+				return "index.jsp";
+			}
+			return "index.jsp";
+
+		} catch (RollbackException e) {
+			errors.add(e.getMessage());
+			return "index.jsp";
+		} catch (FormBeanException e) {
+			errors.add(e.getMessage());
+			return "index.jsp";
+		}
+	}
 }
