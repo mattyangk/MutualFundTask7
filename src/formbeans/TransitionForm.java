@@ -47,6 +47,9 @@ public class TransitionForm  extends FormBean {
 		return errors;
 	}
 	
+	
+	
+	
 	public boolean isValidDate(String s) {
 		try {
 			java.text.SimpleDateFormat sf = new java.text.SimpleDateFormat(
