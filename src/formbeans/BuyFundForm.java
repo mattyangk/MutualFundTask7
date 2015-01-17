@@ -26,6 +26,16 @@ public class BuyFundForm extends FormBean {
 	public void setAmount(String amount) {
 		this.amount = trimAndConvert(amount, "<>\"");
 	}
+	
+	
+	public double getFundAmountAsDouble() {
+		try {
+			return Double.parseDouble(amount);
+		} catch (NumberFormatException e) {
+			// call getValidationErrors() to detect this
+			return -1;
+		}
+	}
 
 	public List<String> getValidationErrors() {
 		List<String> errors = new ArrayList<String>();
@@ -39,4 +49,8 @@ public class BuyFundForm extends FormBean {
 		} 
 		return errors;
 	}
+	
+	
+	
+	
 }

@@ -17,6 +17,16 @@ public class SellFundForm extends FormBean {
 	public void setShare(String share) {
 		this.share = trimAndConvert(share, "<>\"");
 	}
+	
+	public double getShareAsDouble() {
+		try {
+			return Double.parseDouble(share);
+		} catch (NumberFormatException e) {
+			// call getValidationErrors() to detect this
+			return -1;
+		}
+	}
+	
 
 	public List<String> getValidationErrors() {
 		List<String> errors = new ArrayList<String>();
