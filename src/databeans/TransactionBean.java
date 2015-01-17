@@ -10,9 +10,12 @@ public class TransactionBean {
 	private int customer_id;
 	private int fund_id;
 	private Date execute_date;
+	private Date transaction_date;
 	private double shares;
 	private String trasaction_type;
 	private double amount;
+	private boolean is_complete;
+	
 	
 	public int getTransaction_id() {
 		return transaction_id;
@@ -56,4 +59,17 @@ public class TransactionBean {
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
+	public boolean isIs_complete() {
+		return is_complete;
+	}
+	public void setIs_complete(boolean is_complete) {
+		this.is_complete = is_complete;
+	}
+	public Date getTransaction_date() {
+		return transaction_date;
+	}
+	public void setTransaction_date(Date transaction_date) {
+		this.transaction_date = transaction_date;
+	}
+
 }

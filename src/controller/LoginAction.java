@@ -85,7 +85,7 @@ public class LoginAction extends Action {
 
 			if (customer == null && employee == null) {
 				errors.add("User Name not found");
-				return "index.jsp";
+				return "index.do";
 			}
 
 			// Check the password
@@ -108,16 +108,16 @@ public class LoginAction extends Action {
 			else {
 				errors.add("Incorrect password");
 				// System.out.println("Incorrect password");
-				return "index.jsp";
+				return "index.do";
 			}
-			return "index.jsp";
+			return "index.do";
 
 		} catch (RollbackException e) {
 			errors.add(e.getMessage());
-			return "index.jsp";
+			return "index.do";
 		} catch (FormBeanException e) {
 			errors.add(e.getMessage());
-			return "index.jsp";
+			return "index.do";
 		}
 	}
 }

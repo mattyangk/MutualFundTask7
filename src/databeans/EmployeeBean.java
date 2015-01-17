@@ -2,13 +2,20 @@ package databeans;
 
 import org.genericdao.PrimaryKey;
 
-@PrimaryKey("username")
+@PrimaryKey("employee_id")
 public class EmployeeBean {
+	private int employee_id;
 	private String username;
 	private String password;
 	private String firstname;
 	private String lastname;
 	
+	public int getEmployee_id() {
+		return employee_id;
+	}
+	public void setEmployee_id(int employee_id) {
+		this.employee_id = employee_id;
+	}
 	public String getUsername() {
 		return username;
 	}
