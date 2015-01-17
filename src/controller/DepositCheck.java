@@ -55,13 +55,13 @@ public class DepositCheck extends Action {
 				return "depositCheck.jsp";
 			}	
 
-			CustomerBean customer = customerDAO.read(form.getCustomer_id());
+			CustomerBean customer = customerDAO.read(form.getCustomerIdAsInt());
 			if(customer==null){
 				errors.add("Not valid Customer Id");
 				return "depositCheck.jsp";
 			}
 			
-			if(customer.getUsername() != form.getUsername()){
+			if(customer.getUsername().equals(form.getUsername())){
 				errors.add("Not valid combination of Customer Id and Customer Username");
 				return "depositCheck.jsp";
 			}
