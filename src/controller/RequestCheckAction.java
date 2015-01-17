@@ -58,7 +58,7 @@ public class RequestCheckAction extends Action{
 			HttpSession session = request.getSession();
 			CustomerBean customer = (CustomerBean) session.getAttribute("customer");
 			if (customer == null) {
-				errors.add("customer session expired");
+				errors.add("session expired");
 				return "index.do";
 			}
 //			System.out.println(customer.getUsername());
