@@ -97,7 +97,7 @@
 					<li><a href="createCustomerAccount.do"> Create Customer Account </a></li>
 					<li><a href="www.google.com"> Reset Customer Password </a></li>
 					<li><a href="www.google.com"> View Customer Account </a></li>
-					<li><a href="www.google.com"> Deposit Check </a></li>
+					<li><a href="depositCheck.do"> Deposit Check </a></li>
 					<li><a href="www.google.com"> Create Fund </a></li>
 					<li><a href="www.google.com"> Transition Day </a></li>
 					<%

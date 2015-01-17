@@ -32,7 +32,7 @@ public class Controller extends HttpServlet {
         Action.add(new CreateEmployeeAccountAction(model));
         Action.add(new CreateCustomerAccountAction(model));
         Action.add(new RequestCheckAction(model));
-        
+        Action.add(new DepositCheck(model));
 
     }
 
