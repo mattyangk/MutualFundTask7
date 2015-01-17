@@ -16,6 +16,7 @@ import org.genericdao.DAOException;
 import org.genericdao.RollbackException;
 
 import databeans.EmployeeBean;
+import databeans.CustomerBean;
 
 
 public class Model {
@@ -42,8 +43,13 @@ public class Model {
 			*/
 			
 			if (employeeDAO.getCount() == 0){
-				// create the users and favorites
+				// create default employee
 				createDefaultEmployee();
+			}
+			
+			if (customerDAO.getCount() == 0){
+				// create default customer
+				createDefaultCustomer();
 			}
 			 		
 		} catch (DAOException e) {
@@ -68,6 +74,23 @@ public class Model {
 		   initialEmployee.setFirstname("Barack");
 		   initialEmployee.setLastname("Obama");
 		   employeeDAO.createAutoIncrement(initialEmployee);
+	}
+	
+	public void createDefaultCustomer() throws RollbackException{
+		   
+		   CustomerBean initialCustomer = new CustomerBean();
+		   initialCustomer.setUsername("defaultcustomer");
+		   initialCustomer.setPassword("123456");
+		   initialCustomer.setFirstname("Default");
+		   initialCustomer.setLastname("Customer");
+		   initialCustomer.setState("Pennsylvania");
+		   initialCustomer.setCity("Pittsburgh");
+		   initialCustomer.setCash(100);
+		   initialCustomer.setBalance(50);
+		   initialCustomer.setZip("15213");
+		   initialCustomer.setAddr_line1("5000 Forbes Ave");
+		   initialCustomer.setAddr_line2("ISR Lounge");
+		   customerDAO.createAutoIncrement(initialCustomer);
 	}
 	
 }
