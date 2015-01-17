@@ -19,14 +19,14 @@ public class TransactionDAO extends GenericDAO<TransactionBean>{
 		super(TransactionBean.class, tableName, connectionPool);
 	}
 	
-	public TransactionBean[] readAllPendingTransaction() throws RollbackException {
+	public TransactionBean[] readAllPendingTransactions() throws RollbackException {
 
-		TransactionBean[] pendingTransaction = match(MatchArg.equals("is_complete", "faulse"));
+		TransactionBean[] pendingTransaction = match(MatchArg.equals("is_complete", "false"));
 
 		return pendingTransaction;
 	}
 	
-/*	public void updateBalance(TransactionBean transaction) throws RollbackException {
+	/*public void updateBalance(TransactionBean transaction) throws RollbackException {
 		try {
 			Transaction.begin();
 			//customerDAO
