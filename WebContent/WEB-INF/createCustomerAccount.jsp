@@ -66,7 +66,7 @@
 
 			<tr>
 				<td colspan="2" align="center"><input type="submit"
-					name="button" class="btn btn-success" value="Create An Employee" /></td>
+					name="button" class="btn btn-success" value="Create An Customer" /></td>
 			</tr>
 
 		</table>
