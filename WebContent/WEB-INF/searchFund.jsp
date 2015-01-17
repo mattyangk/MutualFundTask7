@@ -5,7 +5,7 @@
 <jsp:include page="header.jsp" />
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 	<h1 class="page-header">Search Fund</h1>
-
+	<jsp:include page="error.jsp" />
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
 <script type="text/javascript">
 	google.load('visualization', '1', {
