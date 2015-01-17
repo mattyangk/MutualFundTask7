@@ -14,7 +14,6 @@ import model.CustomerDAO;
 import databeans.TransactionBean;
 
 public class TransactionDAO extends GenericDAO<TransactionBean>{
-	private CustomerDAO customerDAO;
 	
 	public TransactionDAO(ConnectionPool connectionPool, String tableName)
 			throws DAOException {
