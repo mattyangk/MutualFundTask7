@@ -36,8 +36,9 @@ public class Model {
 			customerDAO  = new  CustomerDAO(pool, "Customer");
 			employeeDAO = new EmployeeDAO(pool,"Employee");
 			transactionDAO = new TransactionDAO(pool,"Transaction");
+			fundDAO = new FundDAO(pool,"Fund");
 			
-		/*	fundDAO = new FundDAO(pool,"Fund");
+		/*	
 			fundPriceHistoryDAO = new FundPriceHistoryDAO(pool,"Fund_Price_History");
 			positionDAO = new PositionDAO(pool,"Position");
 			*/

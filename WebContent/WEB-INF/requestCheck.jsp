@@ -2,7 +2,7 @@
 
 
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-	<h1 class="page-header">Create Employee Account</h1>
+	<h1 class="page-header">Request Check</h1>
 
 	<form method="POST" action="requestCheck.do">
 

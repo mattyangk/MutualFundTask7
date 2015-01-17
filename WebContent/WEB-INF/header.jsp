@@ -86,7 +86,7 @@
 					<li><a href="www.google.com"> View Account </a></li>
 					<li><a href="www.google.com"> Buy Fund </a></li>
 					<li><a href="www.google.com"> Sell Fund </a></li>
-					<li><a href="www.google.com"> Request Check </a></li>
+					<li><a href="requestCheck.do"> Request Check </a></li>
 					<li><a href="www.google.com"> Transaction History </a></li>
 					<li><a href="www.google.com"> Research Fund </a></li>
 					<%
@@ -98,7 +98,7 @@
 					<li><a href="www.google.com"> Reset Customer Password </a></li>
 					<li><a href="www.google.com"> View Customer Account </a></li>
 					<li><a href="depositCheck.do"> Deposit Check </a></li>
-					<li><a href="www.google.com"> Create Fund </a></li>
+					<li><a href="createFund.do"> Create Fund </a></li>
 					<li><a href="www.google.com"> Transition Day </a></li>
 					<%
 						} else {

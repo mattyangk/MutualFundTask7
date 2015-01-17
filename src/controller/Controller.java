@@ -33,6 +33,7 @@ public class Controller extends HttpServlet {
         Action.add(new CreateCustomerAccountAction(model));
         Action.add(new RequestCheckAction(model));
         Action.add(new DepositCheck(model));
+        Action.add(new CreateFundAction(model));
 
     }
 

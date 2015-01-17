@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,14 +61,20 @@ public class RequestCheckAction extends Action{
 				errors.add("customer session expired");
 				return "index.do";
 			}
-			double cash = customer.getCash();
-			if (cash < transaction.getAmount()) {
-				throw new AmountOutOfBoundException(cash, transaction.getAmount(), "request check");
-			}
+//			System.out.println(customer.getUsername());
+//			System.out.println(customer.getCash());
+			
+//			double balance = customer.getBalance();
+//			if (balance < transaction.getAmount()) {
+//				throw new AmountOutOfBoundException(balance, transaction.getAmount(), "request check");
+//			}
 			
 			transaction.setCustomer_id(customer.getCustomer_id());
 			transaction.setTrasaction_type("request");
-			transactionDAO.createAutoIncrement(transaction);
+			transaction.setTransaction_date(new Date());
+			transaction.setIs_complete(false);
+//			transactionDAO.createAutoIncrement(transaction);
+			
 			
 			
 		} catch (FormBeanException e) {
@@ -77,6 +84,7 @@ public class RequestCheckAction extends Action{
 			errors.add(e.getMessage());
 			return "requestCheck.jsp";
 		} catch (AmountOutOfBoundException e) {
+			System.out.println(e.getMessage());
 			errors.add(e.getMessage());
 			return "requestCheck.jsp";
 		}

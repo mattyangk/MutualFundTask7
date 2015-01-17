@@ -12,14 +12,6 @@
 		<table class="table">
 
 			<tr>
-				<td>Fund ID</td>
-				<td><input type="text" name="fund_id" class="form-control"
-					value="" /></td>
-			</tr>
-
-			
-
-			<tr>
 				<td>Fund Name</td>
 				<td><input type="text" name="name" class="form-control"
 					value="" /></td>
