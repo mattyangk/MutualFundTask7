@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import model.CustomerDAO;
 import model.Model;
 import model.TransactionDAO;
 
@@ -26,8 +27,11 @@ public class RequestCheckAction extends Action{
 	
 	TransactionDAO transactionDAO;
 	
+	CustomerDAO customerDAO;
+	
 	public RequestCheckAction(Model model) {
 		transactionDAO = model.getTransactionDAO();
+		customerDAO = model.getCustomerDAO();
 	}
 	
 	@Override
@@ -52,8 +56,6 @@ public class RequestCheckAction extends Action{
 				return "requestCheck.jsp";
 			}
 			
-			TransactionBean transaction = new TransactionBean();
-			transaction.setAmount(form.getDepositAmountAsDouble());
 			
 			HttpSession session = request.getSession();
 			CustomerBean customer = (CustomerBean) session.getAttribute("customer");
@@ -64,18 +66,17 @@ public class RequestCheckAction extends Action{
 //			System.out.println(customer.getUsername());
 //			System.out.println(customer.getCash());
 			
-//			double balance = customer.getBalance();
-//			if (balance < transaction.getAmount()) {
-//				throw new AmountOutOfBoundException(balance, transaction.getAmount(), "request check");
-//			}
+			customerDAO.updateBalance(customer.getCustomer_id(), form.getDepositAmountAsDouble());
 			
+			TransactionBean transaction = new TransactionBean();
+			transaction.setAmount(form.getDepositAmountAsDouble());
 			transaction.setCustomer_id(customer.getCustomer_id());
 			transaction.setTrasaction_type("request");
 			transaction.setTransaction_date(new Date());
 			transaction.setIs_complete(false);
-//			transactionDAO.createAutoIncrement(transaction);
-			
-			
+			transaction.setIs_success(false);
+
+			transactionDAO.createAutoIncrement(transaction);		
 			
 		} catch (FormBeanException e) {
 			errors.add(e.getMessage());
