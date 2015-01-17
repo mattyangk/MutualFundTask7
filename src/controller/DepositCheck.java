@@ -61,7 +61,7 @@ public class DepositCheck extends Action {
 				return "depositCheck.jsp";
 			}
 			
-			if(customer.getUsername().equals(form.getUsername())){
+			if(!customer.getUsername().equals(form.getUsername())){
 				errors.add("Not valid combination of Customer Id and Customer Username");
 				return "depositCheck.jsp";
 			}
