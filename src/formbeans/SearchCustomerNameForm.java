@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.mybeans.form.FormBean;
 
-public class SearchCustomerName extends FormBean {
+public class SearchCustomerNameForm extends FormBean {
 	
 	private String username;
 
