@@ -13,7 +13,7 @@
 
 			<tr>
 				<td>Fund Name</td>
-				<td><input type="text" name="name" class="form-control"
+				<td><input type="text" name="fundname" class="form-control"
 					value="" /></td>
 
 			</tr>

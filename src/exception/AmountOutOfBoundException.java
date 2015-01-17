@@ -8,19 +8,16 @@ public class AmountOutOfBoundException extends Exception {
 	
 	double trasactionAmount;
 	
-	String transactionType;
-	
-	public AmountOutOfBoundException(double ownAmount, double transactionAmount, String transactionType) {
+	public AmountOutOfBoundException(double ownAmount, double transactionAmount) {
 		super();
 		this.ownAmount = ownAmount;
 		this.trasactionAmount = transactionAmount;	
-		this.transactionType = transactionType;
 	}
 	
 	@Override
 	public String getMessage() {
 		
-		return "The transaction is: " + transactionType + ".\nOwned amount is " + ownAmount + " and transaction amount is: "+ trasactionAmount + ".\n"+ super.getMessage();
+		return "Owned amount is " + ownAmount + " and transaction amount is: "+ trasactionAmount + ".\n"+ super.getMessage();
 	}
 	
 
