@@ -1,5 +1,10 @@
 package model;
 
-public class PositionDAO {
+import org.genericdao.GenericDAO;
+
+import databeans.PositionBean;
+
+public class PositionDAO GenericDAO<PositionBean>{
+	
 
 }
