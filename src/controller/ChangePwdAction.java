@@ -4,29 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
-import model.Model;
-import model.CustomerDAO;
 import model.EmployeeDAO;
+import model.Model;
 
 import org.genericdao.RollbackException;
 import org.mybeans.form.FormBeanException;
 import org.mybeans.form.FormBeanFactory;
 
-import databeans.CustomerBean;
 import databeans.EmployeeBean;
 import formbeans.ChangePwdForm;
 
-public class ChangePwdAction {
+public class ChangePwdAction extends Action{
 	private FormBeanFactory<ChangePwdForm> formBeanFactory = FormBeanFactory
 			.getInstance(ChangePwdForm.class);
 
-	private CustomerDAO customerDAO;
 	private EmployeeDAO employeeDAO;
 
 	public ChangePwdAction(Model model) {
-		customerDAO = model.getUserDAO();
-		
+		employeeDAO = model.getEmployeeDAO();
 	}
 
 	public String getName() {
@@ -39,8 +36,13 @@ public class ChangePwdAction {
 		request.setAttribute("errors", errors);
 
 		try {
-			// Set up user list for nav bar
-			request.setAttribute("currentUser", userDAO.currentUser());
+			HttpSession session = request.getSession();
+			EmployeeBean employee = (EmployeeBean) session.getAttribute("employee");
+			
+			if (employee == null) {
+				errors.add("session expired");
+				return "index.do";
+			}
 
 			// Load the form parameters into a form bean
 			ChangePwdForm form = formBeanFactory.create(request);
@@ -49,32 +51,34 @@ public class ChangePwdAction {
 			// will be
 			// presented (we assume for the first time).
 			if (!form.isPresent()) {
-				request.setAttribute("currentUser", userDAO.currentUser());
 				return "changePwd.jsp";
 			}
 
 			// Check for any validation errors
 			errors.addAll(form.getValidationErrors());
 			if (errors.size() != 0) {
-				request.setAttribute("currentUser", userDAO.currentUser());
 				return "changePwd.jsp";
 			}
+			
+			String firstPwd = form.getNewPassword();
+			String secondPwd = form.getrePassword();
+			
+			if (!firstPwd.equals(secondPwd)) {
+				errors.add("Two passwords are not the same. Please enter again");
+				return "changePwd.jsp";
+			}
+			
+			employee.setPassword(firstPwd);			
+			employeeDAO.update(employee);
 
-			User user = (User) request.getSession().getAttribute("user");
-
-			// Change the password
-			userDAO.setPassword(user.getEmailAddress(), form.getNewPassword());
-
-			request.setAttribute("message", "Password changed!");
-			request.setAttribute("user", user);
-			request.setAttribute("currentUser", userDAO.currentUser());
-			return "success.jsp";
+			return "manage.jsp";
+			
 		} catch (RollbackException e) {
 			errors.add(e.toString());
-			return "error.jsp";
+			return "changePwd.jsp";
 		} catch (FormBeanException e) {
 			errors.add(e.toString());
-			return "error.jsp";
+			return "changePwd.jsp";
 		}
 	}
 

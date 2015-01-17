@@ -92,7 +92,7 @@
 					<%
 						} else if (employee != null) {
 					%>
-					<li><a href="www.google.com"> Change Password </a></li>
+					<li><a href="changePwd.do"> Change Password </a></li>
 					<li><a href="createEmployeeAccount.do"> Create Employee Account </a></li>
 					<li><a href="createCustomerAccount.do"> Create Customer Account </a></li>
 					<li><a href="www.google.com"> Reset Customer Password </a></li>
