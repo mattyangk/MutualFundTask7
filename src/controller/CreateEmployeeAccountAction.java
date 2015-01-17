@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import model.EmployeeDAO;
 import model.Model;
@@ -65,21 +64,16 @@ public class CreateEmployeeAccountAction extends Action {
 			System.out.println(form.getUsername());
 			
 			employeeDAO.createAutoIncrement(employee);
-			
-			HttpSession session = request.getSession();
-			session.setAttribute("employee", employee);
-			
-			
+		
 
 		} catch (FormBeanException e) {
 			errors.add(e.getMessage());
-			return "error.jsp";
 		} catch (RollbackException e) {
 			errors.add(e.getMessage());
-			return "error.jsp";
 		}
 
-		return "manage.do";
+		return "manage.jsp";
+		
 	}
 
 }

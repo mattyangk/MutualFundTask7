@@ -6,9 +6,9 @@
 
 
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-	<h1 class="page-header">Create Employee Account</h1>
+	<h1 class="page-header">Create Customer Account</h1>
 
-	<form method="POST" action="createEmployeeAccount.do">
+	<form method="POST" action="createCustomerAccount.do">
 
 		<table class="table">
 
@@ -37,6 +37,31 @@
 				<td><input type="text" name="lastname" class="form-control"
 					value="" /></td>
 
+			</tr>
+
+			<tr>
+				<td>Address Line1</td>
+				<td><input type="text" name="addr_line1" class="form-control"
+					value="" /></td>
+
+			</tr>
+
+			<tr>
+				<td>Address Line2</td>
+				<td><input type="text" name="addr_line2" class="form-control"
+					value="" /></td>
+			</tr>
+
+			<tr>
+				<td>city</td>
+				<td><input type="text" name="city" class="form-control"
+					value="" /></td>
+			</tr>
+
+			<tr>
+				<td>zip</td>
+				<td><input type="text" name="zip" class="form-control"
+					value="" /></td>
 			</tr>
 
 			<tr>
