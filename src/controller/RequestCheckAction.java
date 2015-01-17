@@ -42,7 +42,9 @@ public class RequestCheckAction extends Action{
 	@Override
 	public String perform(HttpServletRequest request) {
 		List<String> errors = new ArrayList<String>();
+		List<String> successes = new ArrayList<String>();
 		request.setAttribute("errors", errors);
+		request.setAttribute("successes", successes);
 		
 		try {
 			RequestCheckForm form = formBeanFactory.create(request);
@@ -77,6 +79,8 @@ public class RequestCheckAction extends Action{
 			transaction.setIs_success(false);
 
 			transactionDAO.createAutoIncrement(transaction);		
+			
+			successes.add("Check has been successfully requested !");
 			
 		} catch (FormBeanException e) {
 			errors.add(e.getMessage());

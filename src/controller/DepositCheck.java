@@ -38,7 +38,10 @@ public class DepositCheck extends Action {
 	@Override
 	public String perform(HttpServletRequest request) {
 		List<String> errors = new ArrayList<String>();
+		List<String> successes = new ArrayList<String>();
 		request.setAttribute("errors", errors);
+		request.setAttribute("successes", successes);
+		
 		try {
 
 			DepositCheckForm form = formBeanFactory.create(request);
@@ -73,7 +76,9 @@ public class DepositCheck extends Action {
 			transaction.setIs_complete(false);
 			transaction.setTransaction_date(new Date());
 			
-			transactionDAO.createAutoIncrement(transaction);;
+			transactionDAO.createAutoIncrement(transaction);
+			
+			successes.add("Check has been successfully deposited !");
 
 		} catch (FormBeanException e) {
 			errors.add(e.getMessage());
