@@ -4,14 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import model.Model;
 import model.TransactionDAO;
 
+import org.genericdao.RollbackException;
 import org.mybeans.form.FormBeanException;
 import org.mybeans.form.FormBeanFactory;
 
+import databeans.CustomerBean;
 import databeans.TransactionBean;
+import exception.AmountOutOfBoundException;
 import formbeans.RequestCheckForm;
 
 public class RequestCheckAction extends Action{
@@ -48,11 +52,33 @@ public class RequestCheckAction extends Action{
 			}
 			
 			TransactionBean transaction = new TransactionBean();
+			transaction.setAmount(form.getDepositAmountAsDouble());
+			
+			HttpSession session = request.getSession();
+			CustomerBean customer = (CustomerBean) session.getAttribute("customer");
+			if (customer == null) {
+				errors.add("customer session expired");
+				return "index.do";
+			}
+			double cash = customer.getCash();
+			if (cash < transaction.getAmount()) {
+				throw new AmountOutOfBoundException(cash, transaction.getAmount(), "request check");
+			}
+			
+			transaction.setCustomer_id(customer.getCustomer_id());
+			transaction.setTrasaction_type("request");
+			transactionDAO.createAutoIncrement(transaction);
 			
 			
 		} catch (FormBeanException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			errors.add(e.getMessage());
+			return "requestCheck.jsp";
+		} catch (RollbackException e) {
+			errors.add(e.getMessage());
+			return "requestCheck.jsp";
+		} catch (AmountOutOfBoundException e) {
+			errors.add(e.getMessage());
+			return "requestCheck.jsp";
 		}
 		
 		return "manage.jsp";
