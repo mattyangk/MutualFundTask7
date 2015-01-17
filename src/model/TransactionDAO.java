@@ -8,7 +8,6 @@ import org.genericdao.RollbackException;
 import org.genericdao.Transaction;
 
 import model.CustomerDAO;
-import databean.FavoriteBean;
 import databeans.CustomerBean;
 import databeans.TransactionBean;
 
