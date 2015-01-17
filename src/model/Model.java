@@ -34,10 +34,12 @@ public class Model {
 			ConnectionPool pool = new ConnectionPool(jdbcDriver, jdbcURL);
 			customerDAO  = new  CustomerDAO(pool, "Customer");
 			employeeDAO = new EmployeeDAO(pool,"Employee");
+			transactionDAO = new TransactionDAO(pool,"Transaction");
+			
 		/*	fundDAO = new FundDAO(pool,"Fund");
 			fundPriceHistoryDAO = new FundPriceHistoryDAO(pool,"Fund_Price_History");
 			positionDAO = new PositionDAO(pool,"Position");
-			transactionDAO = new TransactionDAO(pool,"Transaction");*/
+			*/
 			
 			if (employeeDAO.getCount() == 0){
 				// create the users and favorites
