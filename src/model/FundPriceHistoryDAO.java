@@ -1,6 +1,7 @@
 package model;
 
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 
 import org.genericdao.ConnectionPool;
@@ -10,6 +11,7 @@ import org.genericdao.MatchArg;
 import org.genericdao.RollbackException;
 
 import databeans.FundPriceHistoryBean;
+import databeans.TransactionBean;
 
 public class FundPriceHistoryDAO extends GenericDAO<FundPriceHistoryBean>{
 	public FundPriceHistoryDAO(ConnectionPool connectionPool, String tableName)
@@ -27,17 +29,17 @@ public class FundPriceHistoryDAO extends GenericDAO<FundPriceHistoryBean>{
 		}
 	}
 	
-	public static void sort(FundPriceHistoryBean[] history){
-		int len=0;
-		for(len=0;len<history.length&&history[len]!=null;len++){}
-		for (int m=0; m<len; m++) {
-			for (int n=m+1; n<len; n++) {
-				if (history[m].getPrice_date().compareTo(history[n].getPrice_date())<0) {
-				FundPriceHistoryBean temp = history[m];
-				history[m] = history[n];
-				history[n] = temp;
+	public static void sort(FundPriceHistoryBean[] a ) {
+		Arrays.sort(a, new Comparator<FundPriceHistoryBean>() {
+			@Override
+			public int compare(FundPriceHistoryBean o1, FundPriceHistoryBean o2) {
+				if (o1 == null) {
+					return 1;
+				} else if (o2 == null) {
+					return -1;
 				}
+				return o2.getPrice_date().compareTo(o1.getPrice_date());
 			}
-		 }
+		});
 	}
 }
