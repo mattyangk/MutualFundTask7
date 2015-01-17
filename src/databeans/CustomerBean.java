@@ -15,8 +15,8 @@ public class CustomerBean {
 	private String city;
 	private String state;
 	private String zip;
-	private long cash;
-	
+	private double cash;
+	private double balance;
 	public int getCustomer_id() {
 		return customer_id;
 	}
@@ -80,12 +80,15 @@ public class CustomerBean {
 	public double getCash() {
 		return cash;
 	}
-	public void setCash(long cash) {
+	public void setCash(double cash) {
 		this.cash = cash;
 	}
-	
-	
-
+	public double getBalance() {
+		return balance;
+	}
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
 	
 
 }

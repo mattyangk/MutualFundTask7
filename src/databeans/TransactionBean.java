@@ -13,6 +13,7 @@ public class TransactionBean {
 	private double shares;
 	private String trasaction_type;
 	private double amount;
+	private boolean is_complete;
 	
 	public int getTransaction_id() {
 		return transaction_id;
@@ -56,4 +57,11 @@ public class TransactionBean {
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
+	public boolean isIs_complete() {
+		return is_complete;
+	}
+	public void setIs_complete(boolean is_complete) {
+		this.is_complete = is_complete;
+	}
+
 }
