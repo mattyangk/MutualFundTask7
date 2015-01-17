@@ -15,6 +15,7 @@ public class TransactionBean {
 	private String trasaction_type;
 	private double amount;
 	private boolean is_complete;
+	private boolean is_success;
 	
 	
 	public int getTransaction_id() {
@@ -71,5 +72,12 @@ public class TransactionBean {
 	public void setTransaction_date(Date transaction_date) {
 		this.transaction_date = transaction_date;
 	}
+	public boolean isIs_success() {
+		return is_success;
+	}
+	public void setIs_success(boolean is_success) {
+		this.is_success = is_success;
+	}
+	
 
 }
