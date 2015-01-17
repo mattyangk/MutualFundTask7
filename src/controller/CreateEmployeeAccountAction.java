@@ -42,18 +42,27 @@ public class CreateEmployeeAccountAction extends Action {
 			request.setAttribute("form", form);
 			
 			if (!form.isPresent()) {
-				return "createEmployeeAccount.do";
+				System.out.println("In create employee empty");
+				return "createEmployeeAccount.jsp";
 			}
 			errors.addAll(form.getValidationErrors());
 			if (!errors.isEmpty()) {
-				return "createEmployeeAccount.do";
+				for (String error : errors) {
+					System.out.println(error);
+				}
+				return "createEmployeeAccount.jsp";
 			}	
+			
+			System.out.println("In create employee create bean");
+
 			
 			EmployeeBean employee = new EmployeeBean();
 			employee.setFirstname(form.getFirstname());
 			employee.setLastname(form.getLastname());
 			employee.setUsername(form.getUsername());
 			employee.setPassword(form.getPassword());
+			
+			System.out.println(form.getUsername());
 			
 			employeeDAO.createAutoIncrement(employee);
 			

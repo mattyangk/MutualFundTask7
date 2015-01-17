@@ -66,13 +66,13 @@ public class LoginAction extends Action {
 			// will be
 			// presented (we assume for the first time).
 			if (!form.isPresent()) {
-				return "index.do";
+				return "index.jsp";
 			}
 
 			// Any validation errors?
 			errors.addAll(form.getValidationErrors());
 			if (errors.size() != 0) {
-				return "index.do";
+				return "index.jsp";
 			}
 
 			// Look up the user
