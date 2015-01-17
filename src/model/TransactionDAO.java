@@ -21,7 +21,7 @@ public class TransactionDAO extends GenericDAO<TransactionBean>{
 	
 	public TransactionBean[] readAllPendingTransactions() throws RollbackException {
 
-		TransactionBean[] pendingTransaction = match(MatchArg.equals("is_complete", "false"));
+		TransactionBean[] pendingTransaction = match(MatchArg.equals("is_complete", false));
 
 		return pendingTransaction;
 	}

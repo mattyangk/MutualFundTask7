@@ -60,12 +60,16 @@ public class TempTransitionDayAction extends Action {
 			for(int i=0; i<transactions.length;i++){
 				switch(transactions[i].getTrasaction_type()){
 					case "deposit":{
+						System.out.println("transactions[i].getCustomer_id() : "+transactions[i].getCustomer_id());
 						customer = customerDAO.read(transactions[i].getCustomer_id());
+						System.out.println("customer.getCash() : "+customer.getCash() +",transactions[i].getAmount() : "+transactions[i].getAmount() );
+						System.out.println("customer.getCash() + transactions[i].getAmount()" +( customer.getCash() + transactions[i].getAmount()));
 						customer.setCash(customer.getCash() + transactions[i].getAmount());
 						customerDAO.update(customer);
+						System.out.println("form.getTransitionDateAsDate()"+ form.getTransitionDateAsDate());
 						transactions[i].setExecute_date(form.getTransitionDateAsDate());
 						transactions[i].setIs_complete(true);
-						//transactions[i].setIs_success(true);
+						transactions[i].setIs_success(true);
 						transactionDAO.update(transactions[i]);
 						break;
 					}
