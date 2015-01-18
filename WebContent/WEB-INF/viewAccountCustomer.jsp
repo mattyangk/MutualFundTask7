@@ -18,28 +18,37 @@
 
 			<tr>
 				<td>User ID: <%=customer.getCustomer_id()%></td>
+				</tr>
+			<tr>
 				<td>User Name: <%=customer.getUsername()%></td>
 
 			</tr>
 			<tr>
 				<td>First Name: <%=customer.getFirstname()%></td>
+				</tr>
+			<tr>
 				<td>Last Name: <%=customer.getLastname()%></td>
 			</tr>
 			<tr>
-				<td>Address Line1:<%=customer.getAddr_line1()%></td>
+				<td>Address :</br><%=customer.getAddr_line1()%></br> <%=customer.getAddr_line2()%>
+				</td>
 
 			</tr>
 			<tr>
-				<td>Address Line2:<%=customer.getAddr_line2()%></td>
-			<tr>
 				<td>City:<%=customer.getCity()%></td>
+				</tr>
+			<tr>
 				<td>State:<%=customer.getState()%></td>
+				</tr>
+			<tr>
 				<td>Zip:<%=customer.getZip()%></td>
 			</tr>
 
 			<tr>
 				<td>Cash:<%=customer.getCash()%></td>
-				<td>Balance:<%=customer.getBalance()%></td>
+				</tr>
+			<tr>
+				<td>Available Balance:<%=customer.getBalance()%></td>
 			</tr>
 		</table>
 </div>
