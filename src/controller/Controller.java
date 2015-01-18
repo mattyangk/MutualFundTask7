@@ -36,6 +36,7 @@ public class Controller extends HttpServlet {
         Action.add(new CreateFundAction(model));
         Action.add(new TempTransitionDayAction(model));
         Action.add(new ChangePwdAction(model));
+        Action.add(new BuyFundAction(model));
 
     }
 
