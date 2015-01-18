@@ -16,7 +16,15 @@ public class CustomerDAO extends GenericDAO<CustomerBean> {
 			throws DAOException {
 		super(CustomerBean.class, tableName, connectionPool);
 	}
+	
+	public CustomerBean[] getAllcustomers() throws RollbackException {
 
+		CustomerBean[] customers = match();
+
+		return customers;
+
+	}
+	
 	public CustomerBean getCustomerByUsername(String username)
 			throws RollbackException {
 		CustomerBean[] customer = match(MatchArg.equals("username", username));
