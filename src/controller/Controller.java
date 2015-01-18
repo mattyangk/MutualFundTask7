@@ -37,7 +37,8 @@ public class Controller extends HttpServlet {
         Action.add(new TempTransitionDayAction(model));
         Action.add(new ChangePwdAction(model));
         Action.add(new BuyFundAction(model));
-
+        Action.add(new ViewCustomerAccountAction(model));
+        
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
