@@ -9,6 +9,16 @@ import org.mybeans.form.FormBean;
 
 public class SellFundForm extends FormBean {
 	private String share;
+	private String symbol;
+	
+	public String getSymbol() {
+		return symbol;
+	}
+
+	public void setSymbol(String symbol) {
+		this.symbol = symbol;
+	}
+
 
 	public String getShare() {
 		return share;
@@ -32,6 +42,9 @@ public class SellFundForm extends FormBean {
 		List<String> errors = new ArrayList<String>();
 		if (share == null || share.length() == 0) {
 			errors.add("Number of shares is required");
+		}
+		if(symbol==null||symbol.length()==0){
+			errors.add("Symbol of fund is required");
 		}
 		return errors;
 	}
