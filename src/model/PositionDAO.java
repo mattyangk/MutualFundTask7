@@ -5,22 +5,42 @@ import org.genericdao.DAOException;
 import org.genericdao.GenericDAO;
 import org.genericdao.MatchArg;
 import org.genericdao.RollbackException;
+import org.genericdao.Transaction;
 
 import databeans.PositionBean;
+import exception.AmountOutOfBoundException;
 
-public class PositionDAO extends GenericDAO<PositionBean>{
+public class PositionDAO extends GenericDAO<PositionBean> {
 	public PositionDAO(ConnectionPool connectionPool, String tableName)
 			throws DAOException {
 		super(PositionBean.class, tableName, connectionPool);
 	}
-	
-	/*public PositionBean getFundByName(String fundname)
-			throws RollbackException {
-		FundBean[] funds = match(MatchArg.equals("name", fundname));
-		if (funds.length != 1) {
-			System.out.println("not such fund");
+
+	public void updateAvailableShares(int fund_id, int customer_id, double sellingShares)
+			throws RollbackException, AmountOutOfBoundException {
+		try {
+			Transaction.begin();
+			PositionBean position = read(fund_id, customer_id);
+			if (position == null) {
+				throw new RollbackException("This position:" + "fund_id:"
+						+ fund_id + "customer_id" + customer_id
+						+ " does not exist");
+			} else {
+				double availableShares = position.getAvailable_shares();
+				double newAvailableShares = availableShares - sellingShares;
+				if (newAvailableShares < 0)
+					throw new AmountOutOfBoundException(availableShares,
+							sellingShares);
+				else {
+					position.setAvailable_shares(newAvailableShares);
+					update(position);
+				}
+			}
+			Transaction.commit();
+		} finally {
+			if (Transaction.isActive())
+				Transaction.rollback();
 		}
-		return funds[0];
-	}*/
+	}
 
 }
