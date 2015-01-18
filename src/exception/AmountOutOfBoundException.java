@@ -17,7 +17,7 @@ public class AmountOutOfBoundException extends Exception {
 	@Override
 	public String getMessage() {
 		
-		return "Owned amount is " + ownAmount + " and transaction amount is: "+ trasactionAmount + ".\n"+ super.getMessage();
+		return "Owned amount is " + ownAmount + " and transaction amount is: "+ trasactionAmount + ".\n";
 	}
 	
 

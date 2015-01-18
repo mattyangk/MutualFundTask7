@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import model.CustomerDAO;
 import model.FundDAO;
 import model.Model;
+import model.TransactionDAO;
 
 import org.genericdao.RollbackException;
 import org.mybeans.form.FormBeanException;
@@ -16,15 +18,20 @@ import org.mybeans.form.FormBeanFactory;
 
 import databeans.CustomerBean;
 import databeans.FundBean;
+import databeans.TransactionBean;
+import exception.AmountOutOfBoundException;
 import formbeans.BuyFundForm;
 
 public class BuyFundAction extends Action {
-	private FormBeanFactory<BuyFundForm> formBeanFactory = FormBeanFactory.getInstance(BuyFundForm.class);
-	
-	private FundDAO fundDAO;
+	private FormBeanFactory<BuyFundForm> formBeanFactory = FormBeanFactory.getInstance(BuyFundForm.class);	
+	private FundDAO fundDAO;	
+	private CustomerDAO customerDAO;
+	private TransactionDAO transactionDAO;
 
 	public BuyFundAction(Model model) {
 		fundDAO = model.getFundDAO();
+		customerDAO = model.getCustomerDAO();
+		transactionDAO = model.getTransactionDAO();
 	}
 
 	public String getName() { return "buyFund.do"; }
@@ -55,17 +62,34 @@ public class BuyFundAction extends Action {
 	        FundBean fund = fundDAO.getFundByName(form.getFundName());
 	       
 	        if (fund == null) {
-	            errors.add("Fund not found");
+	            errors.add("No such fund.");
 	            return "buyFund.jsp";
 	        }
-
-	        return "manage.do";
+	        
+	        CustomerBean customer = (CustomerBean) session.getAttribute("customer");
+	        customerDAO.updateBalance(customer.getCustomer_id(), form.getFundAmountAsDouble());
+	        
+	        TransactionBean transaction = new TransactionBean();
+	        transaction.setCustomer_id(customer.getCustomer_id());
+	        transaction.setFund_id(fund.getFund_id());
+	        transaction.setIs_complete(false);
+	        transaction.setIs_success(false);
+	        transaction.setTransaction_date(new Date());
+	        transaction.setTrasaction_type("buy");
+	        
+	        transactionDAO.createAutoIncrement(transaction);
+	        
+	        return "manage.jsp";
+	        
         } catch (RollbackException e) {
         	errors.add(e.getMessage());
-        	return "error.jsp";
+        	return "buyFund.jsp";
         } catch (FormBeanException e) {
         	errors.add(e.getMessage());
-        	return "error.jsp";
-        } 
+        	return "buyFund.jsp";
+        } catch (AmountOutOfBoundException e) {
+        	errors.add(e.getMessage());
+        	return "buyFund.jsp";
+		} 
     }
 }
