@@ -82,7 +82,7 @@
 						if (customer != null) {
 					%>
 					<li><a href="www.google.com"> View Account </a></li>
-					<li><a href="www.google.com"> Buy Fund </a></li>
+					<li><a href="buyFund.do"> Buy Fund </a></li>
 					<li><a href="www.google.com"> Sell Fund </a></li>
 					<li><a href="requestCheck.do"> Request Check </a></li>
 					<li><a href="www.google.com"> Transaction History </a></li>

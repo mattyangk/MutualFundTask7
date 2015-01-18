@@ -9,19 +9,26 @@ import org.genericdao.RollbackException;
 import databeans.CustomerBean;
 import databeans.FundBean;
 
-public class FundDAO extends GenericDAO<FundBean>{
-	
+public class FundDAO extends GenericDAO<FundBean> {
+
 	public FundDAO(ConnectionPool connectionPool, String tableName)
 			throws DAOException {
 		super(FundBean.class, tableName, connectionPool);
 	}
-	
-	public FundBean getFundByName(String fundname)
-			throws RollbackException {
+
+	public FundBean getFundByName(String fundname) throws RollbackException {
 		FundBean[] funds = match(MatchArg.equals("name", fundname));
 		if (funds.length != 1) {
 			System.out.println("not such fund");
 		}
 		return funds[0];
+	}
+
+	public FundBean[] getAllFunds() throws RollbackException {
+		FundBean[] funds = match();
+		if (funds.length == 0) {
+			System.out.println("no fund");
+		}
+		return funds;
 	}
 }
