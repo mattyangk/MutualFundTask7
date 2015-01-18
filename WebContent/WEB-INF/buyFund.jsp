@@ -13,7 +13,7 @@
     <td>
     <select>
      <%
-			ArrayList<FundBean> funds = (ArrayList<FundBean>) request
+			FundBean[] funds = (FundBean[]) request
 					.getAttribute("funds");
 			if (funds!= null) {
 				for (FundBean fund : funds) {
