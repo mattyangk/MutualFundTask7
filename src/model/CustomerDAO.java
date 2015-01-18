@@ -34,7 +34,7 @@ public class CustomerDAO extends GenericDAO<CustomerBean> {
 			CustomerBean customer = read(id);
 			if (customer == null) {
 				throw new RollbackException("This customer:" + id
-						+ "   no longer exists");
+						+ " does not exist");
 			} else {
 				double balance = customer.getBalance();
 				double newBalance = balance - amount;
@@ -51,5 +51,27 @@ public class CustomerDAO extends GenericDAO<CustomerBean> {
 				Transaction.rollback();
 		}
 	}
+
+	public void updateCash(int customer_id, double amount) throws RollbackException,
+	AmountOutOfBoundException {
+try {
+	Transaction.begin();
+	CustomerBean customer = read(customer_id);
+	if (customer == null) {
+		throw new RollbackException("This customer:" + customer_id
+				+ " does not exist");
+	} else {
+		double cash = customer.getCash();
+		double newCash = cash + amount;
+			customer.setBalance(newCash);
+			update(customer);
+		
+	}
+	Transaction.commit();
+} finally {
+	if (Transaction.isActive())
+		Transaction.rollback();
+}
+}
 
 }

@@ -2,6 +2,7 @@ package model;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Date;
 
 import org.genericdao.ConnectionPool;
 import org.genericdao.DAOException;
@@ -10,7 +11,9 @@ import org.genericdao.MatchArg;
 import org.genericdao.RollbackException;
 import org.genericdao.Transaction;
 
+import databeans.CustomerBean;
 import databeans.TransactionBean;
+import exception.AmountOutOfBoundException;
 
 public class TransactionDAO extends GenericDAO<TransactionBean> {
 
@@ -35,7 +38,27 @@ public class TransactionDAO extends GenericDAO<TransactionBean> {
 		sortInDescending(transactions);
 		return transactions;
 	}
-
+	/*public void updateDate(int transaction_id, Date date) throws RollbackException,
+	AmountOutOfBoundException {
+try {
+	Transaction.begin();
+	TransactionBean transaction = read(transaction_id);
+	if (transaction == null) {
+		throw new RollbackException("This transaction:" + transaction_id
+				+ " does not exist");
+	} else {
+		double  = ;
+		double newCash = cash + amount;
+			customer.setBalance(newCash);
+			update(customer);
+		
+	}
+	Transaction.commit();
+} finally {
+	if (Transaction.isActive())
+		Transaction.rollback();
+}*/
+	
 	public static void sortInAscending(TransactionBean[] a) {
 		Arrays.sort(a, new Comparator<TransactionBean>() {
 			@Override
