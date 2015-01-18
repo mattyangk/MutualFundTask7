@@ -9,20 +9,24 @@ import javax.servlet.http.HttpSession;
 import org.genericdao.RollbackException;
 
 import databeans.CustomerBean;
+import databeans.TransactionBean;
 import model.CustomerDAO;
 import model.Model;
+import model.TransactionDAO;
 
-public class ViewCustomerAccountAction extends Action {
+public class ViewTransactionHistoryAction extends Action {
 
 	CustomerDAO customerDAO;
+	TransactionDAO transactionDAO;
 
-	public ViewCustomerAccountAction(Model model) {
+	public ViewTransactionHistoryAction(Model model) {
 		customerDAO = model.getCustomerDAO();
+		transactionDAO = model.getTransactionDAO();
 	}
 
 	@Override
 	public String getName() {
-		return "viewAccount.do";
+		return "transactionHistory.do";
 	}
 
 	@Override
@@ -32,21 +36,22 @@ public class ViewCustomerAccountAction extends Action {
 
 		HttpSession session = request.getSession();
 		CustomerBean customer = (CustomerBean)session.getAttribute("customer");
-
+		TransactionBean[] allTransactions = null;
+		
 		try{
-
-			customer = customerDAO.read(customer.getCustomer_id());
-			session.setAttribute("customer", customer);
+			allTransactions = transactionDAO.getTransactionsByCustomerId(customer.getCustomer_id());
 			
-			if(customer==null){
-				return "manage.jsp";
+			if(allTransactions==null){
+				errors.add("No Transactions !");
+				return "viewTransactionsHistory.jsp";
 			}
-
+			session.setAttribute("transactionsHistory", allTransactions);
+			
 		}catch (RollbackException e) {
 			errors.add(e.getMessage());
 			return "manage.jsp";
 		}
-			return "viewAccountCustomer.jsp";
+			return "viewTransactionsHistory.jsp";
 		}
 
 	}
