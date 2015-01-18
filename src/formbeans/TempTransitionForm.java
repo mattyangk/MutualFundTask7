@@ -20,7 +20,7 @@ public class TempTransitionForm  extends FormBean {
 	
 	public Date getTransitionDateAsDate(){
 		List<String> errors = new ArrayList<String>();
-		SimpleDateFormat parser = new SimpleDateFormat("MM-dd-yyyy");
+		SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = null;
 		try {
 			date = parser.parse(transitionDate);
@@ -41,7 +41,7 @@ public class TempTransitionForm  extends FormBean {
 	
 	public boolean isValidDate(String s) {
 		try {
-			SimpleDateFormat sf = new SimpleDateFormat("MM-dd-yyyy");
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 			sf.parse(s);
 		} catch (Exception ex) {
 			return false;
