@@ -24,12 +24,22 @@ public class FundPriceHistoryDAO extends GenericDAO<FundPriceHistoryBean>{
 		if (history == null || history.length == 0) {
 			return null;
 		} else {
-			sort(history);
+			sortByDateDsc(history);
 			return history[0].getPrice_date();
 		}
 	}
 	
-	public static void sort(FundPriceHistoryBean[] a ) {
+	public double findLatestPrice(int find_id) throws RollbackException {
+		FundPriceHistoryBean[] history = match(MatchArg.equals("find_id", find_id));
+		if (history == null || history.length == 0) {
+			return -1;
+		} else {
+			sortByDateDsc(history);
+			return history[0].getPrice();
+		}
+	}
+	
+	public static void sortByDateDsc(FundPriceHistoryBean[] a ) {
 		Arrays.sort(a, new Comparator<FundPriceHistoryBean>() {
 			@Override
 			public int compare(FundPriceHistoryBean o1, FundPriceHistoryBean o2) {
@@ -39,6 +49,20 @@ public class FundPriceHistoryDAO extends GenericDAO<FundPriceHistoryBean>{
 					return -1;
 				}
 				return o2.getPrice_date().compareTo(o1.getPrice_date());
+			}
+		});
+	}
+	
+	public static void sortByDateAsc(FundPriceHistoryBean[] a ) {
+		Arrays.sort(a, new Comparator<FundPriceHistoryBean>() {
+			@Override
+			public int compare(FundPriceHistoryBean o1, FundPriceHistoryBean o2) {
+				if (o1 == null) {
+					return 1;
+				} else if (o2 == null) {
+					return -1;
+				}
+				return o1.getPrice_date().compareTo(o2.getPrice_date());
 			}
 		});
 	}
