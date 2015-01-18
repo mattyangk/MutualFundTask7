@@ -86,7 +86,7 @@
 					<li><a href="www.google.com"> Sell Fund </a></li>
 					<li><a href="requestCheck.do"> Request Check </a></li>
 					<li><a href="transactionHistory.do"> Transaction History </a></li>
-					<li><a href="www.google.com"> Research Fund </a></li>
+					<li><a href="searchFund.do"> Research Fund </a></li>
 					<%
 						} else if (employee != null) {
 					%>

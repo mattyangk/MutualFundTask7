@@ -45,7 +45,7 @@ public class ViewTransactionHistoryAction extends Action {
 				errors.add("No Transactions !");
 				return "viewTransactionsHistory.jsp";
 			}
-			session.setAttribute("transactionsHistory", allTransactions);
+			request.setAttribute("transactionsHistory", allTransactions);
 			
 		}catch (RollbackException e) {
 			errors.add(e.getMessage());
