@@ -10,24 +10,33 @@ import org.genericdao.MatchArg;
 import org.genericdao.RollbackException;
 import org.genericdao.Transaction;
 
-import model.CustomerDAO;
 import databeans.TransactionBean;
 
-public class TransactionDAO extends GenericDAO<TransactionBean>{
-	
+public class TransactionDAO extends GenericDAO<TransactionBean> {
+
 	public TransactionDAO(ConnectionPool connectionPool, String tableName)
 			throws DAOException {
 		super(TransactionBean.class, tableName, connectionPool);
 	}
-	
+
 	public TransactionBean[] readPendingTransInOrder() throws RollbackException {
 
-		TransactionBean[] pendingTransaction = match(MatchArg.equals("is_complete", false));
-		sort(pendingTransaction);
-		return pendingTransaction;
+		TransactionBean[] pendingTransactions = match(MatchArg.equals(
+				"is_complete", false));
+		sortInAscending(pendingTransactions);
+		return pendingTransactions;
 	}
-	
-	public static void sort(TransactionBean[] a ) {
+
+	public TransactionBean[] getTransactionsByCustomerId(int id)
+			throws RollbackException {
+
+		TransactionBean[] transactions = match(MatchArg.equals("customer_id",
+				id));
+		sortInDescending(transactions);
+		return transactions;
+	}
+
+	public static void sortInAscending(TransactionBean[] a) {
 		Arrays.sort(a, new Comparator<TransactionBean>() {
 			@Override
 			public int compare(TransactionBean o1, TransactionBean o2) {
@@ -36,10 +45,25 @@ public class TransactionDAO extends GenericDAO<TransactionBean>{
 				} else if (o2 == null) {
 					return -1;
 				}
-				return o1.getTransaction_date().compareTo(o2.getTransaction_date());
+				return o1.getTransaction_date().compareTo(
+						o2.getTransaction_date());
 			}
 		});
 	}
-	
+
+	public static void sortInDescending(TransactionBean[] a) {
+		Arrays.sort(a, new Comparator<TransactionBean>() {
+			@Override
+			public int compare(TransactionBean o1, TransactionBean o2) {
+				if (o1 == null) {
+					return 1;
+				} else if (o2 == null) {
+					return -1;
+				}
+				return o2.getTransaction_date().compareTo(
+						o1.getTransaction_date());
+			}
+		});
+	}
 
 }
