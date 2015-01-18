@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.genericdao.PrimaryKey;
 
-@PrimaryKey("fund_id")
+@PrimaryKey("fund_id,price_date")
 public class FundPriceHistoryBean {
 	private int fund_id;
 	private Date price_date;

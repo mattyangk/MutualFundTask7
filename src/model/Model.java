@@ -37,11 +37,9 @@ public class Model {
 			employeeDAO = new EmployeeDAO(pool,"Employee");
 			transactionDAO = new TransactionDAO(pool,"Transaction");
 			fundDAO = new FundDAO(pool,"Fund");
-			
-		/*	
-			fundPriceHistoryDAO = new FundPriceHistoryDAO(pool,"Fund_Price_History");
 			positionDAO = new PositionDAO(pool,"Position");
-			*/
+			fundPriceHistoryDAO = new FundPriceHistoryDAO(pool,"Fund_Price_History");
+
 			
 			if (employeeDAO.getCount() == 0){
 				// create default employee

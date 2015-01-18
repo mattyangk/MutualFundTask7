@@ -2,7 +2,7 @@ package databeans;
 
 import org.genericdao.PrimaryKey;
 
-@PrimaryKey("customer_id")
+@PrimaryKey("fund_id,customer_id")
 public class PositionBean {
 	private int customer_id;
 	private int fund_id;

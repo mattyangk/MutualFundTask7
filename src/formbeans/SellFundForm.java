@@ -9,14 +9,14 @@ import org.mybeans.form.FormBean;
 
 public class SellFundForm extends FormBean {
 	private String share;
-	private String symbol;
+	private String fundname;
 	
-	public String getSymbol() {
-		return symbol;
+	public String getFundname() {
+		return fundname;
 	}
 
-	public void setSymbol(String symbol) {
-		this.symbol = symbol;
+	public void setFundname(String fundname) {
+		this.fundname = fundname;
 	}
 
 
@@ -43,8 +43,8 @@ public class SellFundForm extends FormBean {
 		if (share == null || share.length() == 0) {
 			errors.add("Number of shares is required");
 		}
-		if(symbol==null||symbol.length()==0){
-			errors.add("Symbol of fund is required");
+		if(fundname==null||fundname.length()==0){
+			errors.add("fundname of fund is required");
 		}
 		return errors;
 	}
