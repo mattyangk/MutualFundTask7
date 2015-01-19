@@ -2,7 +2,10 @@ package formbeans;
 
 import org.mybeans.form.FormBean;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TransitionForm  extends FormBean {
@@ -29,6 +32,17 @@ public class TransitionForm  extends FormBean {
 		this.price = price;
 	}
 	 
+	public Date getTransitionDateAsDate(){
+		List<String> errors = new ArrayList<String>();
+		SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = null;
+		try {
+			date = parser.parse(transitionDate);
+		} catch (ParseException e) {
+			errors.add("Not a Valid Format for TransitionDate ");
+		}
+		return date;
+	}
 	
 	public List<String> getValidationErrors() {
 		
