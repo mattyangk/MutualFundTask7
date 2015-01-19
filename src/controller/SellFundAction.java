@@ -62,11 +62,24 @@ public class SellFundAction extends Action {
 				return "sellFund.jsp";
 			}
 			
+			if (!form.isPresent()) {
+				return "sellFund.jsp";
+			}
+
+			// Any validation errors?
+			errors.addAll(form.getValidationErrors());
+			if (errors.size() != 0) {
+				return "sellFund.jsp";
+			}
+			
 			FundBean[] funds = fundDAO.getAllFunds();
 			PositionAndFundBean[] positionAndFunds = new PositionAndFundBean[funds.length];
 			for (int i = 0; i < funds.length; i++) {
-				PositionAndFundBean positionAndFund = new PositionAndFundBean();
 				PositionBean position = positionDAO.read(funds[i].getFund_id(), customer.getCustomer_id());
+				if (position == null) {
+					continue;
+				}
+				PositionAndFundBean positionAndFund = new PositionAndFundBean();
 				positionAndFund.setAvailable_shares(position.getAvailable_shares());
 				positionAndFund.setCustomer_id(customer.getCustomer_id());
 				positionAndFund.setFund_id(funds[i].getFund_id());
@@ -77,16 +90,6 @@ public class SellFundAction extends Action {
 			}
 			
 			request.setAttribute("positionAndFunds", positionAndFunds);
-
-			if (!form.isPresent()) {
-				return "sellFund.jsp";
-			}
-
-			// Any validation errors?
-			errors.addAll(form.getValidationErrors());
-			if (errors.size() != 0) {
-				return "sellFund.jsp";
-			}
 			
 			FundBean fund = fundDAO.getFundByName(form.getFundname());
 			positionDAO.updateAvailableShares(fund.getFund_id(), customer.getCustomer_id(), form.getShareAsDouble());
