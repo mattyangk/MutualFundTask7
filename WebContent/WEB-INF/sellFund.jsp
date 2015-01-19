@@ -19,7 +19,7 @@
 				for (FundBean sell : sells) {
 		%>
 	 <option value=<%=sell.getName() %>><%=sell.getName() %>_<%=sell.getSymbol() %></option>
-	 <%}
+	 <%			}
 			}
 	 %>
      </select>
