@@ -1,6 +1,7 @@
 package controller;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -92,12 +93,13 @@ public class TransitionDayAction extends Action {
 				return "transitionDay.jsp";
 			}
 			
-			java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat(
+			SimpleDateFormat dateFormat = new java.text.SimpleDateFormat(
 					"yyyy-MM-dd");
 			Date newLateDate = dateFormat.parse(form.getTransitionDate());
-			
+						
 			if (newLateDate.compareTo(latestDate) <= 0) {
 				errors.add("The input date is not after the latest transition date: " + latestDate);
+				System.out.println("The input date is not after the latest transition date: " + latestDate);
 				return "transitionDay.jsp";
 			}
 
