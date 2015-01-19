@@ -160,27 +160,23 @@ public class TransitionDayAction extends Action {
 				}
 				case "buy":{
 					// no. of shares bought = position.
-
+					System.out.println("action : buy");
 					int customerID=transactions[i].getCustomer_id();
 					int fundID=transactions[i].getFund_id();
-
 					double newFundPrice=fundpriceHistoryDAO.findLatestPrice(transactions[i].getFund_id());//need to be done
-
 					double newShares = transactions[i].getAmount()/newFundPrice;//be careful to the number;
-
-					transactions[i].setExecute_date(newLateDate);
-
+					
+					transactions[i].setExecute_date(form.getTransitionDateAsDate());
 					transactions[i].setShares(newShares);
-
 					transactions[i].setIs_complete(true);
-
+					transactions[i].setIs_success(true);
 					transactionDAO.update(transactions[i]);
-
 
 					if(positionDAO.read(customerID,fundID)!=null)  //need to be done
 					{
 						PositionBean onePosition=positionDAO.read(customerID,fundID);
 						double currentShares=onePosition.getShares();
+						System.out.println("newShares :"+currentShares+newShares);
 						onePosition.setShares(currentShares+newShares);
 						onePosition.setAvailable_shares(onePosition.getShares());
 						positionDAO.update(onePosition);
@@ -191,6 +187,7 @@ public class TransitionDayAction extends Action {
 						newPosition.setCustomer_id(customerID);
 						newPosition.setFund_id(fundID);
 						newPosition.setShares(newShares);
+						System.out.println("newShares :"+newShares);
 						newPosition.setAvailable_shares(newShares);
 						// insert new data into position table.
 						positionDAO.create(newPosition);
@@ -198,50 +195,37 @@ public class TransitionDayAction extends Action {
 
 					// UPDATE CASH
 					customerDAO.updateCash(transactions[i].getCustomer_id(),cash-transactions[i].getAmount());
-
-
 					break;
 				}
 				case "sell":{
-
+					System.out.println("action : request");
 					int customerID=transactions[i].getCustomer_id();
 					int fundID=transactions[i].getFund_id();
-
 					double newFundPrice=fundpriceHistoryDAO.findLatestPrice(transactions[i].getFund_id());//need to be done
-
 					double amount=transactions[i].getShares() * newFundPrice;
-
 					double newShares=transactions[i].getShares();
 
 					transactions[i].setAmount(amount);
-
-					transactions[i].setExecute_date(newLateDate);
-
+					transactions[i].setExecute_date(form.getTransitionDateAsDate());
+					transactions[i].setShares(newShares);
+					System.out.println("newShares :"+newShares);
 					transactions[i].setIs_complete(true);
+					transactions[i].setIs_success(true);
+					transactionDAO.update(transactions[i]);
 
-					transactionDAO.update(transactions[i]); //need to be done;
-
-
-
-					if(positionDAO.read(customerID,fundID)!=null)  //need to be done
-					{
+					if(positionDAO.read(customerID,fundID)!=null){  //need to be done
 						//TODO POSITIONDAO.READ ORDER
 						PositionBean onePosition=positionDAO.read(customerID,fundID);
 						double currentShares=onePosition.getShares();
 						onePosition.setShares(currentShares-newShares);
 						onePosition.setAvailable_shares(onePosition.getShares());  //needed new attribute.
 						positionDAO.update(onePosition);
-
-					}else
-					{
-						//TODO EXCEPTION DETAIL
-						throw new RollbackException(
-								"Some errors with funds");
-
 					}
-
+					else{
+						//TODO EXCEPTION DETAIL
+						throw new RollbackException("Some errors with funds");
+					}
 					customerDAO.updateCash(transactions[i].getCustomer_id(),cash+transactions[i].getAmount());
-
 					break;
 				} // end last case
 				} // end switch
