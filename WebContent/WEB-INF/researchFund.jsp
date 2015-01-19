@@ -70,9 +70,9 @@
 
 
 	<div id="tfheader">
-		<form id="tfnewsearch" method="post" action="c_researchFund.do">
+		<form id="tfnewsearch" method="post" action="researchFund.do">
 			Research Fund : <input type="text" class="tftextinput"
-				name="fundTicker" size="21" maxlength="120"><input
+				name="fundname" size="21" maxlength="120"><input
 				type="submit" value="search" class="tfbutton">
 		</form>
 		<div class="tfclear"></div>
