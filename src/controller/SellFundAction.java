@@ -73,7 +73,9 @@ public class SellFundAction extends Action {
 				positionAndFund.setShares(position.getShares());
 				positionAndFund.setSymbol(funds[i].getSymbol());
 				positionAndFunds[i] = positionAndFund;
+				System.out.println("test  " + positionAndFund.getName());
 			}
+			
 			
 			request.setAttribute("positionAndFunds", positionAndFunds);
 			
