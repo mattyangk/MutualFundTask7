@@ -42,5 +42,28 @@ public class PositionDAO extends GenericDAO<PositionBean> {
 				Transaction.rollback();
 		}
 	}
+	
+	public void updateShares(int fund_id, int customer_id, double shares)
+			throws RollbackException, AmountOutOfBoundException {
+		try {
+			Transaction.begin();
+			PositionBean position = read(fund_id, customer_id);
+			if (position == null) {
+				throw new RollbackException("This position:" + "fund_id:"
+						+ fund_id + "customer_id" + customer_id
+						+ " does not exist");
+			} else {
+				
+					position.setShares(shares);
+					position.setAvailable_shares(shares);
+					update(position);
+				
+			}
+			Transaction.commit();
+		} finally {
+			if (Transaction.isActive())
+				Transaction.rollback();
+		}
+	}
 
 }
