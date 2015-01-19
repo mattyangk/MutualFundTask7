@@ -59,7 +59,7 @@ public class SellFundAction extends Action {
 					.getAttribute("customer");
 			
 			FundBean[] funds = fundDAO.getAllFunds();
-			PositionAndFundBean[] positionAndFunds = new PositionAndFundBean[funds.length];
+			ArrayList<PositionAndFundBean> positionAndFunds = new ArrayList<PositionAndFundBean>();
 			for (int i = 0; i < funds.length; i++) {
 				PositionBean position = positionDAO.read(funds[i].getFund_id(), customer.getCustomer_id());
 				if (position == null) {
@@ -72,12 +72,12 @@ public class SellFundAction extends Action {
 				positionAndFund.setName(funds[i].getName());
 				positionAndFund.setShares(position.getShares());
 				positionAndFund.setSymbol(funds[i].getSymbol());
-				positionAndFunds[i] = positionAndFund;
+				positionAndFunds.add(positionAndFund);
 				System.out.println("test  " + positionAndFund.getName());
 			}
 			
 			
-			request.setAttribute("positionAndFunds", positionAndFunds);
+			request.setAttribute("positionAndFunds", positionAndFunds.toArray(new PositionAndFundBean[positionAndFunds.size()]));
 			
 			if (customer == null) {
 				errors.add("session expired");

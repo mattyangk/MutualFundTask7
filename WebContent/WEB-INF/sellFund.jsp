@@ -14,8 +14,20 @@
 	<div></div>
 	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
 	<script>
+
+	<%
+		if (funds != null && funds.length > 0) {
+	%>
+	$(document).ready ( function () {
+		
+		$("#fund_id").text("<%=funds[0].getFund_id()%>");
+        $("#symbol").text("<%=funds[0].getSymbol()%>");
+		$("#shares").text("<%=funds[0].getShares()%>");
+		$("#ashares").text("<%=funds[0].getAvailable_shares()%>");
+		
 		$("select").change(function() {
 			var str = "";
+			
 			$("select option:selected").each(function() {
 				str += $(this).text() + " ";
 			});
@@ -24,18 +36,26 @@
 			for (int i = 0; i < funds.length; i++) {
 				System.out.println("name: " + funds[i].getName());
 			%>
-				if('<%=funds[i].getName()%>' == str){
-					$("fund_id").text(<%=funds[i].getFund_id()%>);
-			        $("symbol").text(<%=funds[i].getSymbol()%>);
-					$("shares").text(<%=funds[i].getShares()%>);
-					$("ashares").text(<%=funds[i].getAvailable_shares()%>);
+				var name = "<%=funds[i].getName()%>";
+				if(str.trim() == name.trim()){
+					//alert (str);
+					$("#fund_id").text("<%=funds[i].getFund_id()%>");
+			        $("#symbol").text("<%=funds[i].getSymbol()%>");
+					$("#shares").text("<%=funds[i].getShares()%>");
+					$("#ashares").text("<%=funds[i].getAvailable_shares()%>");
 				}
 			<%
 				}
 			%>
 			
-			
-		}).change();
+		});
+		}
+	);
+	
+	<%
+		}
+	%>
+	
 
 	</script>
 	<form method="POST" action="sellFund.do">
@@ -59,7 +79,6 @@
 						</c:choose>
 				</select></td>
 				<td id="fund_id"></td>
-				<td id="name"></td>
 				<td id="symbol"></td>
 				<td id="shares"></td>
 				<td id="ashares"></td>
