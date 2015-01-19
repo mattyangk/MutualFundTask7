@@ -9,10 +9,6 @@ pageEncoding="UTF-8"%>
 	<form method="POST" action="resetPwd.do">
 		<table class="table">
 			<tr>
-				<td>Customer ID</td>
-				<td><input type="text" name="customer_id" class="form-control" value="" /></td>
-			</tr>
-			<tr>
 				<td>Customer Username</td>
 				<td><input type="text" name="username" class="form-control" value="" /></td>
 			</tr>
