@@ -48,9 +48,6 @@ public class TempTransitionDayAction extends Action {
 			}
 			errors.addAll(form.getValidationErrors());
 			if (!errors.isEmpty()) {
-				for (String error : errors) {
-					System.out.println(error);
-				}
 				return "tempTransitionDay.jsp";
 			}	
 

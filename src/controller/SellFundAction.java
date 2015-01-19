@@ -57,20 +57,6 @@ public class SellFundAction extends Action {
 			HttpSession session = request.getSession();
 			CustomerBean customer = (CustomerBean) session
 					.getAttribute("customer");
-			if (customer == null) {
-				errors.add("session expired");
-				return "sellFund.jsp";
-			}
-			
-			if (!form.isPresent()) {
-				return "sellFund.jsp";
-			}
-
-			// Any validation errors?
-			errors.addAll(form.getValidationErrors());
-			if (errors.size() != 0) {
-				return "sellFund.jsp";
-			}
 			
 			FundBean[] funds = fundDAO.getAllFunds();
 			PositionAndFundBean[] positionAndFunds = new PositionAndFundBean[funds.length];
@@ -90,6 +76,23 @@ public class SellFundAction extends Action {
 			}
 			
 			request.setAttribute("positionAndFunds", positionAndFunds);
+			
+			if (customer == null) {
+				errors.add("session expired");
+				return "sellFund.jsp";
+			}
+			
+			if (!form.isPresent()) {
+				return "sellFund.jsp";
+			}
+
+			// Any validation errors?
+			errors.addAll(form.getValidationErrors());
+			if (errors.size() != 0) {
+				return "sellFund.jsp";
+			}
+			
+
 			
 			FundBean fund = fundDAO.getFundByName(form.getFundname());
 			positionDAO.updateAvailableShares(fund.getFund_id(), customer.getCustomer_id(), form.getShareAsDouble());
