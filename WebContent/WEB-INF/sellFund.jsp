@@ -4,7 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	PositionAndFundBean[] funds = (PositionAndFundBean[]) request.getAttribute("positionAndFunds");
-	System.out.println("length: " + funds.length);
 %>
 
 <jsp:include page="header.jsp" />
@@ -34,7 +33,6 @@
 			
 			<%
 			for (int i = 0; i < funds.length; i++) {
-				System.out.println("name: " + funds[i].getName());
 			%>
 				var name = "<%=funds[i].getName()%>";
 				if(str.trim() == name.trim()){
@@ -69,7 +67,7 @@
 				<td>Shares For Sale</td>
 			</tr>
 			<tr>
-				<td><select id="select">
+				<td><select id="select" name="fundname">
 						<c:choose>
 							<c:when test="${not empty positionAndFunds }">
 								<c:forEach var="sell" items="${positionAndFunds}">
@@ -82,7 +80,7 @@
 				<td id="symbol"></td>
 				<td id="shares"></td>
 				<td id="ashares"></td>
-				<td><input type="text" name="amount" class="form-control" value="" /></td>
+				<td><input type="text" name="share" class="form-control" value="" /></td>
 				<tr><td colspan="2" align="center"><input type="submit"
 					name="button" class="btn btn-success" value="Sell Shares" /></td></tr>
 

@@ -85,6 +85,7 @@ public class SellFundAction extends Action {
 			}
 			
 			if (!form.isPresent()) {
+				System.out.println("No param");
 				return "sellFund.jsp";
 			}
 
@@ -94,9 +95,11 @@ public class SellFundAction extends Action {
 				return "sellFund.jsp";
 			}
 			
-
+			System.out.println("Fund name in form is " + form.getFundname());
+			
 			
 			FundBean fund = fundDAO.getFundByName(form.getFundname());
+
 			positionDAO.updateAvailableShares(fund.getFund_id(), customer.getCustomer_id(), form.getShareAsDouble());
 			TransactionBean transaction = new TransactionBean();
 			transaction.setCustomer_id(customer.getCustomer_id());
