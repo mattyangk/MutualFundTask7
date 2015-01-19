@@ -6,21 +6,21 @@ import java.util.List;
 import org.mybeans.form.FormBean;
 
 public class ResearchFundForm extends FormBean {
-	private String fundTicker;
+	private String fundname;
 	
-	public String getFundTicker() {
-		return fundTicker;
+	public String getFundname() {
+		return fundname;
 	}
 
-	public void setFundTicker(String fundTicker) {
-		this.fundTicker = trimAndConvert(fundTicker, "<>\"");
+	public void setFundname(String fundname) {
+		this.fundname = trimAndConvert(fundname, "<>\"");
 	}
 
 
 	public List<String> getValidationErrors() {
 		List<String> errors = new ArrayList<String>();
-		if (fundTicker == null || fundTicker.length() == 0) {
-			errors.add("FundTicker is required");
+		if (fundname == null || fundname.length() == 0) {
+			errors.add("fundname is required");
 		}
 		
 		return errors;

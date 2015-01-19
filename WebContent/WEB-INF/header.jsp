@@ -83,10 +83,10 @@
 					%>
 					<li><a href="viewAccount.do"> View Account </a></li>
 					<li><a href="buyFund.do"> Buy Fund </a></li>
-					<li><a href="www.google.com"> Sell Fund </a></li>
+					<li><a href="sellFund.do"> Sell Fund </a></li>
 					<li><a href="requestCheck.do"> Request Check </a></li>
 					<li><a href="transactionHistory.do"> Transaction History </a></li>
-					<li><a href="searchFund.do"> Research Fund </a></li>
+					<li><a href="researchFund.do"> Research Fund </a></li>
 					<%
 						} else if (employee != null) {
 					%>

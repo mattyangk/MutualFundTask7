@@ -29,13 +29,23 @@ public class FundPriceHistoryDAO extends GenericDAO<FundPriceHistoryBean>{
 		}
 	}
 	
-	public double findLatestPrice(int find_id) throws RollbackException {
-		FundPriceHistoryBean[] history = match(MatchArg.equals("find_id", find_id));
+	public double findLatestPrice(int fund_id) throws RollbackException {
+		FundPriceHistoryBean[] history = match(MatchArg.equals("fund_id", fund_id));
 		if (history == null || history.length == 0) {
 			return -1;
 		} else {
 			sortByDateDsc(history);
 			return history[0].getPrice();
+		}
+	}
+	
+	public FundPriceHistoryBean[] findAllPrices(int fund_id) throws RollbackException {
+		FundPriceHistoryBean[] history = match(MatchArg.equals("fund_id", fund_id));
+		if (history == null || history.length == 0) {
+			return null;
+		} else {
+			sortByDateAsc(history);
+			return history;
 		}
 	}
 	
