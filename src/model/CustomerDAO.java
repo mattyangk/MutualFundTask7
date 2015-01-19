@@ -16,7 +16,7 @@ public class CustomerDAO extends GenericDAO<CustomerBean> {
 			throws DAOException {
 		super(CustomerBean.class, tableName, connectionPool);
 	}
-	
+
 	public CustomerBean[] getAllcustomers() throws RollbackException {
 
 		CustomerBean[] customers = match();
@@ -24,7 +24,7 @@ public class CustomerDAO extends GenericDAO<CustomerBean> {
 		return customers;
 
 	}
-	
+
 	public CustomerBean getCustomerByUsername(String username)
 			throws RollbackException {
 		CustomerBean[] customer = match(MatchArg.equals("username", username));
@@ -36,7 +36,7 @@ public class CustomerDAO extends GenericDAO<CustomerBean> {
 	}
 
 	public void updateBalance(int id, double amount) throws RollbackException,
-			AmountOutOfBoundException {
+	AmountOutOfBoundException {
 		try {
 			Transaction.begin();
 			CustomerBean customer = read(id);
@@ -62,24 +62,23 @@ public class CustomerDAO extends GenericDAO<CustomerBean> {
 
 	public void updateCash(int customer_id, double amount) throws RollbackException,
 	AmountOutOfBoundException {
-try {
-	Transaction.begin();
-	CustomerBean customer = read(customer_id);
-	if (customer == null) {
-		throw new RollbackException("This customer:" + customer_id
-				+ " does not exist");
-	} else {
-		double cash = customer.getCash();
-		double newCash = cash + amount;
-			customer.setBalance(newCash);
-			update(customer);
-		
+		try {
+			Transaction.begin();
+			CustomerBean customer = read(customer_id);
+			if (customer == null) {
+				throw new RollbackException("This customer:" + customer_id
+						+ " does not exist");
+			} else {
+				customer.setCash(amount);
+				customer.setBalance(amount);
+				update(customer);
+
+			}
+			Transaction.commit();
+		} finally {
+			if (Transaction.isActive())
+				Transaction.rollback();
+		}
 	}
-	Transaction.commit();
-} finally {
-	if (Transaction.isActive())
-		Transaction.rollback();
-}
-}
 
 }

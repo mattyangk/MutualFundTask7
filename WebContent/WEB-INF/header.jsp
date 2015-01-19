@@ -97,7 +97,7 @@
 					<li><a href="www.google.com"> View Customer Account </a></li>
 					<li><a href="depositCheck.do"> Deposit Check </a></li>
 					<li><a href="createFund.do"> Create Fund </a></li>
-					<li><a href="TransitionDayAction.do"> Transition Day </a></li>
+					<li><a href="transitionDayAction.do"> Transition Day </a></li>
 					<%
 						} else {
 					%>

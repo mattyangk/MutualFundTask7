@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import model.*;
 import databeans.*;
@@ -18,141 +17,100 @@ import org.genericdao.Transaction;
 import org.mybeans.form.FormBeanException;
 import org.mybeans.form.FormBeanFactory;
 
-
-
 public class TransitionDayAction extends Action {
-	
+
 	private FormBeanFactory<TransitionForm> formBeanFactory = FormBeanFactory
 			.getInstance(TransitionForm.class);
-	
+
 	private PositionDAO positionDAO;
 	private TransactionDAO transactionDAO;
 	private FundDAO fundDAO;
 	private FundPriceHistoryDAO fundpriceHistoryDAO;
 	private CustomerDAO customerDAO;
-	
+
 	public TransitionDayAction(Model model) {
 		fundDAO = model.getFundDAO();
 		transactionDAO = model.getTransactionDAO();
 		customerDAO = model.getCustomerDAO();
 		positionDAO = model.getPositionDAO();
 		fundpriceHistoryDAO = model.getFundPriceHistoryDAO();
-		
 	}
-	
-	
+
 	public String getName(){
-		
-		return "TransitionDayAction.do";
+		return "transitionDayAction.do";
 	}
-	
+
 	public String perform(HttpServletRequest request) {
-		
 		List<String> errors = new ArrayList<String>();
-		
 		request.setAttribute("errors", errors);
-		
-		
+
 		try{
-			
 			TransitionForm form=formBeanFactory.create(request);
 			request.setAttribute("form", form);
-			
-			
-		
-			
+
 			FundBean[] allFunds=fundDAO.getAllFunds();//distinct different funds;
-			
-			
-			
-			
-			
+
 			if(allFunds==null||allFunds.length==0)
 			{
 				System.out.println("No fund");
 				errors.add("No fund has been created yet");
-				return "e_Transition_day.jsp";//?
+				return "transitionDay.jsp";//?
 			}
-			
+
 			else {
-				
 				System.out.println("YES,has funds");
 			}
-			
+
 			LastPriceForFundsBean[] funds=new LastPriceForFundsBean[allFunds.length];
-			
-			
-			
+
 			int existedCount=fundpriceHistoryDAO.getCount();//any record existed in fundpriceHistory table?
-			
-			if(existedCount==0)
-				{
-				  request.setAttribute("theLastDate", "Current");
-				  System.out.println("No latestday");
-				}
-			   
-			else
-				{
-				  request.setAttribute("theLastDate", "yes"); //should show the latest day,some function missed.
-				  System.out.println("has date");
-				}
-			  
-			
-			
+			if(existedCount==0){
+				request.setAttribute("theLastDate", "Current");
+				System.out.println("No latestday");
+			}
+			else{
+				request.setAttribute("theLastDate", "yes"); //should show the latest day,some function missed.
+				System.out.println("has date");
+			}
+
 			double lastP=1.1;
-			
-			for(int i=0;i<funds.length;i++)
-			{
+			for(int i=0;i<funds.length;i++){
 				LastPriceForFundsBean onefund=new LastPriceForFundsBean();
 				onefund.setFund_id(allFunds[i].getFund_id());
 				onefund.setFund_name(allFunds[i].getName());
 				onefund.setFund_symbol(allFunds[i].getSymbol());
 				System.out.println(i);
-	  			
-		      // lastPrice=fundpriceHistoryDAO.findLatestPrice(allFunds[i].getFund_id());//need to do,based on fundID return that fund's lastPrice;
-		       //if no existed, return -1
-			    
-			    onefund.setLast_price(lastP);
-		        
-		        funds[i]=onefund;
+
+				// lastPrice=fundpriceHistoryDAO.findLatestPrice(allFunds[i].getFund_id());//need to do,based on fundID return that fund's lastPrice;
+				//if no existed, return -1
+				onefund.setLast_price(lastP);
+				funds[i]=onefund;
 			}
-			
+
 			request.setAttribute("allFunds", funds);
-			
+
 			if(!form.isPresent())
 			{
-				return "e_Transition_day.jsp";
+				return "transitionDay.jsp";
 			}
-			
 			//form error check need to be done;
-			
-			
-			
-			
+
 			String[]price=form.getPrice();    //start to get the value from the form
 			String[]fund_id=form.getFund_id();
-			
-			
+
 			//TODO
 			//typed date check should be done,should be valid, and after the last end day.
-			
+
 			java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat(
 					"yyyy-MM-dd");
 			Date newLateDate=dateFormat.parse(form.getTransitionDate());
-			
-			
-			
-			
-			
+
 			//update the historyPirce table first;
 			for(int i=0;i<price.length;i++)
 			{
-				if(price[i]==null||price[i].length()==0)//TODO CHECK NULL
-				{
+				if(price[i]==null||price[i].length()==0){ //TODO CHECK NULL
 					errors.add("Should type all price for all funds");
-					
 				}
-				
 				FundPriceHistoryBean one=new FundPriceHistoryBean();
 				one.setFund_id(Integer.parseInt(fund_id[i]));
 				one.setPrice(Double.parseDouble(price[i]));
@@ -160,67 +118,65 @@ public class TransitionDayAction extends Action {
 				fundpriceHistoryDAO.create(one);
 				System.out.println("updating");
 			}
-			
-			if(1!=0)
-				return "e_Transition_day.jsp";
-			
-			
+
 			//Then update pending transaction based on the queue.
+			TransactionBean [] transactions=transactionDAO.readPendingTransInOrder();//Successfully check all the pending transaction?
 			
-			//
-			TransactionBean [] business=transactionDAO.readPendingTransInOrder();//Succefully check all the pending transaction?
+			System.out.println("got all pending transactions !");
 			
-			for(int i=0;i<business.length;i++)
+			for(int i=0;i<transactions.length;i++)
 			{
-			    CustomerBean theCustomer=customerDAO.read(business[i].getCustomer_id());
+				CustomerBean customer=customerDAO.read(transactions[i].getCustomer_id());
+				double cash=customer.getCash(); //need to be done;
 				
-			    double cash=theCustomer.getCash(); //need to be done;
-				
-			    if(business[i].getTrasaction_type().equals("request"))
-			    {
-			    	double awayMoney=business[i].getAmount();
-			    	
-			    	customerDAO.updateCash(business[i].getCustomer_id(),cash-awayMoney);//need to be done;
-			    	
-			    	
-			    	business[i].setTransaction_date(newLateDate);
-			    	business[i].setIs_complete(true);
-			    	
-			    	transactionDAO.update(business[i]);
-			    	
-			    	
-			    }
-			    
-			    else if(business[i].getTrasaction_type().equals("deposit"))
-			    {
-			    	double addMoney=business[i].getAmount();
-			    	
-			    	customerDAO.updateCash(business[i].getCustomer_id(),cash+addMoney);
-			    	
-			    	business[i].setTransaction_date(newLateDate);
-			    	business[i].setIs_complete(true);
-			    	
-			    	transactionDAO.update(business[i]);
-			    	
-			    }
-			    else if (business[i].getTrasaction_type().equals("buy")) {
-					
-					int customerID=business[i].getCustomer_id();
-					int fundID=business[i].getFund_id();
-					
-					double newFundPrice=fundpriceHistoryDAO.findLatestPrice(business[i].getFund_id());//need to be done
-					
-					double newShares = business[i].getAmount()/newFundPrice;//be careful to the number;
-					
-					business[i].setExecute_date(newLateDate);
-					
-					business[i].setShares(newShares);
-					
-					business[i].setIs_complete(true);
-					
-					transactionDAO.update(business[i]);
-				
-					
+				switch(transactions[i].getTrasaction_type()){
+				case "deposit":{
+					System.out.println("action : deposit");
+					double addMoney=transactions[i].getAmount();
+					System.out.println("new cash - deposit : "+(cash+addMoney));
+					customerDAO.updateCash(transactions[i].getCustomer_id(),(cash+addMoney));
+					transactions[i].setExecute_date(form.getTransitionDateAsDate());
+					transactions[i].setIs_complete(true);
+					transactions[i].setIs_success(true);
+					transactionDAO.update(transactions[i]);
+					break;
+				}
+				case "request":{
+					System.out.println("action : request");
+					double awayMoney=transactions[i].getAmount();
+					if(customer.getCash() >= awayMoney){
+						System.out.println("new cash - request  : "+(cash-awayMoney));
+						customerDAO.updateCash(transactions[i].getCustomer_id(),(cash-awayMoney));
+						transactions[i].setExecute_date(form.getTransitionDateAsDate());
+						transactions[i].setIs_complete(true);
+						transactions[i].setIs_success(true);
+						transactionDAO.update(transactions[i]);
+					}
+					else{
+						transactions[i].setIs_success(false);
+						transactionDAO.update(transactions[i]);
+					}
+					break;
+				}
+				case "buy":{
+					// no. of shares bought = position.
+
+					int customerID=transactions[i].getCustomer_id();
+					int fundID=transactions[i].getFund_id();
+
+					double newFundPrice=fundpriceHistoryDAO.findLatestPrice(transactions[i].getFund_id());//need to be done
+
+					double newShares = transactions[i].getAmount()/newFundPrice;//be careful to the number;
+
+					transactions[i].setExecute_date(newLateDate);
+
+					transactions[i].setShares(newShares);
+
+					transactions[i].setIs_complete(true);
+
+					transactionDAO.update(transactions[i]);
+
+
 					if(positionDAO.read(customerID,fundID)!=null)  //need to be done
 					{
 						PositionBean onePosition=positionDAO.read(customerID,fundID);
@@ -228,7 +184,7 @@ public class TransitionDayAction extends Action {
 						onePosition.setShares(currentShares+newShares);
 						onePosition.setAvailable_shares(onePosition.getShares());
 						positionDAO.update(onePosition);
-						
+
 					}else
 					{
 						PositionBean newPosition=new PositionBean();
@@ -236,36 +192,37 @@ public class TransitionDayAction extends Action {
 						newPosition.setFund_id(fundID);
 						newPosition.setShares(newShares);
 						newPosition.setAvailable_shares(newShares);
-						  // insert new data into position table.
+						// insert new data into position table.
 						positionDAO.create(newPosition);
 					}
-					
+
 					// UPDATE CASH
-					customerDAO.updateCash(business[i].getCustomer_id(),cash-business[i].getAmount());
-					
-					
-			    } //buy fund is done.
-			    else if(business[i].getTrasaction_type().equals("sell")) //sell fund begins.
-			    {
-			    	int customerID=business[i].getCustomer_id();
-					int fundID=business[i].getFund_id();
-					
-					double newFundPrice=fundpriceHistoryDAO.findLatestPrice(business[i].getFund_id());//need to be done
-					
-					double amount=business[i].getShares() * newFundPrice;
-					
-					double newShares=business[i].getShares();
-					
-					business[i].setAmount(amount);
-			    	
-					business[i].setExecute_date(newLateDate);
-					
-					business[i].setIs_complete(true);
-			    	
-					transactionDAO.update(business[i]); //need to be done;
-					
-					
-					
+					customerDAO.updateCash(transactions[i].getCustomer_id(),cash-transactions[i].getAmount());
+
+
+					break;
+				}
+				case "sell":{
+
+					int customerID=transactions[i].getCustomer_id();
+					int fundID=transactions[i].getFund_id();
+
+					double newFundPrice=fundpriceHistoryDAO.findLatestPrice(transactions[i].getFund_id());//need to be done
+
+					double amount=transactions[i].getShares() * newFundPrice;
+
+					double newShares=transactions[i].getShares();
+
+					transactions[i].setAmount(amount);
+
+					transactions[i].setExecute_date(newLateDate);
+
+					transactions[i].setIs_complete(true);
+
+					transactionDAO.update(transactions[i]); //need to be done;
+
+
+
 					if(positionDAO.read(customerID,fundID)!=null)  //need to be done
 					{
 						//TODO POSITIONDAO.READ ORDER
@@ -274,63 +231,41 @@ public class TransitionDayAction extends Action {
 						onePosition.setShares(currentShares-newShares);
 						onePosition.setAvailable_shares(onePosition.getShares());  //needed new attribute.
 						positionDAO.update(onePosition);
-						
+
 					}else
 					{
 						//TODO EXCEPTION DETAIL
 						throw new RollbackException(
 								"Some errors with funds");
-						
-					}
-					
-			    	
-					customerDAO.updateCash(business[i].getCustomer_id(),cash+business[i].getAmount());
-			    	
-			    }
-			}
-			
-			CustomerBean[] allCustomers=customerDAO.getAllcustomers();
-			
-			for(int i=0;i<allCustomers.length;i++)
-			{
-				CustomerBean oneCustomer=allCustomers[i];
-				Double currentCash=oneCustomer.getCash();
-				customerDAO.updateBalance(oneCustomer.getCustomer_id(),currentCash); //need to be done
-			}
-			// SET IS_COMPLETE IS_SUCCESS
-			
-			
-			return "e_Transition_day.jsp" ; 
-					
-			 }catch(RollbackException e){
-			   errors.add(e.getMessage());
-			   return "e_Transition_day.jsp";
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				  return "e_Transition_day.jsp";
-			} catch (AmountOutOfBoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				  return "e_Transition_day.jsp";
-			}catch( FormBeanException e){
-				e.printStackTrace();
-				  return "e_Transition_day.jsp";
-				
-		    }
-		     
-		    finally{
-				if (Transaction.isActive())
-					Transaction.rollback();
-		    
-		    	  
-		      }
-		
-	
-		
-	}
-	
-	
-	
 
+					}
+
+					customerDAO.updateCash(transactions[i].getCustomer_id(),cash+transactions[i].getAmount());
+
+					break;
+				} // end last case
+				} // end switch
+
+			} // end for loop;
+
+			return "transitionDay.jsp" ; 
+
+		}catch(RollbackException e){
+			errors.add(e.getMessage());
+			return "transitionDay.jsp";
+		} catch (ParseException e) {
+			errors.add(e.getMessage());
+			return "transitionDay.jsp";
+		} catch (AmountOutOfBoundException e) {
+			errors.add(e.getMessage());
+			return "transitionDay.jsp";
+		}catch( FormBeanException e){
+			errors.add(e.getMessage());
+			return "transitionDay.jsp";
+		}
+		finally{
+			if (Transaction.isActive())
+				Transaction.rollback();
+		}
+	}
 }
