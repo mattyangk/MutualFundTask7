@@ -82,10 +82,12 @@
 				<td id="symbol"></td>
 				<td id="shares"></td>
 				<td id="ashares"></td>
+				<td><input type="text" name="amount" class="form-control" value="" /></td>
+				<tr><td colspan="2" align="center"><input type="submit"
+					name="button" class="btn btn-success" value="Sell Shares" /></td></tr>
+
+	
+
 		</table>
 	</form>
 </div>
-<tr>
-
-	<td><input type="text" name="amount" class="form-control" value="" /></td>
-<tr>
