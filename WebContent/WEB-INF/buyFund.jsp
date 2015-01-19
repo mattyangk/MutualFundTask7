@@ -16,7 +16,7 @@
 							if (funds != null) {
 								for (FundBean fund : funds) {
 						%>
-						<option value="<%=fund.getName()%>"><%=fund.getName()%>_<%=fund.getSymbol()%></option>
+						<option value="<%=fund.getName()%>"><%=fund.getName()%>_<%=fund.getSymbol()%></option>		
 						<%
 								}
 							}

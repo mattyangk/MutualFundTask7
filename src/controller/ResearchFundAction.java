@@ -5,10 +5,13 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.genericdao.RollbackException;
 import org.mybeans.form.FormBeanException;
 import org.mybeans.form.FormBeanFactory;
 
 import databeans.FundBean;
+import databeans.FundPriceDetailBean;
+import databeans.FundPriceHistoryBean;
 import formbeans.ResearchFundForm;
 import formbeans.SellFundForm;
 import model.FundDAO;
@@ -54,12 +57,37 @@ public class ResearchFundAction extends Action {
 			}
 			
 			FundBean fund = fundDAO.getFundByName(form.getFundname());
+			if (fund == null) {
+				errors.add("No fund: " + form.getFundname());
+				return "researchFund.jsp";
+			}
+			
+			FundPriceHistoryBean[] historyList = fundPriceHistoryDAO.findAllPrices(fund.getFund_id());
+			FundPriceDetailBean[] priceList = new FundPriceDetailBean[historyList.length];
+			for (int i = 0; i < historyList.length; i++) {
+				FundPriceDetailBean fundPriceDetail = new FundPriceDetailBean();
+				fundPriceDetail.setFund_id(fund.getFund_id());
+				fundPriceDetail.setName(fund.getName());
+				fundPriceDetail.setPrice(historyList[i].getPrice());
+				fundPriceDetail.setPrice_date(historyList[i].getPrice_date());
+				fundPriceDetail.setSymbol(fund.getSymbol());
+				priceList[i] = fundPriceDetail;
+				//System.out.println("Price: " + historyList[i].getPrice() + ", date: " + historyList[i].getPrice_date());
+			}
+			request.setAttribute("fund", fund);
+			request.setAttribute("priceList", priceList);
 			
 			
+					
 		} catch (FormBeanException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (RollbackException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		return "researchFund.jsp";
 	}
 
 }

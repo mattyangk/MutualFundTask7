@@ -1,15 +1,22 @@
+<%@page import="databeans.FundBean"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="databeans.FundPriceDetailBean" %>
 
+<%
+	FundBean fund = (FundBean) request.getAttribute("fund");
+	FundPriceDetailBean[] priceList = (FundPriceDetailBean[]) request.getAttribute("priceList");
+%>
 
 <jsp:include page="header.jsp" />
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-	<h1 class="page-header">Search Fund</h1>
+	<h1 class="page-header">Research Fund</h1>
 	<jsp:include page="error.jsp" />
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<% if (fund != null) {%>
 <script type="text/javascript">
 	google.load('visualization', '1', {
-		packages : [ 'linechart' ]
+		packages : [ 'corechart' ]
 	});
 	google.setOnLoadCallback(drawVisualization);
 	var chart;
@@ -19,33 +26,31 @@
 
 		var data = new google.visualization.DataTable();
 		data.addColumn('string', 'Year');
-		data.addColumn('number', 'test1');
-		data.addColumn('number', 'test2');
-		data.addRows(4);
-		data.setValue(0, 0, '2004');
-		data.setValue(0, 1, 1000);
-		data.setValue(0, 2, 400);
-		data.setValue(1, 0, '2005');
-		data.setValue(1, 1, 1170);
-		data.setValue(1, 2, 460);
-		data.setValue(2, 0, '2006');
-		data.setValue(2, 1, 860);
-		data.setValue(2, 2, 580);
-		data.setValue(3, 0, '2007');
-		data.setValue(3, 1, 1030);
-		data.setValue(3, 2, 540);
+		data.addColumn('number', '<%= fund.getSymbol()%>');
+		//alert(<%= priceList.length%>);
+		data.addRows(<%= priceList.length%>);
+		<% 
+			for (int i = 0; i < priceList.length; i++) {
+				
+		%>
+		
+		data.setValue(<%=i%>, 0, '<%=priceList[i].getPrice_date().getYear() + 1900 + "-" + (priceList[i].getPrice_date().getMonth() + 1) + "-" + priceList[i].getPrice_date().getDate()%>');
+		data.setValue(<%=i%>, 1, <%=priceList[i].getPrice()%>);
+		<%
+			}
+		%>
 
 		chart = new google.visualization.LineChart(document
 				.getElementById('visualization'));
 		chart.draw(data, {
-			width : 1250,
+			width : 800,
 			height : 300,
 			tooltipFontSize : 14,
-			max : 1250,
+			max : 200,
 			pointSize : 6,
 			legend : 'bottom',
 			titleFontSize : 18,
-			title : 'tests'
+			title : 'Price History of <%= fund.getName() %>'
 		});
 
 		google.visualization.events.addListener(chart, 'onmouseover',
@@ -67,6 +72,8 @@
 		} ]);
 	}
 </script>
+
+<% } %>
 
 
 	<div id="tfheader">
