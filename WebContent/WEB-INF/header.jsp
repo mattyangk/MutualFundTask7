@@ -94,7 +94,7 @@
 					<li><a href="createEmployeeAccount.do"> Create Employee Account </a></li>
 					<li><a href="createCustomerAccount.do"> Create Customer Account </a></li>
 					<li><a href="resetPwd.do"> Reset Customer Password </a></li>
-					<li><a href="www.google.com"> View Customer Account </a></li>
+					<li><a href="employeeViewCustomerAction.do"> View Customer Account </a></li>
 					<li><a href="depositCheck.do"> Deposit Check </a></li>
 					<li><a href="createFund.do"> Create Fund </a></li>
 					<li><a href="transitionDayAction.do"> Transition Day </a></li>
