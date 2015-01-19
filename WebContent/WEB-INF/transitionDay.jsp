@@ -6,7 +6,7 @@
     pageEncoding="GB18030"%>
 <jsp:include page="header.jsp" />
 				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-					<h1 class="page-header">Transaction Day</h1>
+					<h1 class="page-header">Transition Day</h1>
                 <div>
                 
                 <form action="transitionDayAction.do" method="POST">
