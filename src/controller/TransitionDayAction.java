@@ -63,12 +63,10 @@ public class TransitionDayAction extends Action {
 
 			LastPriceForFundsBean[] funds = new LastPriceForFundsBean[allFunds.length];
 
-			Date date = fundpriceHistoryDAO.findLatestDate(); // can be null if
-																// it's the
-																// first time of
-																// the system
-																// run
-			request.setAttribute("theLastDate", date);
+			// can be null if it's the first run
+
+			Date latestDate = fundpriceHistoryDAO.findLatestDate();
+			request.setAttribute("theLastDate", latestDate);
 
 			for (int i = 0; i < funds.length; i++) {
 				LastPriceForFundsBean onefund = new LastPriceForFundsBean();
@@ -93,18 +91,22 @@ public class TransitionDayAction extends Action {
 			if (!errors.isEmpty()) {
 				return "transitionDay.jsp";
 			}
+			
+			java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat(
+					"yyyy-MM-dd");
+			Date newLateDate = dateFormat.parse(form.getTransitionDate());
+			
+			if (newLateDate.compareTo(latestDate) <= 0) {
+				errors.add("The input date is not after the latest transition date: " + latestDate);
+				return "transitionDay.jsp";
+			}
 
 			String[] price = form.getPrice(); // start to get the value from the
 												// form
 			String[] fund_id = form.getFund_id();
 
-			// TODO
-			// typed date check should be done,should be valid, and after the
-			// last end day.
 
-			java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat(
-					"yyyy-MM-dd");
-			Date newLateDate = dateFormat.parse(form.getTransitionDate());
+
 
 			// update the historyPirce table first;
 			for (int i = 0; i < price.length; i++) {
@@ -230,7 +232,7 @@ public class TransitionDayAction extends Action {
 					int fundID = transactions[i].getFund_id();
 					double newFundPrice = fundpriceHistoryDAO
 							.findLatestPrice(transactions[i].getFund_id());
-					
+
 					double amount = transactions[i].getShares() * newFundPrice;
 					double newShares = transactions[i].getShares();
 
