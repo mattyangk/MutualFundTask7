@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import model.FundDAO;
 import model.Model;
 import model.PositionDAO;
+import model.TransactionDAO;
 
 import org.genericdao.RollbackException;
 import org.mybeans.form.FormBeanException;
@@ -18,6 +20,8 @@ import databeans.CustomerBean;
 import databeans.FundBean;
 import databeans.PositionAndFundBean;
 import databeans.PositionBean;
+import databeans.TransactionBean;
+import exception.AmountOutOfBoundException;
 import formbeans.SellFundForm;
 
 public class SellFundAction extends Action {
@@ -27,10 +31,12 @@ public class SellFundAction extends Action {
 
 	private PositionDAO positionDAO;
 	private FundDAO fundDAO;
+	private TransactionDAO transactionDAO;
 
 	public SellFundAction(Model model) {
 		positionDAO = model.getPositionDAO();
 		fundDAO = model.getFundDAO();
+		transactionDAO = model.getTransactionDAO();
 	}
 
 	@Override
@@ -81,14 +87,30 @@ public class SellFundAction extends Action {
 			if (errors.size() != 0) {
 				return "sellFund.jsp";
 			}
+			
+			FundBean fund = fundDAO.getFundByName(form.getFundname());
+			positionDAO.updateAvailableShares(fund.getFund_id(), customer.getCustomer_id(), form.getShareAsDouble());
+			TransactionBean transaction = new TransactionBean();
+			transaction.setCustomer_id(customer.getCustomer_id());
+			transaction.setFund_id(fund.getFund_id());
+			transaction.setIs_complete(false);
+			transaction.setIs_success(false);
+			transaction.setShares(form.getShareAsDouble());
+			transaction.setTransaction_date(new Date());
+			transaction.setTrasaction_type("sell");
+			
+			transactionDAO.createAutoIncrement(transaction);
 
 
 		} catch (FormBeanException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			errors.add(e.getMessage());
+			return "sellFund.jsp";
 		} catch (RollbackException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			errors.add(e.getMessage());
+			return "sellFund.jsp";
+		} catch (AmountOutOfBoundException e) {
+			errors.add(e.getMessage());
+			return "sellFund.jsp";
 		}
 
 		return "manage.jsp";
