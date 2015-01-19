@@ -1,6 +1,5 @@
 package controller;
 
-<<<<<<< Updated upstream
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,20 +69,5 @@ public class CreateFundAction extends Action {
 		
 		return "manage.jsp";
 	}
-=======
-import org.mybeans.form.FormBeanFactory;
-
-import formbeans.CreateFundForm;
-
-public class CreateFundAction {
-	private FormBeanFactory<CreateFundForm> formBeanFactory = FormBeanFactory
-			.getInstance(CreateFundForm.class);
-	
-	private FundDAO fundDao;
-	
-	
-	
-	
->>>>>>> Stashed changes
 
 }
