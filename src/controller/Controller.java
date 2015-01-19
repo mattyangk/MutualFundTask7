@@ -33,12 +33,13 @@ public class Controller extends HttpServlet {
         Action.add(new CreateCustomerAccountAction(model));
         Action.add(new RequestCheckAction(model));
         Action.add(new DepositCheck(model));
-        Action.add(new CreateFundAction(model));
-        Action.add(new TempTransitionDayAction(model));
+      //Action.add(new CreateFundAction(model));
+      //Action.add(new TempTransitionDayAction(model));
         Action.add(new ChangePwdAction(model));
         Action.add(new BuyFundAction(model));
         Action.add(new ViewCustomerAccountAction(model));
         Action.add(new ViewTransactionHistoryAction(model));
+        Action.add(new TransitionDayAction(model));
         
     }
 

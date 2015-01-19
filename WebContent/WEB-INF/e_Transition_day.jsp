@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+
 <%@ page language="java" contentType="text/html; charset=GB18030"
     pageEncoding="GB18030"%>
 <jsp:include page="header.jsp" />
@@ -8,17 +9,17 @@
 					<h1 class="page-header">Transaction Day</h1>
                 <div>
                 
-                <form action="transactionDay.do" method="POST">
+                <form action="TransitionDayAction.do" method="POST">
 	             <table>
 	
 		           <tr>
+					<td>Last Trading Day:  </td>
 					<td>${theLastDate}</td>
-					<td></td>
 				   </tr>
 				   
 				   <tr>
 					<td>Trading Day:</td>
-					<td><input type="text" name="newTradingDay"
+					<td><input type="text" name="transitionDate"
 						 value=" " /></td>
 				  </tr>
 				  </table>
@@ -29,10 +30,11 @@
 					<tr>
 						<th style="width:100px">FundName</th>
 						<th style="width:100px">Ticker</th>
-						<th style="width:130px">Last Closing Price</th>
+						
 						<th style="width:130px">New Closing Price</th>
 					</tr>
 				</thead>
+				
 				
 				<tbody> 
 				   <c:if test="${requestScope.allFunds!= null}">
@@ -40,20 +42,10 @@
 					  <tr>
 							<td>${oneFund.fund_name} </td>
 							<td>${oneFund.fund_symbol}</td>
-							
-							<c:if test="${oneFund.Last_price>0.0}">
-								<td>${oneFund.price}  </td>
-							</c:if>
-							
-							<c:if test="${oneFund.Last_price==0.0}">
-							<td> No price. </td>
-							</c:if>
-							
-							 
 								
 							<td >
 							<input type="text"  name="price" value="" />
-							<input type="hidden" name="id" value="${oneFund.fund_id}"/>
+							<input type="hidden" name="fund_id" value="${oneFund.fund_id}"/>
 								
 							</td>
 					</tr>
