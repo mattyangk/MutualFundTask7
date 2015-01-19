@@ -97,7 +97,7 @@ public class TransitionDayAction extends Action {
 					"yyyy-MM-dd");
 			Date newLateDate = dateFormat.parse(form.getTransitionDate());
 						
-			if (newLateDate.compareTo(latestDate) <= 0) {
+			if (latestDate != null && newLateDate.compareTo(latestDate) <= 0) {
 				errors.add("The input date is not after the latest transition date: " + latestDate);
 				System.out.println("The input date is not after the latest transition date: " + latestDate);
 				return "transitionDay.jsp";
