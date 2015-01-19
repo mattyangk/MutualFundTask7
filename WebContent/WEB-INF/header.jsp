@@ -101,8 +101,8 @@
 					<%
 						} else {
 					%>
-					<li><a href="www.google.com"> About Us </a></li>
-					<li><a href="www.google.com"> Contact Us </a></li>
+					<li><a href="index.do"> About Us </a></li>
+					<li><a href="index.do"> Contact Us </a></li>
 					<%
 						}
 					%>
