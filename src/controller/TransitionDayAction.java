@@ -210,10 +210,8 @@ public class TransitionDayAction extends Action {
 						double currentShares = onePosition.getShares();
 						System.out.println("newShares :" + currentShares
 								+ newShares);
-						onePosition.setShares(currentShares + newShares);
-						onePosition
-								.setAvailable_shares(onePosition.getShares());
-						positionDAO.update(onePosition);
+						
+						positionDAO.updateShares(fundID, customerID, currentShares + newShares);
 
 					} else {
 						PositionBean newPosition = new PositionBean();
@@ -254,12 +252,15 @@ public class TransitionDayAction extends Action {
 						PositionBean onePosition = positionDAO.read(customerID,
 								fundID);
 						double currentShares = onePosition.getShares();
-						onePosition.setShares(currentShares - newShares);
-						onePosition
-								.setAvailable_shares(onePosition.getShares()); // needed
-																				// new
-																				// attribute.
-						positionDAO.update(onePosition);
+						if( currentShares - newShares <0){
+							throw new RollbackException("Some errors with funds");
+						}
+						else if((currentShares - newShares) == 0){
+							positionDAO.delete(fundID, customerID);
+						}
+						else{
+							positionDAO.updateShares(fundID, customerID, currentShares - newShares);
+						}
 					} else {
 						// TODO EXCEPTION DETAIL
 						throw new RollbackException("Some errors with funds");
