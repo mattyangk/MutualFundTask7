@@ -17,7 +17,7 @@ public class CustomerDAO extends GenericDAO<CustomerBean> {
 		super(CustomerBean.class, tableName, connectionPool);
 	}
 
-	public CustomerBean[] getAllcustomers() throws RollbackException {
+	public CustomerBean[] getAllCustomers() throws RollbackException {
 
 		CustomerBean[] customers = match();
 

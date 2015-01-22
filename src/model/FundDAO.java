@@ -21,7 +21,6 @@ public class FundDAO extends GenericDAO<FundBean> {
 		if (funds.length != 1) {
 			System.out.println("not such fund");
 		}
-		
 		return funds[0];
 	}
 
