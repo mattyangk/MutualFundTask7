@@ -88,7 +88,7 @@
 					<li><a href="sellFund.do"> Sell Fund </a></li>
 					<li><a href="requestCheck.do"> Request Check </a></li>
 					<li><a href="transactionHistory.do"> Transaction History </a></li>
-					<li><a href="viewFunds.do"> Research Fund </a></li>
+					<li><a href="viewAllFunds.do"> Research Fund </a></li>
 					<%
 						} else if (employee != null) {
 					%>
