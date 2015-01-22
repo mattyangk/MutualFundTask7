@@ -45,6 +45,7 @@ public class Controller extends HttpServlet {
         Action.add(new ResearchFundAction(model));
         Action.add(new ResetPwdAction(model));
         Action.add(new ViewAllCustomerDetailsAction(model));
+        Action.add(new ViewAllFundsAction(model));
         
     }
 

@@ -88,7 +88,7 @@
 					<li><a href="sellFund.do"> Sell Fund </a></li>
 					<li><a href="requestCheck.do"> Request Check </a></li>
 					<li><a href="transactionHistory.do"> Transaction History </a></li>
-					<li><a href="researchFund.do"> Research Fund </a></li>
+					<li><a href="viewFunds.do"> Research Fund </a></li>
 					<%
 						} else if (employee != null) {
 					%>
@@ -100,7 +100,7 @@
 					<li><a href="viewAllCustomerDetails.do"> View All Customer's Details </a></li>
 					<li><a href="depositCheck.do"> Deposit Check </a></li>
 					<li><a href="createFund.do"> Create Fund </a></li>
-					<li><a href="www.gogle.com"> Transaction History </a></li>
+					<li><a href="viewTransactionHistory.do"> Transaction History </a></li>
 					<li><a href="transitionDayAction.do"> Transition Day </a></li>
 					<%
 						} else {
