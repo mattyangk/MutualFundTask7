@@ -8,12 +8,21 @@ import org.genericdao.RollbackException;
 import org.genericdao.Transaction;
 
 import databeans.PositionBean;
+import databeans.TransactionBean;
 import exception.AmountOutOfBoundException;
 
 public class PositionDAO extends GenericDAO<PositionBean> {
 	public PositionDAO(ConnectionPool connectionPool, String tableName)
 			throws DAOException {
 		super(PositionBean.class, tableName, connectionPool);
+	}
+	
+	public PositionBean[] getPositionsByCustomerId(int id)
+			throws RollbackException {
+
+		PositionBean[] positions = match(MatchArg.equals("customer_id",
+				id));
+		return positions;
 	}
 
 	public void updateAvailableShares(int fund_id, int customer_id, double sellingShares)
