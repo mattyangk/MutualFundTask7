@@ -9,7 +9,7 @@
 	<h1 class="page-header">Transition Day</h1>
 	<div>
 		<jsp:include page="error.jsp" />
-		<jsp:include page="message.jsp">
+		<jsp:include page="message.jsp" />
 
 			<form action="transitionDayAction.do" method="POST">
 				<table>
