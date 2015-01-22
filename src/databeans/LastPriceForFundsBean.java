@@ -8,10 +8,17 @@ public class LastPriceForFundsBean  {
 	private int fund_id;
 	private String fund_name;
 	private String fund_symbol;
-	private double Last_price;
+	private double last_price;
+	private String last_date;
 	
 	
 	
+	public String getLast_date() {
+		return last_date;
+	}
+	public void setLast_date(String last_date) {
+		this.last_date = last_date;
+	}
 	public int getFund_id() {
 		return fund_id;
 	}
@@ -31,10 +38,10 @@ public class LastPriceForFundsBean  {
 		this.fund_symbol = fund_symbol;
 	}
 	public double getLast_price() {
-		return Last_price;
+		return last_price;
 	}
 	public void setLast_price(double last_price) {
-		Last_price = last_price;
+	   this.last_price = last_price;
 	}
 
 	

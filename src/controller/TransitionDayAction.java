@@ -63,14 +63,21 @@ public class TransitionDayAction extends Action {
 			LastPriceForFundsBean[] funds = new LastPriceForFundsBean[allFunds.length];
 
 			// can be null if it's the first run
-
+			
+			SimpleDateFormat dateFormat = new java.text.SimpleDateFormat(
+					"yyyy-MM-dd");
+			
 			Date latestDate = fundpriceHistoryDAO.findLatestDate();
-			request.setAttribute("theLastDate", latestDate);
+		    String theDate=dateFormat.format(latestDate);
+			
+			request.setAttribute("theLastDate", theDate);
 
 			for (int i = 0; i < funds.length; i++) {
 				LastPriceForFundsBean onefund = new LastPriceForFundsBean();
 				onefund.setFund_id(allFunds[i].getFund_id());
 				onefund.setFund_name(allFunds[i].getName());
+				onefund.setLast_date(theDate);
+				onefund.setLast_price(fundpriceHistoryDAO.findLatestPrice(onefund.getFund_id()));
 				onefund.setFund_symbol(allFunds[i].getSymbol());
 				System.out.println(i);
 
@@ -91,8 +98,8 @@ public class TransitionDayAction extends Action {
 				return "transitionDay.jsp";
 			}
 			
-			SimpleDateFormat dateFormat = new java.text.SimpleDateFormat(
-					"yyyy-MM-dd");
+			
+		
 			Date newLateDate = dateFormat.parse(form.getTransitionDate());
 						
 			if (latestDate != null && newLateDate.compareTo(latestDate) <= 0) {
@@ -109,8 +116,18 @@ public class TransitionDayAction extends Action {
 			for (int i = 0; i < price.length; i++) {
 				if (price[i] == null || price[i].length() == 0) {
 					errors.add("Should type all price for all funds");
+					return "transitionDay.jsp";
 				}
+				
 				FundPriceHistoryBean one = new FundPriceHistoryBean();
+				double newPrice=Double.parseDouble(price[i]);
+				if(newPrice<0)
+				{
+					errors.add("Should put price above zero");
+					return "transitionDay.jsp";
+					
+				}
+					
 				one.setFund_id(Integer.parseInt(fund_id[i]));
 				one.setPrice(Double.parseDouble(price[i]));
 				one.setPrice_date(newLateDate);

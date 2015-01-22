@@ -15,7 +15,7 @@
 
 
 	<div>
-		<form method="POST" action="employeeViewCustomerAction.do">
+		<form method="POST" action="EmployeeViewCustomerAction.do">
 
 			<table>
 				<tr>
