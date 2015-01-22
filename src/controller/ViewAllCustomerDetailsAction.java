@@ -36,7 +36,7 @@ public class ViewAllCustomerDetailsAction extends Action {
 		try{
 
 			customers = customerDAO.getAllCustomers();
-			session.setAttribute("customersList", customers);
+			request.setAttribute("customersList", customers);
 			
 			if(customers==null){
 				return "manage.jsp";
