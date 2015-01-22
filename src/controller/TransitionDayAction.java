@@ -1,5 +1,7 @@
 package controller;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,11 +43,12 @@ public class TransitionDayAction extends Action {
 		return "transitionDayAction.do";
 	}
 
-	public String perform(HttpServletRequest request) {
+	public synchronized String perform(HttpServletRequest request) {
 		List<String> errors = new ArrayList<String>();
 		request.setAttribute("errors", errors);
-
+		
 		try {
+			Transaction.begin();
 			TransitionForm form = formBeanFactory.create(request);
 			request.setAttribute("form", form);
 
@@ -57,10 +60,6 @@ public class TransitionDayAction extends Action {
 				errors.add("No fund has been created yet");
 				return "transitionDay.jsp";
 			}
-			//
-			// else {
-			// System.out.println("YES,has funds");
-			// }
 
 			LastPriceForFundsBean[] funds = new LastPriceForFundsBean[allFunds.length];
 
@@ -106,9 +105,6 @@ public class TransitionDayAction extends Action {
 			String[] price = form.getPrice(); // start to get the value from the
 												// form
 			String[] fund_id = form.getFund_id();
-
-
-
 
 			// update the historyPirce table first;
 			for (int i = 0; i < price.length; i++) {
@@ -182,6 +178,7 @@ public class TransitionDayAction extends Action {
 					// TEST CASH
 					if (cash < transactions[i].getAmount()) {
 						transactions[i].setIs_success(false);
+						transactions[i].setIs_complete(true);
 						transactionDAO.update(transactions[i]);
 						errors.add("Transaction id: "
 								+ transactions[i].getTransaction_id()
@@ -189,36 +186,60 @@ public class TransitionDayAction extends Action {
 						continue;
 					}
 					// UPDATE CASH
-					customerDAO.updateCash(transactions[i].getCustomer_id(),
-							cash - transactions[i].getAmount());
-
 					double newFundPrice = fundpriceHistoryDAO
 							.findLatestPrice(transactions[i].getFund_id());
 					double newShares = transactions[i].getAmount()
 							/ newFundPrice;// be careful to the number;
+					
+					System.out.println("original newShares : "+newShares);
+					BigDecimal bdShares = new BigDecimal(newShares);
+					bdShares = bdShares.setScale(3, RoundingMode.DOWN);
+					double roundedShares = bdShares.doubleValue();    
+					System.out.println("rounded roundedShares : "+roundedShares);
+					
+					if(newShares < 0.001){
+						errors.add("Transaction id: "+ transactions[i].getTransaction_id()+ " failed ! Shares cannot be less than 0.001 shares.");
+						transactions[i].setIs_success(false);
+						transactions[i].setIs_complete(true);
+						transactionDAO.update(transactions[i]);
+						continue;
+					}
+					
+					double amountDeducted = transactions[i].getAmount();
+					double roundedAmountDeducted = amountDeducted;
 
+					if((newShares!=roundedShares) && (newShares-roundedShares) < 0.001){
+						amountDeducted = roundedShares * newFundPrice;
+						System.out.println("original amountDeducted : "+amountDeducted);
+						BigDecimal bdAmount = new BigDecimal(newShares);
+						bdAmount = bdAmount.setScale(2, RoundingMode.DOWN);
+						roundedAmountDeducted = bdAmount.doubleValue();    
+						System.out.println("rounded roundedAmountDeducted : "+roundedAmountDeducted);
+					}
+					
 					transactions[i].setExecute_date(form
 							.getTransitionDateAsDate());
-					transactions[i].setShares(newShares);
+					transactions[i].setShares(roundedShares);
 					transactions[i].setIs_complete(true);
 					transactions[i].setIs_success(true);
 					transactionDAO.update(transactions[i]);
+					customerDAO.updateCash(transactions[i].getCustomer_id(),cash - roundedAmountDeducted);
 
 					if (positionDAO.read(fundID,customerID) != null) {
 						PositionBean onePosition = positionDAO.read(fundID,customerID);
 						double currentShares = onePosition.getShares();
 						System.out.println("newShares :" + currentShares
-								+ newShares);
+								+ roundedShares);
 						
-						positionDAO.updateShares(fundID, customerID, currentShares + newShares);
+						positionDAO.updateShares(fundID, customerID, currentShares + roundedShares);
 
 					} else {
 						PositionBean newPosition = new PositionBean();
 						newPosition.setCustomer_id(customerID);
 						newPosition.setFund_id(fundID);
-						newPosition.setShares(newShares);
-						System.out.println("newShares :" + newShares);
-						newPosition.setAvailable_shares(newShares);
+						newPosition.setShares(roundedShares);
+						System.out.println("roundedShares :" + roundedShares);
+						newPosition.setAvailable_shares(roundedShares);
 						// insert new data into position table.
 						positionDAO.create(newPosition);
 					}
@@ -270,7 +291,8 @@ public class TransitionDayAction extends Action {
 				} // end switch
 
 			} // end for loop;
-
+			
+			Transaction.commit();
 			return "transitionDay.jsp";
 
 		} catch (RollbackException e) {
