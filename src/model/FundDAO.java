@@ -16,6 +16,14 @@ public class FundDAO extends GenericDAO<FundBean> {
 		super(FundBean.class, tableName, connectionPool);
 	}
 
+	public FundBean getFundById(int id) throws RollbackException {
+		FundBean[] funds = match(MatchArg.equals("fund_id", id));
+		if (funds.length != 1) {
+			System.out.println("not such fund");
+		}
+		return funds[0];
+	}
+	
 	public FundBean getFundByName(String fundname) throws RollbackException {
 		FundBean[] funds = match(MatchArg.equals("name", fundname));
 		if (funds.length != 1) {
