@@ -12,7 +12,7 @@
 		<jsp:include page="message.jsp" />
 
 			<form action="transitionDayAction.do" method="POST">
-				<table>
+				<table class="table">
 
 					<tr>
 						<td>Last Trading Day:</td>
@@ -26,13 +26,15 @@
 				</table>
 
 
-				<table>
+				<table class="table">
 					<thead>
 						<tr>
-							<th style="width: 100px">FundName</th>
-							<th style="width: 100px">Ticker</th>
-
-							<th style="width: 130px">New Closing Price</th>
+							<th >FundName</th>
+							<th >Ticker</th>
+							<th> Last trading date</th>
+							<th> Last trading price</th>
+							<th> New Closing Price</th>
+							
 						</tr>
 					</thead>
 
@@ -43,6 +45,8 @@
 								<tr>
 									<td>${oneFund.fund_name}</td>
 									<td>${oneFund.fund_symbol}</td>
+									<td>${oneFund.last_date}</td>
+									<td>${oneFund.last_price}</td>
 
 									<td><input type="text" name="price" value="" /> <input
 										type="hidden" name="fund_id" value="${oneFund.fund_id}" /></td>
