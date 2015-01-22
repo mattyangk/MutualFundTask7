@@ -11,5 +11,5 @@
 	<h1 class="page-header">Introduction of CFS</h1>
 
 <jsp:include page="error.jsp" />
-<jsp:include page="message.jsp">
+<jsp:include page="message.jsp" />
 </div>
