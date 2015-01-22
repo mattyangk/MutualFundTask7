@@ -47,22 +47,18 @@ public class employeeViewCustomerAction  extends Action{
 		String messages;
 		request.setAttribute("errors",errors);
 		
+		
 		try{
-			SearchCustomerForm form=formBeanFactory.create(request);
-			request.setAttribute("form", form);
-			if(!form.isPresent())
-			{
-				
-				System.out.println("First time");
-				return "viewAccountEmployee.jsp";
-			}
-			
-			String customerName=form.getCustomerName();
-			System.out.println("customerName :"+customerName);
+		   
+			String customerName=request.getAttribute("customername");
+			if(customerName==null) 
+				{
+				 errors.add("Does not exists such customer");
+				 return "viewAllCustomerDetails.jsp";
+				}
 			
 		    CustomerBean theCustomer=customerDAO.getCustomerByUsername(customerName);
-			System.out.println("customer :"+theCustomer);
-			
+			request.setAttribute("customer",theCustomer);
 			int CustomerID=theCustomer.getCustomer_id();
 			PositionBean [] Positions=positionDAO.getPositionsByCustomerId(CustomerID);
 			
@@ -70,7 +66,7 @@ public class employeeViewCustomerAction  extends Action{
 			{
 				messages="The customer does not have any fund yet";
 				request.setAttribute("message", messages);
-				return "viewAccountEmployee.jsp";
+				return "showCustomerInfo.jsp";
 			}
 			
 			else{
@@ -86,17 +82,17 @@ public class employeeViewCustomerAction  extends Action{
 				}
 				
 				request.setAttribute("fundInfo",fundInfo);
-				return "viewAccountEmployee.jsp";	
+				return "showCustomerInfo.jsp";	
 				
 			}
 		}catch (RollbackException e) {
 			errors.add(e.getMessage());
-			return "viewAccountEmployee.jsp";
+			return "showCustomerInfo.jsp";
 		} catch (FormBeanException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "viewAccountEmployee.jsp";	
+		return "showCustomerInfo.jsp";	
 	}
 
 }
