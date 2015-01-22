@@ -1,5 +1,7 @@
 package databeans;
 
+import org.genericdao.PrimaryKey;
+@PrimaryKey("fund_id")
 public class CustomerFundsInfoBean {
 	private int fund_id;
 	private String fund_name;
