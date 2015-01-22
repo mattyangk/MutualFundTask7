@@ -56,11 +56,15 @@
 						</c:if>
 
 					</tbody>
+					<tr><td colspan="2" align="center"><input type="submit"
+					name="button" class="btn btn-success" value="Submit" /></td></tr>
+					
 
 				</table>
 
 
-				<input type="submit" name="submit" value="Submit">
+				
+
 
 			</form></div>
 
