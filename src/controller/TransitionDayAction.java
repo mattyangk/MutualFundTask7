@@ -48,7 +48,6 @@ public class TransitionDayAction extends Action {
 		request.setAttribute("errors", errors);
 		
 		try {
-			Transaction.begin();
 			TransitionForm form = formBeanFactory.create(request);
 			request.setAttribute("form", form);
 
@@ -292,7 +291,6 @@ public class TransitionDayAction extends Action {
 
 			} // end for loop;
 			
-			Transaction.commit();
 			return "transitionDay.jsp";
 
 		} catch (RollbackException e) {
