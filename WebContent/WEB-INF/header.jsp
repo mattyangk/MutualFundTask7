@@ -17,10 +17,12 @@
 
 <!-- Bootstrap -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
-<link href="http://v3.bootcss.com/examples/dashboard/dashboard.css"
-	rel="stylesheet">
+<link href="css/dashboard.css" rel="stylesheet">
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js">
+<script src="js/jquery-1.11.2.min.js"></script>
+<script src="js/bootstrap.min.js"> </script>
+
+
 	
 </script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->

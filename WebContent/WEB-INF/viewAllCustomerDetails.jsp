@@ -2,31 +2,48 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <jsp:include page="header.jsp" />
+
+<script src="js/bootstrap-table.js"></script>
+<link rel="stylesheet" href="css/bootstrap-table.css">
+
+<script>
+	$(document).ready(function() {
+		$('table').bootstrapTable({
+
+		});
+	});
+</script>
 
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 	<h1 class="page-header">All Customers Account's Information</h1>
 	<jsp:include page="error.jsp" />
 	<jsp:include page="message.jsp" />
-	<table class="table">
-		<tr>
-			<th>User ID</th>
-			<th>User Name</th>
-			<th>First Name</th>
-			<th>Last Name</th>
-			<th>Cash</th>
-			<th>Available Balance</th>
-		</tr>
-		<tr>
+	<table data-height="600" data-sort-name="name" data-sort-order="desc"
+		data-search="true">
+
+		<thead>
+			<tr>
+				<th data-align="center" data-sortable="true">User Name</th>
+				<th data-align="center" data-sortable="true">Name</th>
+				<th data-align="center" data-sortable="true">Cash</th>
+			</tr>
+
+		</thead>
+
+
+		<tbody>
+
 			<c:forEach var="customer" items="${customersList}">
-				<td>${customer.customer_id}</td>
-				<td>${customer.username}</td>
-				<td>${customer.firstname}</td>
-				<td>${customer.lastname}</td>
-				<td>${customer.cash}</td>
-				<td>${customer.balance}</td>
-			</c:forEach>	
-		</tr>
-		</table>
+				<tr>
+					<td><a href="showCustomerInfo.do?customername=${customer.username}">${customer.username}</a></td>
+					<td>${customer.firstname} ${customer.lastname}</td>
+					<td>${customer.cash}</td>
+				</tr>
+			</c:forEach>
+
+		</tbody>
+	</table>
 </div>
