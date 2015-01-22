@@ -1,5 +1,7 @@
 package formbeans;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +54,20 @@ public class DepositCheckForm extends FormBean  {
         try {
 			Double.parseDouble(amount);
 		} catch (NumberFormatException e) {
-			errors.add("Amount is not an double");
+			errors.add("Invalid Amount");
+		}
+        
+        System.out.println("original : "+getDepositAmountAsDouble());
+		BigDecimal bd = new BigDecimal(getDepositAmountAsDouble());
+		bd = bd.setScale(2, RoundingMode.HALF_UP);
+		double depositAmt = bd.doubleValue();    
+		System.out.println("rounded : "+depositAmt);
+		
+		if(getDepositAmountAsDouble() < 0.01){
+			errors.add("Invalid Transaction ! Amount cannot be less than $0.01");
+		}
+		else if((getDepositAmountAsDouble()-depositAmt) < 0.01){
+			errors.add("Amount can only have upto 2 places of decimal !");
 		}
         
         return errors;
