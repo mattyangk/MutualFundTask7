@@ -21,7 +21,7 @@
 	<jsp:include page="error.jsp" />
 	<jsp:include page="message.jsp" />
 	<table data-height="600" data-sort-name="name" data-sort-order="desc"
-		data-search="true">
+		data-search="true" data-pagination="true">
 
 		<thead>
 			<tr>

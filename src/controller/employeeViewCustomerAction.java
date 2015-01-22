@@ -37,7 +37,7 @@ public class employeeViewCustomerAction  extends Action{
 	}
 	
 	public String getName() {
-		return "employeeViewCustomerAction.do";
+		return "showCustomerInfo.do";
 	}
 
 	public String perform(HttpServletRequest request){
@@ -69,6 +69,8 @@ public class employeeViewCustomerAction  extends Action{
 				for(int i=0;i<fundInfo.length;i++)
 				{
 					FundBean theFund=fundDAO.getFundById(Positions[i].getFund_id());
+					CustomerFundsInfoBean customerFundInfo = new CustomerFundsInfoBean();
+					fundInfo[i] = customerFundInfo;
 					fundInfo[i].setFund_id(theFund.getFund_id());
 					fundInfo[i].setFund_name(theFund.getName());
 					fundInfo[i].setFund_symbol(theFund.getSymbol());
