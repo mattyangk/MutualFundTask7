@@ -41,6 +41,9 @@ public class CreateFundForm extends FormBean{
 		if(symbol==null||symbol.length()==0)
 			errors.add("Please type Ticker");
 		
+		if(symbol.length()<1||symbol.length()>5)
+			errors.add("Ticker shoud be 1 to 5 characters.");
+		
 		if (fundname.matches(".*[<>\"].*") ) {
 			errors.add("There should not be any angle brackets or quotes in fundname");
 		}
