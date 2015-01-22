@@ -37,7 +37,7 @@ public class Controller extends HttpServlet {
 //        Action.add(new TempTransitionDayAction(model));
         Action.add(new ChangePwdAction(model));
         Action.add(new BuyFundAction(model));
-        Action.add(new employeeViewCustomerAction(model));
+        Action.add(new EmployeeViewCustomerAction(model));
         Action.add(new ViewCustomerAccountAction(model));
         Action.add(new ViewTransactionHistoryAction(model));
         Action.add(new TransitionDayAction(model));

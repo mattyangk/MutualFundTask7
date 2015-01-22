@@ -19,7 +19,7 @@ import org.genericdao.Transaction;
 import org.mybeans.form.FormBeanException;
 import org.mybeans.form.FormBeanFactory;
 
-public class employeeViewCustomerAction  extends Action{
+public class EmployeeViewCustomerAction  extends Action{
 	
 
 	
@@ -28,7 +28,7 @@ public class employeeViewCustomerAction  extends Action{
 	PositionDAO positionDAO;
 	FundDAO fundDAO;
 	
-	public employeeViewCustomerAction(Model model){
+	public EmployeeViewCustomerAction(Model model){
 		
 		customerDAO = model.getCustomerDAO();
 		positionDAO = model.getPositionDAO(); 

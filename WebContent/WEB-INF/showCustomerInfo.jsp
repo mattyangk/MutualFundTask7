@@ -6,7 +6,7 @@
 
 
 <jsp:include page="header.jsp" />
-<jsp:include page="message.jsp" />
+
 
 
 
@@ -16,8 +16,7 @@
 	<jsp:include page="message.jsp" />
 
 
-	<c:choose>
-		<c:when test="${not empty customer}">
+	
 			<div>
 				<form method="POST" action="employeeViewCustomerAction.do">
 
@@ -32,6 +31,7 @@
 				</form>
 
 			</div>
+			
 
 			<table>
 				<tr>
@@ -72,20 +72,17 @@
 				<tr>
 				     <td>Funds</td>
 				</tr>
-				<c:choose>
-				<c:when test="${not empty fundInfo}">
-				<c:forEach var="fund" items="fundInfo">
+			    
+				<c:forEach  items="${fundInfo}" var="fund">
 				<tr>
 				    <td>${fund.fund_name}</td>
 				    <td>${fund.fund_symbol}</td>
 				    <td>${fund.shares}</td>
 				</tr>
 				</c:forEach>
-				</c:when>
-				</c:choose>
+				
 			
 			</table>
-		</c:when>
-	</c:choose>
+		
 
 </div>
