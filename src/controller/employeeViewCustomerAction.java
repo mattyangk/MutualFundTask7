@@ -48,15 +48,13 @@ public class employeeViewCustomerAction  extends Action{
 		
 		
 		try{
-		   
-			String customerName=(String)request.getAttribute("customername");
-			System.out.println(customerName);
-		
-			
+			String customerName=(String)request.getParameter("customername");
 		    CustomerBean theCustomer=customerDAO.getCustomerByUsername(customerName);
-			request.setAttribute("customer",theCustomer);
+		
 			int CustomerID=theCustomer.getCustomer_id();
 			PositionBean [] Positions=positionDAO.getPositionsByCustomerId(CustomerID);
+			
+			request.setAttribute("customer",theCustomer);
 			
 			if(Positions==null)
 			{
@@ -67,10 +65,10 @@ public class employeeViewCustomerAction  extends Action{
 			
 			else{
 				CustomerFundsInfoBean [] fundInfo=new CustomerFundsInfoBean[Positions.length];
-				FundBean theFund;
+				
 				for(int i=0;i<fundInfo.length;i++)
 				{
-					theFund=fundDAO.getFundById(Positions[i].getFund_id());
+					FundBean theFund=fundDAO.getFundById(Positions[i].getFund_id());
 					fundInfo[i].setFund_id(theFund.getFund_id());
 					fundInfo[i].setFund_name(theFund.getName());
 					fundInfo[i].setFund_symbol(theFund.getSymbol());

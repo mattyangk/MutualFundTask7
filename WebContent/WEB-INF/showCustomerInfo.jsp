@@ -35,7 +35,7 @@
 
 			<table>
 				<tr>
-					<td>User ID: ${customer.user_id}</td>
+					<td>User ID: ${customer.customer_id}</td>
 				</tr>
 				<tr>
 					<td>User Name:${customer.username }</td>
@@ -48,10 +48,10 @@
 					<td>Last Name: ${customer.lastname }</td>
 				</tr>
 				<tr>
-					<td>Address 1: ${customer.addressline1}</td>
+					<td>Address 1: ${customer.addr_line1}</td>
 				</tr>
 				<tr>
-					<td>Address 2: ${customer.addressline2 }</td>
+					<td>Address 2: ${customer.addr_line2 }</td>
 				</tr>
 				<tr>
 					<td>City:${customer.city }</td>

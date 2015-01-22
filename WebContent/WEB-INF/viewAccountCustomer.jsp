@@ -1,14 +1,9 @@
 <%@ page import="databeans.CustomerBean"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <jsp:include page="header.jsp" />
-
-<%
-	CustomerBean customer = (CustomerBean) request.getSession()
-			.getAttribute("customer");
-%>
 
 
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -16,40 +11,41 @@
 	<jsp:include page="error.jsp" />
 	<jsp:include page="message.jsp" />
 	<table class="table">
-
+	        
 			<tr>
-				<td>User ID: <%=customer.getCustomer_id()%></td>
+				<td>User ID: ${customer.customer_id}</td>
 				</tr>
 			<tr>
-				<td>User Name: <%=customer.getUsername()%></td>
+				<td>User Name: ${customer.username}</td>
 
 			</tr>
 			<tr>
-				<td>First Name: <%=customer.getFirstname()%></td>
+				<td>First Name:${customer.firstname}</td>
 				</tr>
 			<tr>
-				<td>Last Name: <%=customer.getLastname()%></td>
+				<td>Last Name: ${customer.lastname}</td>
 			</tr>
 			<tr>
-				<td>Address :</br><%=customer.getAddr_line1()%></br> <%=customer.getAddr_line2()%>
+				<td>Address :<br>${customer.address_line1}<br> ${customer.address_line2 }
 				</td>
 
 			</tr>
 			<tr>
-				<td>City:<%=customer.getCity()%></td>
+				<td>City:${customer.city}</td>
 				</tr>
 			<tr>
-				<td>State:<%=customer.getState()%></td>
+				<td>State:${customer.state}</td>
 				</tr>
 			<tr>
-				<td>Zip:<%=customer.getZip()%></td>
+				<td>Zip:${customer.zip}</td>
 			</tr>
 
 			<tr>
-				<td>Cash:<%=customer.getCash()%></td>
+				<td>Cash:${customer.cash}</td>
 				</tr>
 			<tr>
-				<td>Available Balance:<%=customer.getBalance()%></td>
+				<td>Available Balance:${customer.balance}</td>
 			</tr>
 		</table>
+		
 </div>

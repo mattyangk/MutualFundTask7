@@ -17,6 +17,7 @@ public class CustomerBean {
 	private String zip;
 	private double cash;
 	private double balance;
+	
 	public int getCustomer_id() {
 		return customer_id;
 	}
