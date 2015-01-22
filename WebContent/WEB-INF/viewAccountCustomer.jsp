@@ -26,7 +26,7 @@
 				<td>Last Name: ${customer.lastname}</td>
 			</tr>
 			<tr>
-				<td>Address :<br>${customer.address_line1}<br> ${customer.address_line2 }
+				<td>Address :<br>${customer.addr_line1}<br> ${customer.addr_line2 }
 				</td>
 
 			</tr>
