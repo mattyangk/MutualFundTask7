@@ -161,6 +161,9 @@ public class TransitionDayAction extends Action {
 						transactionDAO.update(transactions[i]);
 					} else {
 						transactions[i].setIs_success(false);
+						transactions[i].setIs_complete(true);
+						transactions[i].setExecute_date(form
+								.getTransitionDateAsDate());
 						transactionDAO.update(transactions[i]);
 						errors.add("Transaction id: "
 								+ transactions[i].getTransaction_id()
@@ -200,6 +203,8 @@ public class TransitionDayAction extends Action {
 						errors.add("Transaction id: "+ transactions[i].getTransaction_id()+ " failed ! Shares cannot be less than 0.001 shares.");
 						transactions[i].setIs_success(false);
 						transactions[i].setIs_complete(true);
+						transactions[i].setExecute_date(form
+								.getTransitionDateAsDate());
 						transactionDAO.update(transactions[i]);
 						continue;
 					}
