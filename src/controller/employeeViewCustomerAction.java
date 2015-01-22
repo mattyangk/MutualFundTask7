@@ -21,8 +21,7 @@ import org.mybeans.form.FormBeanFactory;
 
 public class employeeViewCustomerAction  extends Action{
 	
-	private FormBeanFactory<SearchCustomerForm> formBeanFactory = FormBeanFactory
-			.getInstance(SearchCustomerForm.class);
+
 	
 	
 	CustomerDAO customerDAO;
@@ -50,12 +49,9 @@ public class employeeViewCustomerAction  extends Action{
 		
 		try{
 		   
-			String customerName=request.getAttribute("customername");
-			if(customerName==null) 
-				{
-				 errors.add("Does not exists such customer");
-				 return "viewAllCustomerDetails.jsp";
-				}
+			String customerName=(String)request.getAttribute("customername");
+			System.out.println(customerName);
+		
 			
 		    CustomerBean theCustomer=customerDAO.getCustomerByUsername(customerName);
 			request.setAttribute("customer",theCustomer);
@@ -88,11 +84,8 @@ public class employeeViewCustomerAction  extends Action{
 		}catch (RollbackException e) {
 			errors.add(e.getMessage());
 			return "showCustomerInfo.jsp";
-		} catch (FormBeanException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return "showCustomerInfo.jsp";	
+		} 
+	
 	}
 
 }
