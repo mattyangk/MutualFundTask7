@@ -1,5 +1,7 @@
 package formbeans;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +48,21 @@ public class SellFundForm extends FormBean {
 		if(fundname==null||fundname.length()==0){
 			errors.add("fundname of fund is required");
 		}
+		
+		System.out.println("original : "+getShareAsDouble());
+		BigDecimal bdShares = new BigDecimal(getShareAsDouble());
+		bdShares = bdShares.setScale(3, RoundingMode.HALF_UP);
+		double roundedShares = bdShares.doubleValue();    
+		System.out.println("rounded : "+roundedShares);
+        
+        if(getShareAsDouble() < 0.001){
+			errors.add("Invalid Transaction ! Shares cannot be less than 0.001");
+		}
+		else if((getShareAsDouble()!=roundedShares) && (getShareAsDouble()-roundedShares) < 0.001){
+			errors.add("Shares can only have upto 3 places of decimal !");
+		}
+		
+		
 		return errors;
 	}
 }

@@ -1,5 +1,7 @@
 package formbeans;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +49,20 @@ public class BuyFundForm extends FormBean {
 		} else if (!amount.matches("-?\\d+(\\.\\d+)?")) {
 			errors.add("Invalid amount");
 		} 
+		
+		System.out.println("original : "+getFundAmountAsDouble());
+		BigDecimal bd = new BigDecimal(getFundAmountAsDouble());
+		bd = bd.setScale(2, RoundingMode.HALF_UP);
+		double buyAmt = bd.doubleValue();    
+		System.out.println("rounded : "+buyAmt);
+		
+		if(getFundAmountAsDouble() < 0.01){
+			errors.add("Invalid Transaction ! Amount cannot be less than $0.01");
+		}
+		else if((getFundAmountAsDouble()!=buyAmt) && (getFundAmountAsDouble()-buyAmt) < 0.01){
+			errors.add("Amount can only have upto 2 places of decimal !");
+		}		
+		
 		return errors;
 	}
 	
