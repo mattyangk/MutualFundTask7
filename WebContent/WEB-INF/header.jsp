@@ -21,10 +21,7 @@
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="js/jquery-1.11.2.min.js"></script>
 <script src="js/bootstrap.min.js"> </script>
-
-
 	
-</script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.min.js"></script>
 </head>
@@ -100,7 +97,7 @@
 					<li><a href="viewAllCustomerDetails.do"> View All Customer's Details </a></li>
 					<li><a href="depositCheck.do"> Deposit Check </a></li>
 					<li><a href="createFund.do"> Create Fund </a></li>
-					<li><a href="viewTransactionHistory.do"> Transaction History </a></li>
+					<!-- <li><a href="viewTransactionHistory.do"> Transaction History </a></li> -->
 					<li><a href="transitionDayAction.do"> Transition Day </a></li>
 					<%
 						} else {

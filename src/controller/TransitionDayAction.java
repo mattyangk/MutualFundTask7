@@ -215,7 +215,7 @@ public class TransitionDayAction extends Action {
 					if((newShares!=roundedShares) && (newShares-roundedShares) < 0.001){
 						amountDeducted = roundedShares * newFundPrice;
 						System.out.println("original amountDeducted : "+amountDeducted);
-						BigDecimal bdAmount = new BigDecimal(newShares);
+						BigDecimal bdAmount = new BigDecimal(amountDeducted);
 						bdAmount = bdAmount.setScale(2, RoundingMode.DOWN);
 						roundedAmountDeducted = bdAmount.doubleValue();    
 						System.out.println("rounded roundedAmountDeducted : "+roundedAmountDeducted);
@@ -226,7 +226,10 @@ public class TransitionDayAction extends Action {
 					transactions[i].setShares(roundedShares);
 					transactions[i].setIs_complete(true);
 					transactions[i].setIs_success(true);
+					transactions[i].setAmount(roundedAmountDeducted);
 					transactionDAO.update(transactions[i]);
+					System.out.println("Cash : "+cash);
+					System.out.println("Amount being set : "+(cash - roundedAmountDeducted));
 					customerDAO.updateCash(transactions[i].getCustomer_id(),cash - roundedAmountDeducted);
 
 					if (positionDAO.read(fundID,customerID) != null) {
