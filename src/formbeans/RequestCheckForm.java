@@ -44,7 +44,7 @@ public class RequestCheckForm extends FormBean  {
         if(getRequestAmountAsDouble() < 0.01){
 			errors.add("Invalid Transaction ! Amount cannot be less than $0.01");
 		}
-		else if((getRequestAmountAsDouble()-requestAmt) < 0.01){
+		else if((getRequestAmountAsDouble()!=requestAmt) && (getRequestAmountAsDouble()-requestAmt) < 0.01){
 			errors.add("Amount can only have upto 2 places of decimal !");
 		}
         

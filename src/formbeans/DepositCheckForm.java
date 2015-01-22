@@ -66,7 +66,7 @@ public class DepositCheckForm extends FormBean  {
 		if(getDepositAmountAsDouble() < 0.01){
 			errors.add("Invalid Transaction ! Amount cannot be less than $0.01");
 		}
-		else if((getDepositAmountAsDouble()-depositAmt) < 0.01){
+		else if((getDepositAmountAsDouble()!=depositAmt) && (getDepositAmountAsDouble()-depositAmt) < 0.01){
 			errors.add("Amount can only have upto 2 places of decimal !");
 		}
         
