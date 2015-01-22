@@ -45,14 +45,15 @@
 		chart = new google.visualization.LineChart(document
 				.getElementById('visualization'));
 		chart.draw(data, {
-			width : 800,
-			height : 300,
+			width : 900,
+			height : 400,
 			tooltipFontSize : 14,
 			max : 200,
 			pointSize : 6,
-			legend : 'bottom',
+			legend : 'right',
 			titleFontSize : 18,
-			title : 'Price History of <%= fund.getName() %>'
+			title : 'Price History of <%= fund.getName() %>',
+			is3D : true
 		});
 
 		google.visualization.events.addListener(chart, 'onmouseover',
@@ -78,20 +79,10 @@
 <% } %>
 
 
-	<div id="tfheader">
-		<form id="tfnewsearch" method="post" action="researchFund.do">
-			Research Fund : <input type="text" class="tftextinput"
-				name="fundname" size="21" maxlength="120"><input
-				type="submit" value="search" class="tfbutton">
-		</form>
-		<div class="tfclear"></div>
-	</div>
-
-
-
-
 	<div id="visualization"
-		style="margin-left: 200px; width: 300px; height: 300px;"></div>
+		style="margin-left: 50px; margin-top: 20px; width: 900px; height: 400px;"></div>
+		
+
 	
 
 </div>
