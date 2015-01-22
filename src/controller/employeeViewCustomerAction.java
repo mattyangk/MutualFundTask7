@@ -10,6 +10,8 @@ import org.genericdao.RollbackException;
 
 import model.Model;
 import model.CustomerDAO;
+import model.PositionDAO;
+import model.FundDAO;
 import formbeans.*;
 import databeans.*;
 
@@ -24,30 +26,30 @@ public class employeeViewCustomerAction  extends Action{
 	
 	
 	CustomerDAO customerDAO;
+	PositionDAO positionDAO;
+	FundDAO fundDAO;
 	
 	public employeeViewCustomerAction(Model model){
 		
 		customerDAO = model.getCustomerDAO();
+		positionDAO = model.getPositionDAO(); 
+		fundDAO = model.getFundDAO();
 		
 	}
-	
 	
 	public String getName() {
 		return "employeeViewCustomerAction.do";
 	}
-	
-	
-	
+
 	public String perform(HttpServletRequest request){
 		
 		List<String> errors = new ArrayList<String>();
+		String messages;
 		request.setAttribute("errors",errors);
 		
 		try{
 			SearchCustomerForm form=formBeanFactory.create(request);
 			request.setAttribute("form", form);
-			
-			
 			if(!form.isPresent())
 			{
 				
@@ -61,28 +63,32 @@ public class employeeViewCustomerAction  extends Action{
 		    CustomerBean theCustomer=customerDAO.getCustomerByUsername(customerName);
 			System.out.println("customer :"+theCustomer);
 			
-			if(theCustomer==null)
-			{
-				errors.add("No such Customer");
-				System.out.println("mei qudao");
+			int CustomerID=theCustomer.getCustomer_id();
+			PositionBean [] Positions=positionDAO.getPositionsByCustomerId(CustomerID);
 			
-				 return "viewAccountEmployee.jsp";
+			if(Positions==null)
+			{
+				messages="The customer does not have any fund yet";
+				request.setAttribute("message", messages);
+				return "viewAccountEmployee.jsp";
+			}
+			
+			else{
+				CustomerFundsInfoBean [] fundInfo=new CustomerFundsInfoBean[Positions.length];
+				FundBean theFund;
+				for(int i=0;i<fundInfo.length;i++)
+				{
+					theFund=fundDAO.getFundById(Positions[i].getFund_id());
+					fundInfo[i].setFund_id(theFund.getFund_id());
+					fundInfo[i].setFund_name(theFund.getName());
+					fundInfo[i].setFund_symbol(theFund.getSymbol());
+					fundInfo[i].setShares(Positions[i].getShares());
+				}
+				
+				request.setAttribute("fundInfo",fundInfo);
+				return "viewAccountEmployee.jsp";	
 				
 			}
-			
-			else
-			{
-			  System.out.println("qudao le");
-			  request.setAttribute("customer", theCustomer);
-			  return "viewAccountEmployee.jsp";
-			}
-			
-			
-			
-		
-			
-			
-			
 		}catch (RollbackException e) {
 			errors.add(e.getMessage());
 			return "viewAccountEmployee.jsp";
@@ -90,13 +96,7 @@ public class employeeViewCustomerAction  extends Action{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "viewAccountEmployee.jsp";
-		
-		
-		
-		
-		
-		
+		return "viewAccountEmployee.jsp";	
 	}
 
 }
