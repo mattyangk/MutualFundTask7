@@ -63,11 +63,9 @@ public class DepositCheck extends Action {
 				errors.add("Not valid Customer Username");
 				return "depositCheck.jsp";
 			}
-			
-			
 				
 			TransactionBean transaction = new TransactionBean();
-			
+			transaction.setCustomer_id(customer.getCustomer_id());
 			transaction.setAmount(form.getDepositAmountAsDouble());
 			transaction.setTrasaction_type("deposit");
 			transaction.setIs_complete(false);

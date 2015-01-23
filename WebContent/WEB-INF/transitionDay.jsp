@@ -58,7 +58,8 @@
 											<td>Not Available</td>
 										</c:when>
 										<c:otherwise>
-											<td>${oneFund.last_price}</td>
+											<td><fmt:formatNumber value="${oneFund.last_price}" type="number"
+								maxFractionDigits="2"  minFractionDigits="2" /></td>
 										</c:otherwise>
 									</c:choose>
 									<td><input type="text" name="price" value="" /> <input
