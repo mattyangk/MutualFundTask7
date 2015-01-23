@@ -80,7 +80,7 @@ public class RequestCheckAction extends Action{
 
 			transactionDAO.createAutoIncrement(transaction);		
 			
-			successes.add("Check has been successfully requested !");
+			successes.add("The request for the check has been accepted !");
 			
 		} catch (FormBeanException e) {
 			errors.add(e.getMessage());
