@@ -135,10 +135,8 @@ public class TransitionDayAction extends Action {
 				FundPriceHistoryBean one = new FundPriceHistoryBean();
 				double newPrice=Double.parseDouble(price[i]);
 				if(newPrice<0)
-				{
-					errors.add("Should put price above zero");
+				{	errors.add("Should put price above zero");
 					return "transitionDay.jsp";
-					
 				}
 				
 				System.out.println("original : "+newPrice);
@@ -148,12 +146,13 @@ public class TransitionDayAction extends Action {
 				System.out.println("rounded : "+newPriceRounded);
 				
 				if(newPrice < 0.01){
-					errors.add("Invalid Transaction ! Amount cannot be less than $0.01");
+					errors.add("Invalid Transaction ! Fund Price cannot be less than $0.01");
+					return "transitionDay.jsp";
 				}
 				else if((newPrice!=newPriceRounded) && (newPrice-newPriceRounded) < 0.01){
-					errors.add("Amount can only have upto 2 places of decimal !");
+					errors.add("Fund Price can only have upto 2 places of decimal !");
+					return "transitionDay.jsp";
 				}
-				
 				
 				one.setFund_id(Integer.parseInt(fund_id[i]));
 				one.setPrice(Double.parseDouble(price[i]));
