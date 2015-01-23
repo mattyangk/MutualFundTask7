@@ -27,55 +27,55 @@ public class CreateCustomerAccoutForm extends FormBean{
 		return password;
 	}
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = trimAndConvert(password, "<>\"");
 	}
 	public String getFirstname() {
 		return firstname;
 	}
 	public void setFirstname(String firstname) {
-		this.firstname = firstname;
+		this.firstname = trimAndConvert(firstname, "<>\"");
 	}
 	public String getLastname() {
 		return lastname;
 	}
 	public void setLastname(String lastname) {
-		this.lastname = lastname;
+		this.lastname = trimAndConvert(lastname, "<>\"");
 	}
     public int getCustomer_id() {
 		return customer_id;
 	}
 	public void setCustomer_id(int customer_id) {
-		this.customer_id = customer_id;
+		this.customer_id = trimAndConvert(customer_id, "<>\"");
 	}
 	public String getAddr_line1() {
 		return addr_line1;
 	}
 	public void setAddr_line1(String addr_line1) {
-		this.addr_line1 = addr_line1;
+		this.addr_line1 = trimAndConvert(addr_line1, "<>\"");
 	}
 	public String getAddr_line2() {
 		return addr_line2;
 	}
 	public void setAddr_line2(String addr_line2) {
-		this.addr_line2 = addr_line2;
+		this.addr_line2 = trimAndConvert(addr_line2, "<>\"");
 	}
 	public String getCity() {
 		return city;
 	}
 	public void setCity(String city) {
-		this.city = city;
+		this.city = trimAndConvert(city, "<>\"");
 	}
 	public String getState() {
 		return state;
 	}
 	public void setState(String state) {
-		this.state = state;
+		this.state = trimAndConvert(state, "<>\"");
 	}
 	public String getZip() {
 		return zip;
 	}
 	public void setZip(String zip) {
-		this.zip = zip;
+		this.zip =trimAndConvert(zip, "<>\"");
 	}
 
 	public List<String> getValidationErrors() {
@@ -83,6 +83,8 @@ public class CreateCustomerAccoutForm extends FormBean{
 
         if (username == null || username.trim().length() == 0) errors.add("Username is required");
         if (password == null || password.length() == 0) errors.add("Password is required");
+        
+        
 
         return errors;
     }
