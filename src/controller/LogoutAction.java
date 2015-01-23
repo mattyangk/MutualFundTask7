@@ -47,7 +47,7 @@ public class LogoutAction extends Action {
         } else {
         	errors.add("Logout without login");
         }
-        successes.add("Log out succssfully!");
+        successes.add("Logged out successfully!");
         return "index.jsp";
 	}
 

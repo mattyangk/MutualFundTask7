@@ -56,6 +56,10 @@ public class BuyFundForm extends FormBean {
 		double buyAmt = bd.doubleValue();    
 		System.out.println("rounded : "+buyAmt);
 		
+		if(getFundAmountAsDouble() > 100000000000.00){
+			errors.add("Max. Amount allowed is $100000000000.00 !");
+		}
+		
 		if(getFundAmountAsDouble() < 0.01){
 			errors.add("Invalid Transaction ! Amount cannot be less than $0.01");
 		}

@@ -55,6 +55,10 @@ public class SellFundForm extends FormBean {
 		double roundedShares = bdShares.doubleValue();    
 		System.out.println("rounded : "+roundedShares);
         
+		if(getShareAsDouble() > 100000000000.00){
+			errors.add("Max. Number allowed is 100000000000.000 !");
+		}
+		
         if(getShareAsDouble() < 0.001){
 			errors.add("Invalid Transaction ! Shares cannot be less than 0.001");
 		}
