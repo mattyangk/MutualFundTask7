@@ -78,14 +78,15 @@ public class EmployeeViewCustomerAction  extends Action{
 				}
 				
 				request.setAttribute("fundInfo",fundInfo);
-				return "showCustomerInfo.jsp";	
+					
 				
 			}
 		}catch (RollbackException e) {
 			errors.add(e.getMessage());
 			return "showCustomerInfo.jsp";
 		} 
-	
+		
+		return "showCustomerInfo.jsp";
 	}
 
 }

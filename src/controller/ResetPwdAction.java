@@ -37,7 +37,9 @@ public class ResetPwdAction extends Action{
 	public String perform(HttpServletRequest request) {
 		// Set up error list
 		List<String> errors = new ArrayList<String>();
+		List<String> successes = new ArrayList<String>();
 		request.setAttribute("errors", errors);
+		request.setAttribute("successes", successes);
 
 		try {
 			HttpSession session = request.getSession();
@@ -80,8 +82,10 @@ public class ResetPwdAction extends Action{
 			
 			customer.setPassword(firstPwd);			
 			customerDAO.update(customer);
-
-			return "manage.jsp";}
+ 
+			successes.add("Password has been reseted!");
+			
+			}
 			
 		} catch (RollbackException e) {
 			errors.add(e.toString());
@@ -90,6 +94,7 @@ public class ResetPwdAction extends Action{
 			errors.add(e.toString());
 			return "resetPwd.jsp";
 		}
+		return "manage.jsp";
 	}
 
 }

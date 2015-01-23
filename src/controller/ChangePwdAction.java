@@ -33,7 +33,9 @@ public class ChangePwdAction extends Action{
 	public String perform(HttpServletRequest request) {
 		// Set up error list
 		List<String> errors = new ArrayList<String>();
+		List<String> successes = new ArrayList<String>();
 		request.setAttribute("errors", errors);
+		request.setAttribute("successes", successes);
 
 		try {
 			HttpSession session = request.getSession();
@@ -70,8 +72,9 @@ public class ChangePwdAction extends Action{
 			
 			employee.setPassword(firstPwd);			
 			employeeDAO.update(employee);
-
-			return "manage.jsp";
+			
+			successes.add("Password has been changed!");
+			
 			
 		} catch (RollbackException e) {
 			errors.add(e.toString());
@@ -80,6 +83,8 @@ public class ChangePwdAction extends Action{
 			errors.add(e.toString());
 			return "changePwd.jsp";
 		}
+		
+		return "manage.jsp";
 	}
 
 }

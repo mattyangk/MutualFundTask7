@@ -5,7 +5,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 import model.EmployeeDAO;
+import model.CustomerDAO;
 import model.Model;
 
 import org.genericdao.RollbackException;
@@ -13,6 +15,7 @@ import org.mybeans.form.FormBeanException;
 import org.mybeans.form.FormBeanFactory;
 
 import databeans.EmployeeBean;
+import databeans.CustomerBean;
 import formbeans.CreateEmployeeAccoutForm;
 
 public class CreateEmployeeAccountAction extends Action {
@@ -21,9 +24,11 @@ public class CreateEmployeeAccountAction extends Action {
 			.getInstance(CreateEmployeeAccoutForm.class);
 
 	EmployeeDAO employeeDAO;
+	CustomerDAO customerDAO;
 	
 	public CreateEmployeeAccountAction(Model model) {
 		employeeDAO = model.getEmployeeDAO();
+		customerDAO = model.getCustomerDAO();
 	}
 
 	@Override
@@ -53,7 +58,15 @@ public class CreateEmployeeAccountAction extends Action {
 			}	
 			
 			System.out.println("In create employee create bean");
-
+			
+			String newName=form.getUsername();
+			CustomerBean isExisted=customerDAO.getCustomerByUsername(newName);
+			if(isExisted!=null)
+			{
+				errors.add("There already exists an Customer with the same username,please try another username");
+				return "createEmployeeAccount.jsp";
+			}
+			
 			
 			EmployeeBean employee = new EmployeeBean();
 			employee.setFirstname(form.getFirstname());

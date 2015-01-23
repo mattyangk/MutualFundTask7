@@ -37,21 +37,21 @@ public class ViewTransactionHistoryAction extends Action {
 		HttpSession session = request.getSession();
 		CustomerBean customer = (CustomerBean)session.getAttribute("customer");
 		TransactionBean[] allTransactions = null;
-		
+
 		try{
 			allTransactions = transactionDAO.getTransactionsByCustomerId(customer.getCustomer_id());
-			
+
 			if(allTransactions==null){
 				errors.add("No Transactions !");
 				return "viewTransactionsHistory.jsp";
 			}
 			request.setAttribute("transactionsHistory", allTransactions);
-			
+
 		}catch (RollbackException e) {
 			errors.add(e.getMessage());
 			return "manage.jsp";
 		}
-			return "viewTransactionsHistory.jsp";
-		}
-
+		return "viewTransactionsHistory.jsp";
 	}
+
+}

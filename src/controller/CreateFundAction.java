@@ -35,7 +35,9 @@ public class CreateFundAction extends Action {
 	public String perform(HttpServletRequest request) {
 		
 		List<String> errors = new ArrayList<String>();
+		List<String> successes = new ArrayList<String>();
 		request.setAttribute("errors", errors);
+		request.setAttribute("successes", successes);
 		
 		try {
 			CreateFundForm form = formBeanFactory.create(request);
@@ -56,14 +58,14 @@ public class CreateFundAction extends Action {
 			fund.setSymbol(form.getSymbol());
 			
 			funDAO.createAutoIncrement(fund);
-			
+			successes.add("New fund has been created!");
 			
 		} catch (FormBeanException e) {
 			errors.add(e.getMessage());
-			return "createFund.do";
+			return "createFund.jsp";
 		} catch (RollbackException e) {
 			errors.add(e.getMessage());
-			return "createFund.do";
+			return "createFund.jsp";
 		}
 		
 		

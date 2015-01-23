@@ -37,7 +37,7 @@ public class ViewAllCustomerDetailsAction extends Action {
 
 			customers = customerDAO.getAllCustomers();
 			request.setAttribute("customersList", customers);
-			
+
 			if(customers==null){
 				return "manage.jsp";
 			}
@@ -46,7 +46,7 @@ public class ViewAllCustomerDetailsAction extends Action {
 			errors.add(e.getMessage());
 			return "manage.jsp";
 		}
-			return "viewAllCustomerDetails.jsp";
-		}
-
+		return "viewAllCustomerDetails.jsp";
 	}
+
+}

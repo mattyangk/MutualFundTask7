@@ -5,10 +5,10 @@
 <%
 	PositionAndFundBean[] funds = (PositionAndFundBean[]) request.getAttribute("positionAndFunds");
 %>
-
+<jsp:include page="header.jsp" />
 <script src="js/validate.js"></script>
 
-<jsp:include page="header.jsp" />
+
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 	<h1 class="page-header">Sell Fund</h1>
 	<jsp:include page="error.jsp" />
@@ -60,6 +60,8 @@
 	
 
 	</script>
+	
+	<p class ="shareInputFeedback" style="color : red"></p>
 	<form method="POST" action="sellFund.do">
 		<table class="table">
 			<tr>
@@ -84,9 +86,15 @@
 				<td id="symbol"></td>
 				<td id="shares"></td>
 				<td id="ashares"></td>
-				<td><input type="text" name="share" class="form-control" value="" /> <div class ="shareInputFeedback"></div></td>
-				<tr><td colspan="2" align="center"><input type="submit"
-					name="button" class="btn btn-success" value="Sell Shares" /></td></tr>
+				<td align="left"><input type="text" name="share" class="form-control" value="" style="width:100px"/> </td>
+			</tr>
+			<tr><td colspan="2" align="left"><input type="submit"
+					name="button" class="btn btn-success" value="Sell Shares" /></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>		
+			</tr>
 
 	
 

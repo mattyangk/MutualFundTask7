@@ -80,11 +80,11 @@ public class ResearchFundAction extends Action {
 			
 					
 		} catch (FormBeanException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			errors.add(e.getMessage());
+			return "researchFund.jsp";
 		} catch (RollbackException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			errors.add(e.getMessage());
+			return "researchFund.jsp";
 		}
 		
 		return "researchFund.jsp";

@@ -58,7 +58,7 @@ public class DepositCheck extends Action {
 				return "depositCheck.jsp";
 			}	
 
-			CustomerBean customer = customerDAO.read(form.getCustomerIdAsInt());
+			CustomerBean customer = customerDAO.getCustomerByUsername(form.getUsername());
 			if(customer==null){
 				errors.add("Not valid Customer Id");
 				return "depositCheck.jsp";
@@ -70,7 +70,7 @@ public class DepositCheck extends Action {
 			}
 				
 			TransactionBean transaction = new TransactionBean();
-			transaction.setCustomer_id(form.getCustomerIdAsInt());
+			
 			transaction.setAmount(form.getDepositAmountAsDouble());
 			transaction.setTrasaction_type("deposit");
 			transaction.setIs_complete(false);

@@ -48,7 +48,9 @@ public class SellFundAction extends Action {
 	public String perform(HttpServletRequest request) {
 
 		List<String> errors = new ArrayList<String>();
+		List<String> successes = new ArrayList<String>();
 		request.setAttribute("errors", errors);
+		request.setAttribute("successes", successes);
 
 		try {
 			SellFundForm form = formBeanFactory.create(request);
@@ -111,6 +113,7 @@ public class SellFundAction extends Action {
 			transaction.setTrasaction_type("sell");
 			
 			transactionDAO.createAutoIncrement(transaction);
+			successes.add("Fund is successfully sold!");
 
 
 		} catch (FormBeanException e) {
