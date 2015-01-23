@@ -64,7 +64,8 @@
 							</c:choose>
 							<td>--</td>
 							<td>${transaction.trasaction_type}</td>
-							<td>${transaction.amount}</td>
+							<td><fmt:formatNumber value="${transaction.amount}" type="number"
+								maxFractionDigits="2" /></td>
 							<c:if test="${transaction.is_success}">
 								<td>Completed</td>
 							</c:if>
@@ -91,11 +92,13 @@
 									<td>(pending)</td>
 								</c:when>
 								<c:otherwise>
-									<td>${transaction.shares}</td>
+									<td><fmt:formatNumber value="${transaction.shares}" type="number"
+								maxFractionDigits="3" /></td>
 								</c:otherwise>
 							</c:choose>
 							<td>${transaction.trasaction_type}</td>
-							<td>${transaction.amount}</td>
+							<td><fmt:formatNumber value="${transaction.amount}" type="number"
+								maxFractionDigits="2" /></td>
 							<c:if test="${transaction.is_success}">
 								<td>Completed</td>
 							</c:if>

@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <jsp:include page="header.jsp" />
 
@@ -39,7 +40,8 @@
 				<tr>
 					<td><a href="researchFund.do?fundname=${fund.name}">${fund.name}</a></td>
 					<td>${fund.symbol}</td>
-					<td>${fund.price}</td>
+					<td><fmt:formatNumber value="${fund.price}" type="number"
+								maxFractionDigits="2" /></td>
 				</tr>
 			</c:forEach>
 
