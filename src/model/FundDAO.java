@@ -26,8 +26,10 @@ public class FundDAO extends GenericDAO<FundBean> {
 	
 	public FundBean getFundByName(String fundname) throws RollbackException {
 		FundBean[] funds = match(MatchArg.equals("name", fundname));
+		System.out.println("length: " + funds.length);
 		if (funds.length != 1) {
 			System.out.println("not such fund");
+			return null;
 		}
 		return funds[0];
 	}
