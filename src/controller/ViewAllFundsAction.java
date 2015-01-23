@@ -44,18 +44,24 @@ public class ViewAllFundsAction extends Action {
 			Date latestDay = fundPriceHistoryDAO.findLatestDate();
 			for (int i = 0; i < funds.length; i++) {
 				FundPriceDetailBean fundPrice = new FundPriceDetailBean();
-				FundPriceHistoryBean priceHistory = fundPriceHistoryDAO.read(funds[i].getFund_id(), latestDay);
 				fundPrice.setFund_id(funds[i].getFund_id());
 				fundPrice.setName(funds[i].getName());
 				fundPrice.setSymbol(funds[i].getSymbol());
-				// the fund is just created and no latest price
-				if (priceHistory == null) {
+				if(latestDay != null) {
+					FundPriceHistoryBean priceHistory = fundPriceHistoryDAO.read(funds[i].getFund_id(), latestDay);
+					// the fund is just created and no latest price
+					if (priceHistory == null) {
+						fundPrice.setPrice_date(null);
+						fundPrice.setPrice(0);
+					} else {
+						fundPrice.setPrice_date(latestDay);
+						fundPrice.setPrice(priceHistory.getPrice());
+					}
+				} else {
 					fundPrice.setPrice_date(null);
 					fundPrice.setPrice(0);
-				} else {
-					fundPrice.setPrice_date(latestDay);
-					fundPrice.setPrice(priceHistory.getPrice());
 				}
+				
 				fundPriceDetails[i] = fundPrice;
 			}
 			
