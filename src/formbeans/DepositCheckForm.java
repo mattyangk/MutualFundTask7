@@ -48,6 +48,10 @@ public class DepositCheckForm extends FormBean  {
 		double depositAmt = bd.doubleValue();    
 		System.out.println("rounded : "+depositAmt);
 		
+		if(getDepositAmountAsDouble() > 100000000000.00){
+			errors.add("Max. Amount allowed is $100000000000.00 !");
+		}
+		
 		if(getDepositAmountAsDouble() < 0.01){
 			errors.add("Invalid Transaction ! Amount cannot be less than $0.01");
 		}

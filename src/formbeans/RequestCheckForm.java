@@ -41,7 +41,11 @@ public class RequestCheckForm extends FormBean  {
 		double requestAmt = bd.doubleValue();    
 		System.out.println("rounded : "+requestAmt);
         
-        if(getRequestAmountAsDouble() < 0.01){
+		if(getRequestAmountAsDouble() > 100000000000.00){
+			errors.add("Max. Amount allowed is $100000000000.00 !");
+		}
+		
+		if(getRequestAmountAsDouble() < 0.01){
 			errors.add("Invalid Transaction ! Amount cannot be less than $0.01");
 		}
 		else if((getRequestAmountAsDouble()!=requestAmt) && (getRequestAmountAsDouble()-requestAmt) < 0.01){
