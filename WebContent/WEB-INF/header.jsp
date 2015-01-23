@@ -35,6 +35,14 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
+			<%
+				if (customer != null || employee != null) {
+					String name = customer != null? customer.getUsername() : employee.getUsername();
+			%>
+			<a class="navbar-brand" href="#"><%=name%></a>
+			<% 
+				}
+			%>
 		</div>
 		<div class="navbar-collapse collapse">
 			<%
