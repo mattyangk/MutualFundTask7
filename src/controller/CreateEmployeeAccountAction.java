@@ -73,7 +73,7 @@ public class CreateEmployeeAccountAction extends Action {
 			if(isExistedEmployee!=null)
 			{
 				errors.add("There already exists an employee with the same username,please try another username");
-				return "createCustomerAccount.jsp";
+				return "createEmployeeAccount.jsp";
 			}
 			
 			
