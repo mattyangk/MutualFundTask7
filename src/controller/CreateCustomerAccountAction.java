@@ -22,12 +22,12 @@ public class CreateCustomerAccountAction extends Action {
 	private FormBeanFactory<CreateCustomerAccoutForm> formBeanFactory = FormBeanFactory
 			.getInstance(CreateCustomerAccoutForm.class);
 
-	CustomerDAO customDao;
-	EmployeeDAO employeeDao;
+	CustomerDAO customDAO;
+	EmployeeDAO employeeDAO;
 	
 	public CreateCustomerAccountAction(Model model) {
-		customDao = model.getCustomerDAO();
-		employeeDao=model.getEmployeeDAO();
+		customDAO = model.getCustomerDAO();
+		employeeDAO=model.getEmployeeDAO();
 	}
 
 	@Override
@@ -59,13 +59,17 @@ public class CreateCustomerAccountAction extends Action {
 			}	
 			
 			String newName=form.getUsername();
-			EmployeeBean isExisted=employeeDao.getEmployeeByUsername(newName);
+			EmployeeBean isExisted=employeeDAO.getEmployeeByUsername(newName);
 			if(isExisted!=null)
 			{
 				errors.add("There already exists an employee with the same username,please try another username");
 				return "createCustomerAccount.jsp";
 			}
-			
+			CustomerBean isExistedCustomer = customDAO.getCustomerByUsername(form.getUsername());
+			if (isExistedCustomer != null) {
+				errors.add("There already exists an customer with the same username,please try another username");
+				return "createCustomerAccount.jsp";
+			}
 			
 			CustomerBean customer = new CustomerBean();
 			customer.setUsername(form.getUsername());
@@ -80,7 +84,7 @@ public class CreateCustomerAccountAction extends Action {
 			
 			System.out.println(form.getUsername());
 			
-			customDao.createAutoIncrement(customer);
+			customDAO.createAutoIncrement(customer);
 			successes.add("New customer account has been created!");
 		
 

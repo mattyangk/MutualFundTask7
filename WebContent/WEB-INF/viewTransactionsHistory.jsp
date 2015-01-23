@@ -17,20 +17,27 @@
 
 		});
 	});
-	
-    function shareSorter(a, b) {
-		if (a == '--') return 1;
-		if (b == '--') return -1;
-        if (a > b) return 1;
-        if (a < b) return -1;
-        return 0;
-    }
+
+	function shareSorter(a, b) {
+		if (a == '--')
+			return 1;
+		if (b == '--')
+			return -1;
+		if (a > b)
+			return 1;
+		if (a < b)
+			return -1;
+		return 0;
+	}
 </script>
 
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 	<h1 class="page-header">View Transaction History</h1>
 	<jsp:include page="error.jsp" />
 	<jsp:include page="message.jsp" />
+	
+	<p class="amountInputFeedback" style="color: red"></p>
+
 	<table data-height="600" data-sort-name="name" data-sort-order="desc"
 		data-search="true" data-pagination="true">
 
@@ -38,8 +45,9 @@
 			<tr>
 				<th data-align="center" data-sortable="true">Transaction ID</th>
 				<th data-align="center" data-sortable="true">Execute Date</th>
-				<th data-align="center" data-sortable="true" data-sorter="shareSorter">Shares</th>
-				<th data-align="center" data-sortable="true">Transaction Type</th>				
+				<th data-align="center" data-sortable="true"
+					data-sorter="shareSorter">Shares</th>
+				<th data-align="center" data-sortable="true">Transaction Type</th>
 				<th data-align="center" data-sortable="true">Amount</th>
 				<th data-align="center" data-sortable="true">Status</th>
 			</tr>
@@ -59,13 +67,14 @@
 									<td>(pending)</td>
 								</c:when>
 								<c:otherwise>
-									<td><fmt:formatDate pattern="yyyy-MM-dd" value="${transaction.execute_date}" /></td>
+									<td><fmt:formatDate pattern="yyyy-MM-dd"
+											value="${transaction.execute_date}" /></td>
 								</c:otherwise>
 							</c:choose>
 							<td>--</td>
 							<td>${transaction.trasaction_type}</td>
-							<td><fmt:formatNumber value="${transaction.amount}" type="number"
-								maxFractionDigits="2" /></td>
+							<td><fmt:formatNumber value="${transaction.amount}"
+									type="number" maxFractionDigits="2" /></td>
 							<c:if test="${transaction.is_success}">
 								<td>Completed</td>
 							</c:if>
@@ -84,7 +93,8 @@
 									<td>(pending)</td>
 								</c:when>
 								<c:otherwise>
-									<td><fmt:formatDate pattern="yyyy-MM-dd" value="${transaction.execute_date}" /></td>
+									<td><fmt:formatDate pattern="yyyy-MM-dd"
+											value="${transaction.execute_date}" /></td>
 								</c:otherwise>
 							</c:choose>
 							<c:choose>
@@ -92,13 +102,13 @@
 									<td>(pending)</td>
 								</c:when>
 								<c:otherwise>
-									<td><fmt:formatNumber value="${transaction.shares}" type="number"
-								maxFractionDigits="3" minFractionDigits="3"/></td>
+									<td><fmt:formatNumber value="${transaction.shares}"
+											type="number" maxFractionDigits="3" minFractionDigits="3" /></td>
 								</c:otherwise>
 							</c:choose>
 							<td>${transaction.trasaction_type}</td>
-							<td><fmt:formatNumber value="${transaction.amount}" type="number"
-								maxFractionDigits="2"  minFractionDigits="2" /></td>
+							<td><fmt:formatNumber value="${transaction.amount}"
+									type="number" maxFractionDigits="2" minFractionDigits="2" /></td>
 							<c:if test="${transaction.is_success}">
 								<td>Completed</td>
 							</c:if>
