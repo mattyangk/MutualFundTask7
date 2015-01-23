@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <jsp:include page="header.jsp" />
 
@@ -41,10 +42,12 @@
 			</tr>
 
 			<tr>
-				<td>Cash:${customer.cash}</td>
+				<td>Cash:<fmt:formatNumber value="${customer.cash}"
+					type="currency" /></td>
 				</tr>
 			<tr>
-				<td>Available Balance:${customer.balance}</td>
+				<td>Available Balance:<fmt:formatNumber value="${customer.balance}"
+					type="currency" /></td>
 			</tr>
 		</table>
 		
