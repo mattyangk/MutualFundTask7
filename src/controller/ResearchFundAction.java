@@ -13,7 +13,6 @@ import databeans.FundBean;
 import databeans.FundPriceDetailBean;
 import databeans.FundPriceHistoryBean;
 import formbeans.ResearchFundForm;
-import formbeans.SellFundForm;
 import model.FundDAO;
 import model.FundPriceHistoryDAO;
 import model.Model;

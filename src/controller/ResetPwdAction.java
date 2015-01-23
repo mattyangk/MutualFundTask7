@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import model.CustomerDAO;
-import model.EmployeeDAO;
 import model.Model;
 
 import org.genericdao.RollbackException;
@@ -23,11 +22,9 @@ public class ResetPwdAction extends Action{
 			.getInstance(ResetPwdForm.class);
 
 	private CustomerDAO customerDAO;
-	private EmployeeDAO employeeDAO;
 
 	public ResetPwdAction(Model model) {
 		customerDAO = model.getCustomerDAO();
-		employeeDAO= model.getEmployeeDAO();
 	}
 
 	public String getName() {

@@ -34,7 +34,6 @@ public class Controller extends HttpServlet {
         Action.add(new RequestCheckAction(model));
         Action.add(new DepositCheck(model));
         Action.add(new CreateFundAction(model));
-//        Action.add(new TempTransitionDayAction(model));
         Action.add(new ChangePwdAction(model));
         Action.add(new BuyFundAction(model));
         Action.add(new EmployeeViewCustomerAction(model));
@@ -108,11 +107,6 @@ public class Controller extends HttpServlet {
 	   		RequestDispatcher d = request.getRequestDispatcher("WEB-INF/" + nextPage);
 	   		d.forward(request,response);
 	   		return;
-    	}
-    	
-    	if(nextPage.startsWith("http")){
-    		response.sendRedirect(nextPage);
-    		return;
     	}
     	
     	throw new ServletException(Controller.class.getName()+".sendToNextPage(\"" + nextPage + "\"): invalid extension.");

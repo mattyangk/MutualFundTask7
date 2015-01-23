@@ -369,8 +369,6 @@ public class TransitionDayAction extends Action {
 			} // end for loop;
 			
 			successes.add("Transition Day was Successful !");
-			
-			return "manage.jsp";
 
 		} catch (RollbackException e) {
 			errors.add(e.getMessage());
@@ -388,5 +386,7 @@ public class TransitionDayAction extends Action {
 			if (Transaction.isActive())
 				Transaction.rollback();
 		}
+		
+		return "manage.jsp";
 	}
 }

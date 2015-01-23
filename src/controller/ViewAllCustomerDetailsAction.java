@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.genericdao.RollbackException;
 
@@ -30,7 +29,6 @@ public class ViewAllCustomerDetailsAction extends Action {
 		List<String> errors = new ArrayList<String>();
 		request.setAttribute("errors",errors);
 
-		HttpSession session = request.getSession();
 		CustomerBean[] customers;
 
 		try{
