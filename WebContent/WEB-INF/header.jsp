@@ -39,7 +39,7 @@
 				if (customer != null || employee != null) {
 					String name = customer != null? customer.getUsername() : employee.getUsername();
 			%>
-			<a class="navbar-brand" href="#"><%=name%></a>
+			<a class="navbar-brand" href="#" style="color: white">Hello <%=name%></a>
 			<% 
 				}
 			%>
