@@ -93,12 +93,12 @@
 								</c:when>
 								<c:otherwise>
 									<td><fmt:formatNumber value="${transaction.shares}" type="number"
-								maxFractionDigits="3" /></td>
+								maxFractionDigits="3" minFractionDigits="3"/></td>
 								</c:otherwise>
 							</c:choose>
 							<td>${transaction.trasaction_type}</td>
 							<td><fmt:formatNumber value="${transaction.amount}" type="number"
-								maxFractionDigits="2" /></td>
+								maxFractionDigits="2"  minFractionDigits="2" /></td>
 							<c:if test="${transaction.is_success}">
 								<td>Completed</td>
 							</c:if>

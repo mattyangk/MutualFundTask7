@@ -113,7 +113,7 @@ public class SellFundAction extends Action {
 			transaction.setTrasaction_type("sell");
 			
 			transactionDAO.createAutoIncrement(transaction);
-			successes.add("Fund is successfully sold!");
+			successes.add("Your transaction is in process !");
 
 
 		} catch (FormBeanException e) {

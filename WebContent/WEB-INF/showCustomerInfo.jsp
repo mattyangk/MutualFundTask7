@@ -115,7 +115,7 @@
 						<td>${fund.fund_symbol}</td>
 
 						<td><fmt:formatNumber value="${fund.shares}" type="number"
-								maxFractionDigits="3" /></td>
+								maxFractionDigits="3" minFractionDigits="3"/></td>
 
 					</tr>
 

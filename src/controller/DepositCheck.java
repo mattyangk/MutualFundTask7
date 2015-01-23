@@ -73,7 +73,7 @@ public class DepositCheck extends Action {
 			
 			transactionDAO.createAutoIncrement(transaction);
 			
-			successes.add("Check has been successfully deposited !");
+			successes.add("The request for the deposit has been accepted !");
 
 		} catch (FormBeanException e) {
 			errors.add(e.getMessage());

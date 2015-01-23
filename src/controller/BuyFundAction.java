@@ -95,7 +95,7 @@ public class BuyFundAction extends Action {
 
 			transactionDAO.createAutoIncrement(transaction);
 			
-			successes.add("The fund is succeesfully bought!");
+			successes.add("Your transaction is in process !");
 			
 		} catch (RollbackException e) {
 			errors.add(e.getMessage());
