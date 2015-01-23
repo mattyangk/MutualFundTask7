@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <jsp:include page="header.jsp" />
 
@@ -39,7 +40,8 @@
 				<tr>
 					<td><a href="showCustomerInfo.do?customername=${customer.username}">${customer.username}</a></td>
 					<td>${customer.firstname} ${customer.lastname}</td>
-					<td>${customer.cash}</td>
+					<td><fmt:formatNumber value="${customer.cash}"
+					type="currency" /></td>
 				</tr>
 			</c:forEach>
 
