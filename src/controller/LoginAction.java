@@ -84,29 +84,31 @@ public class LoginAction extends Action {
 					.getUsername());
 
 			if (customer == null && employee == null) {
-				errors.add("User Name not found");
+				errors.add("User Name or password is not correct");
 				return "index.jsp";
 			}
 
 			// Check the password
 			if (customer != null) {
 				if (customer.getPassword().equals(form.getPassword())) {
-					System.out.println("adding customer to session" + customer.getUsername());
+					//System.out.println("adding customer to session" + customer.getUsername());
 					session.setAttribute("customer", customer);
 					return "manage.jsp";
+				} else {
+					errors.add("User Name or password is not correct");
 				}
 			}
 
 			else if (employee != null) {
 
 				if (employee.getPassword().equals(form.getPassword())) {
-					System.out.println("adding employee to session" + employee.getUsername());
+					//System.out.println("adding employee to session" + employee.getUsername());
 					session.setAttribute("employee", employee);
 					return "manage.jsp";
 				} 
 			}
 			else {
-				errors.add("Incorrect password");
+				errors.add("User Name or password is not correct");
 				// System.out.println("Incorrect password");
 				return "index.jsp";
 			}
