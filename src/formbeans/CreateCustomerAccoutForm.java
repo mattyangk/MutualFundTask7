@@ -45,7 +45,7 @@ public class CreateCustomerAccoutForm extends FormBean{
 		return customer_id;
 	}
 	public void setCustomer_id(int customer_id) {
-		this.customer_id = trimAndConvert(customer_id, "<>\"");
+		this.customer_id = customer_id;
 	}
 	public String getAddr_line1() {
 		return addr_line1;
