@@ -11,29 +11,15 @@
 
 
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-	<h1 class="page-header">Employee View Customer Account Information</h1>
+	<h1 class="page-header">View Customer Account Information</h1>
 	<jsp:include page="error.jsp" />
 	<jsp:include page="message.jsp" />
 
 
 	
-			<div>
-				<form method="POST" action="employeeViewCustomerAction.do">
-
-					<table>
-						<tr>
-							<td>Customer Name :</td>
-							<td><input type="text" name="customerName" size="21"
-								maxlength="120" value="" /></td>
-							<td><input type="submit" name="submit" value="Submit"></td>
-						</tr>
-					</table>
-				</form>
-
-			</div>
 			
 
-			<table>
+			<table class="table">
 				<tr>
 					<td>User ID: ${customer.customer_id}</td>
 				</tr>
@@ -70,10 +56,15 @@
 					<td>Available Balance:${customer.balance}</td>
 				</tr>
 				<tr>
-				     <td>Funds</td>
+				     <td>Fund List</td>
 				</tr>
-			    
-				<c:forEach  items="${fundInfo}" var="fund">
+				<tr>
+				<td>Fund Name</td>
+				<td>Ticker</td>
+				<td>Shares</td>
+				<tr>
+				
+			    <c:forEach  items="${fundInfo}" var="fund">
 				<tr>
 				    <td>${fund.fund_name}</td>
 				    <td>${fund.fund_symbol}</td>
@@ -81,8 +72,9 @@
 				</tr>
 				</c:forEach>
 				
-			
+			<tr><td>${message}</td></tr>
 			</table>
+			
 		
 
 </div>
