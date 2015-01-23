@@ -69,6 +69,13 @@ public class CreateEmployeeAccountAction extends Action {
 				return "createEmployeeAccount.jsp";
 			}
 			
+			EmployeeBean isExistedEmployee =employeeDAO.getEmployeeByUsername(newName);
+			if(isExistedEmployee!=null)
+			{
+				errors.add("There already exists an employee with the same username,please try another username");
+				return "createCustomerAccount.jsp";
+			}
+			
 			
 			EmployeeBean employee = new EmployeeBean();
 			employee.setFirstname(form.getFirstname());

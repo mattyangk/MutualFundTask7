@@ -53,6 +53,12 @@ public class CreateFundAction extends Action {
 				return "createFund.jsp";
 			}
 			
+			FundBean isExistedFund = funDAO.getFundByName(form.getFundname());
+			if (isExistedFund != null) {
+				errors.add("There already exists a fund with the same username,please try another fund name");
+				return "createFund.jsp";
+			}
+			
 			FundBean fund = new FundBean();
 			fund.setName(form.getFundname());
 			fund.setSymbol(form.getSymbol());
