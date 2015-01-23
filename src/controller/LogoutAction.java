@@ -30,8 +30,10 @@ public class LogoutAction extends Action {
 
 	@Override
 	public String perform(HttpServletRequest request) {
-        List<String> errors = new ArrayList<String>();
-        request.setAttribute("errors",errors);
+		List<String> errors = new ArrayList<String>();
+		List<String> successes = new ArrayList<String>();
+		request.setAttribute("errors", errors);
+		request.setAttribute("successes", successes);
         
         HttpSession session = request.getSession();
         CustomerBean customer = (CustomerBean)session.getAttribute("customer");
@@ -45,7 +47,8 @@ public class LogoutAction extends Action {
         } else {
         	errors.add("Logout without login");
         }
-        return "index.do";
+        successes.add("Log out succssfully!");
+        return "index.jsp";
 	}
 
 }

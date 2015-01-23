@@ -34,7 +34,10 @@ public class CreateEmployeeAccountAction extends Action {
 	@Override
 	public String perform(HttpServletRequest request) {
 		List<String> errors = new ArrayList<String>();
+		List<String> successes = new ArrayList<String>();
 		request.setAttribute("errors", errors);
+		request.setAttribute("successes", successes);
+		
 		try {
 
 			CreateEmployeeAccoutForm form = formBeanFactory.create(request);
@@ -64,7 +67,7 @@ public class CreateEmployeeAccountAction extends Action {
 			System.out.println(form.getUsername());
 			
 			employeeDAO.createAutoIncrement(employee);
-		
+			successes.add("New employee account has been created!");
 
 		} catch (FormBeanException e) {
 			errors.add(e.getMessage());

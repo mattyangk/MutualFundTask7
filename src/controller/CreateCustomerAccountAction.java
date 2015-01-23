@@ -34,7 +34,10 @@ public class CreateCustomerAccountAction extends Action {
 	@Override
 	public String perform(HttpServletRequest request) {
 		List<String> errors = new ArrayList<String>();
+		List<String> successes = new ArrayList<String>();
 		request.setAttribute("errors", errors);
+		request.setAttribute("successes", successes);
+		
 		try {
 
 			CreateCustomerAccoutForm form = formBeanFactory.create(request);
@@ -67,14 +70,14 @@ public class CreateCustomerAccountAction extends Action {
 			System.out.println(form.getUsername());
 			
 			customDao.createAutoIncrement(customer);
-		
+		    successes.add("New customer account has been created!");
 
 		} catch (FormBeanException e) {
 			errors.add(e.getMessage());
 		} catch (RollbackException e) {
 			errors.add(e.getMessage());
 		}
-
+        
 		return "manage.jsp";
 		
 	}

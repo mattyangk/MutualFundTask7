@@ -41,7 +41,9 @@ public class BuyFundAction extends Action {
 
 	public String perform(HttpServletRequest request) {
 		List<String> errors = new ArrayList<String>();
+		List<String> successes = new ArrayList<String>();
 		request.setAttribute("errors", errors);
+		request.setAttribute("successes", successes);
 
 		try {
 			FundBean[] funds = fundDAO.getAllFunds();
@@ -92,9 +94,9 @@ public class BuyFundAction extends Action {
 			transaction.setTrasaction_type("buy");
 
 			transactionDAO.createAutoIncrement(transaction);
-
-			return "manage.jsp";
-
+			
+			successes.add("The fund is succeesfully bought!");
+			
 		} catch (RollbackException e) {
 			errors.add(e.getMessage());
 			return "buyFund.jsp";
@@ -105,5 +107,7 @@ public class BuyFundAction extends Action {
 			errors.add(e.getMessage());
 			return "buyFund.jsp";
 		}
+		
+		return "manage.jsp";
 	}
 }
