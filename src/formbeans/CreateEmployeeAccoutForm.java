@@ -20,19 +20,19 @@ public class CreateEmployeeAccoutForm extends FormBean{
 		return password;
 	}
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = trimAndConvert(password, "<>\"");
 	}
 	public String getFirstname() {
 		return firstname;
 	}
 	public void setFirstname(String firstname) {
-		this.firstname = firstname;
+		this.firstname = trimAndConvert(firstname, "<>\"");
 	}
 	public String getLastname() {
 		return lastname;
 	}
 	public void setLastname(String lastname) {
-		this.lastname = lastname;
+		this.lastname = trimAndConvert(lastname, "<>\"");
 	}
 	
     public List<String> getValidationErrors() {

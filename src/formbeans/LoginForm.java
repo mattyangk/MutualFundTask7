@@ -21,7 +21,7 @@ public class LoginForm extends FormBean  {
     public String getPassword()   { return password; }
     
 	public void setUsername(String s) { username = trimAndConvert(s,"<>\"");  }
-	public void setPassword(String s) {	password = s.trim();                  }
+	public void setPassword(String s) {	password = trimAndConvert(s, "<>\"");                }
 
     public List<String> getValidationErrors() {
         List<String> errors = new ArrayList<String>();

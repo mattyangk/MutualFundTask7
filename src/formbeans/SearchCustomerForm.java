@@ -11,7 +11,7 @@ public class SearchCustomerForm extends FormBean{
 	}
 
 	public void setCustomerName(String nm) {
-		customerName = nm;
+		customerName = trimAndConvert(nm, "<>\"");
 	}
 	
 	

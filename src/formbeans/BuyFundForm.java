@@ -26,7 +26,7 @@ public class BuyFundForm extends FormBean {
 	}
 
 	public void setAmount(String amount) {
-		this.amount = trimAndConvert(amount, "<>\"");
+		this.amount = amount.trim();
 	}
 	
 	
