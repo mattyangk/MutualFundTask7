@@ -18,7 +18,18 @@
 		});
 	});
 	
+	function amountSorter(a, b) {
+		a = a.replace(",", "");
+    	b = b.replace(",", "");
+        if (a > b) return 1;
+        if (a < b) return -1;
+        return 0;
+		
+	}
+	
     function shareSorter(a, b) {
+    	a = a.replace(",", "");
+    	b = b.replace(",", "");
 		if (a == '--') return 1;
 		if (b == '--') return -1;
         if (a > b) return 1;
@@ -40,7 +51,7 @@
 				<th data-align="center" data-sortable="true">Execute Date</th>
 				<th data-align="center" data-sortable="true" data-sorter="shareSorter">Shares</th>
 				<th data-align="center" data-sortable="true">Transaction Type</th>				
-				<th data-align="center" data-sortable="true">Amount</th>
+				<th data-align="center" data-sortable="true" data-sorter="amountSorter">Amount</th>
 				<th data-align="center" data-sortable="true">Status</th>
 			</tr>
 
