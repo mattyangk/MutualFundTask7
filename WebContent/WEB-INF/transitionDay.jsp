@@ -16,7 +16,14 @@
 
 					<tr>
 						<td>Last Trading Day:</td>
-						<td>${theLastDate}</td>
+						<c:choose>
+							<c:when test="${empty theLastDate}">
+								<td>No Last Trading Date</td>
+							</c:when>
+							<c:otherwise>
+								<td>${theLastDate}</td>
+							</c:otherwise>
+						</c:choose>
 					</tr>
 
 					<tr>
@@ -29,11 +36,11 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th >FundName</th>
-							<th >Ticker</th>
-							<th> Last trading date</th>
-							<th> Last trading price</th>
-							<th> New Closing Price</th>
+							<th>FundName</th>
+							<th>Ticker</th>
+							<th>Last trading date</th>
+							<th>Last trading price</th>
+							<th>New Closing Price</th>
 							
 						</tr>
 					</thead>
@@ -46,8 +53,14 @@
 									<td>${oneFund.fund_name}</td>
 									<td>${oneFund.fund_symbol}</td>
 									<td>${oneFund.last_date}</td>
-									<td>${oneFund.last_price}</td>
-
+									<c:choose>
+										<c:when test="${oneFund.last_price == -1.0}">
+											<td>Not Available</td>
+										</c:when>
+										<c:otherwise>
+											<td>${oneFund.last_price}</td>
+										</c:otherwise>
+									</c:choose>
 									<td><input type="text" name="price" value="" /> <input
 										type="hidden" name="fund_id" value="${oneFund.fund_id}" /></td>
 								</tr>

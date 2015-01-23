@@ -45,7 +45,9 @@ public class TransitionDayAction extends Action {
 
 	public synchronized String perform(HttpServletRequest request) {
 		List<String> errors = new ArrayList<String>();
+		List<String> successes = new ArrayList<String>();
 		request.setAttribute("errors", errors);
+		request.setAttribute("successes", successes);
 		
 		try {
 			TransitionForm form = formBeanFactory.create(request);
@@ -68,8 +70,11 @@ public class TransitionDayAction extends Action {
 					"yyyy-MM-dd");
 			
 			Date latestDate = fundpriceHistoryDAO.findLatestDate();
-		    String theDate=dateFormat.format(latestDate);
-			
+			String theDate = null;
+		    if(latestDate != null){
+		    	theDate = dateFormat.format(latestDate);
+				
+		    }
 			request.setAttribute("theLastDate", theDate);
 
 			for (int i = 0; i < funds.length; i++) {
@@ -119,6 +124,14 @@ public class TransitionDayAction extends Action {
 					return "transitionDay.jsp";
 				}
 				
+				try {
+					Double.parseDouble(price[i]);
+				} catch (NumberFormatException e) {
+					// call getValidationErrors() to detect this
+					errors.add("Provide valid Prices for funds");
+					return "transitionDay.jsp";
+				}
+				
 				FundPriceHistoryBean one = new FundPriceHistoryBean();
 				double newPrice=Double.parseDouble(price[i]);
 				if(newPrice<0)
@@ -127,7 +140,21 @@ public class TransitionDayAction extends Action {
 					return "transitionDay.jsp";
 					
 				}
-					
+				
+				System.out.println("original : "+newPrice);
+				BigDecimal bd = new BigDecimal(newPrice);
+				bd = bd.setScale(2, RoundingMode.HALF_UP);
+				double newPriceRounded = bd.doubleValue();    
+				System.out.println("rounded : "+newPriceRounded);
+				
+				if(newPrice < 0.01){
+					errors.add("Invalid Transaction ! Amount cannot be less than $0.01");
+				}
+				else if((newPrice!=newPriceRounded) && (newPrice-newPriceRounded) < 0.01){
+					errors.add("Amount can only have upto 2 places of decimal !");
+				}
+				
+				
 				one.setFund_id(Integer.parseInt(fund_id[i]));
 				one.setPrice(Double.parseDouble(price[i]));
 				one.setPrice_date(newLateDate);
@@ -212,7 +239,7 @@ public class TransitionDayAction extends Action {
 					
 					System.out.println("original newShares : "+newShares);
 					BigDecimal bdShares = new BigDecimal(newShares);
-					bdShares = bdShares.setScale(3, RoundingMode.DOWN);
+					bdShares = bdShares.setScale(3, RoundingMode.HALF_UP);
 					double roundedShares = bdShares.doubleValue();    
 					System.out.println("rounded roundedShares : "+roundedShares);
 					
@@ -227,27 +254,24 @@ public class TransitionDayAction extends Action {
 					}
 					
 					double amountDeducted = transactions[i].getAmount();
-					double roundedAmountDeducted = amountDeducted;
+					double newCash = cash - amountDeducted;
 
-					if((newShares!=roundedShares) && (newShares-roundedShares) < 0.001){
-						amountDeducted = roundedShares * newFundPrice;
-						System.out.println("original amountDeducted : "+amountDeducted);
-						BigDecimal bdAmount = new BigDecimal(amountDeducted);
-						bdAmount = bdAmount.setScale(2, RoundingMode.DOWN);
-						roundedAmountDeducted = bdAmount.doubleValue();    
-						System.out.println("rounded roundedAmountDeducted : "+roundedAmountDeducted);
-					}
+					System.out.println("original newCash : "+newCash);
+					BigDecimal bdCash = new BigDecimal(newCash);
+					bdCash = bdCash.setScale(2, RoundingMode.HALF_UP);
+					newCash = bdCash.doubleValue();    
+					System.out.println("rounded newCash : "+newCash);
 					
 					transactions[i].setExecute_date(form
 							.getTransitionDateAsDate());
 					transactions[i].setShares(roundedShares);
 					transactions[i].setIs_complete(true);
 					transactions[i].setIs_success(true);
-					transactions[i].setAmount(roundedAmountDeducted);
 					transactionDAO.update(transactions[i]);
+					System.out.println("Transaction Amt : "+transactions[i].getAmount());
 					System.out.println("Cash : "+cash);
-					System.out.println("Amount being set : "+(cash - roundedAmountDeducted));
-					customerDAO.updateCash(transactions[i].getCustomer_id(),cash - roundedAmountDeducted);
+					System.out.println("Amount being set : "+(newCash));
+					customerDAO.updateCash(transactions[i].getCustomer_id(),newCash);
 
 					if (positionDAO.read(fundID,customerID) != null) {
 						PositionBean onePosition = positionDAO.read(fundID,customerID);
@@ -271,7 +295,7 @@ public class TransitionDayAction extends Action {
 					break;
 				}
 				case "sell": {
-					System.out.println("action : request");
+					System.out.println("action : sell");
 					int customerID = transactions[i].getCustomer_id();
 					int fundID = transactions[i].getFund_id();
 					double newFundPrice = fundpriceHistoryDAO
@@ -279,6 +303,35 @@ public class TransitionDayAction extends Action {
 
 					double amount = transactions[i].getShares() * newFundPrice;
 					double newShares = transactions[i].getShares();
+
+					////////////////////////////////////////////////////
+					
+					System.out.println("original amount : "+amount);
+					BigDecimal bdAmount = new BigDecimal(amount);
+					bdAmount = bdAmount.setScale(2, RoundingMode.HALF_UP);
+					double roundedAmount = bdAmount.doubleValue();    
+					System.out.println("rounded roundedAmount : "+roundedAmount);
+					
+					if(amount < 0.01){
+						errors.add("Transaction id: "+ transactions[i].getTransaction_id()+ " failed ! Amount cannot be less than $0.01.");
+						transactions[i].setIs_success(false);
+						transactions[i].setIs_complete(true);
+						transactions[i].setExecute_date(form
+								.getTransitionDateAsDate());
+						transactionDAO.update(transactions[i]);
+						continue;
+					}
+					
+					double amountAdded = amount;
+					double newCash = cash + amountAdded;
+
+					System.out.println("original newCash : "+newCash);
+					BigDecimal bdCash = new BigDecimal(newCash);
+					bdCash = bdCash.setScale(2, RoundingMode.HALF_UP);
+					newCash = bdCash.doubleValue();    
+					System.out.println("rounded newCash : "+newCash);
+					
+					/////////////////////////////////////////////////////
 
 					transactions[i].setAmount(amount);
 					transactions[i].setExecute_date(form
@@ -308,15 +361,16 @@ public class TransitionDayAction extends Action {
 						// TODO EXCEPTION DETAIL
 						throw new RollbackException("Some errors with funds");
 					}
-					customerDAO.updateCash(transactions[i].getCustomer_id(),
-							cash + transactions[i].getAmount());
+					customerDAO.updateCash(transactions[i].getCustomer_id(),newCash);
 					break;
 				} // end last case
 				} // end switch
 
 			} // end for loop;
 			
-			return "transitionDay.jsp";
+			successes.add("Transition Day was Successful !");
+			
+			return "manage.jsp";
 
 		} catch (RollbackException e) {
 			errors.add(e.getMessage());
