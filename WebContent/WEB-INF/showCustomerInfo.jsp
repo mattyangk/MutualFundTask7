@@ -79,7 +79,7 @@
 
 		<tr>
 
-			<td>Available Balance:<fmt:formatNumber value="${balance}"
+			<td>Available Balance:<fmt:formatNumber value="${customer.balance}"
 					type="currency" /></td>
 
 		</tr>
@@ -98,11 +98,11 @@
 
 			<tr>
 
-				<td>Fund Name</td>
+				<th>Fund Name</th>
 
-				<td>Ticker</td>
+				<th>Ticker</th>
 
-				<td>Shares</td>
+				<th>Shares</th>
 			<tr>
 
 
