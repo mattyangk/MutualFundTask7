@@ -47,7 +47,7 @@
 
 		<thead>
 			<tr>
-				<th data-align="center" data-sortable="true">Transaction ID</th>
+				
 				<th data-align="center" data-sortable="true">Execute Date</th>
 				<th data-align="center" data-sortable="true" data-sorter="shareSorter">Shares</th>
 				<th data-align="center" data-sortable="true">Transaction Type</th>				
@@ -64,7 +64,7 @@
 					<c:choose>
 						<c:when
 							test="${transaction.trasaction_type.equals('deposit') || transaction.trasaction_type.equals('request')}">
-							<td>${transaction.transaction_id}</td>
+							
 							<c:choose>
 								<c:when test="${empty transaction.execute_date }">
 									<td>(pending)</td>
@@ -89,7 +89,7 @@
 							</c:if>
 						</c:when>
 						<c:otherwise>
-							<td>${transaction.transaction_id}</td>
+							
 							<c:choose>
 								<c:when test="${empty transaction.execute_date }">
 									<td>(pending)</td>
