@@ -93,6 +93,11 @@
 			<tr>
 				<td>Fund List</td>
 		</thead>
+		 <c:choose>
+		<c:when test="${empty fundInfo}">
+		<tr><td>You don't have any fund now.</td></tr>
+		</c:when>
+	    <c:otherwise>
 
 		<tbody>
 
@@ -127,6 +132,8 @@
 			</tr>
 
 		</tbody>
+		</c:otherwise>
+		</c:choose>
 
 	</table>
 

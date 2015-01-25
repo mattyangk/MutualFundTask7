@@ -51,4 +51,53 @@
 			</tr>
 		</table>
 		
+		
+		<table class="table">
+
+		<thead>
+
+			<tr>
+				<td>Fund List</td>
+		</thead>
+        <c:choose>
+		<c:when test="${empty fundInfo}">
+		<tr><td>You don't have any fund now.</td></tr>
+		</c:when>
+	    <c:otherwise>
+		<tbody>
+
+			<tr>
+
+				<th>Fund Name</th>
+
+				<th>Ticker</th>
+
+				<th>Shares</th>
+			<tr>
+
+
+				<c:forEach items="${fundInfo}" var="fund">
+
+					<tr>
+
+						<td>${fund.fund_name}</td>
+
+						<td>${fund.fund_symbol}</td>
+
+						<td><fmt:formatNumber value="${fund.shares}" type="number"
+								maxFractionDigits="3" minFractionDigits="3"/></td>
+
+					</tr>
+
+				</c:forEach>
+			
+
+		</tbody>
+			</c:otherwise>
+	</c:choose>
+
+	</table>
+
+		
+		
 </div>

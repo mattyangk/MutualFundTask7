@@ -47,11 +47,11 @@
 
 		<thead>
 			<tr>
-				<th data-align="center" data-sortable="true">Transaction ID</th>
+				
 				<th data-align="center" data-sortable="true">Execute Date</th>
 				<th data-align="center" data-sortable="true" data-sorter="shareSorter">Shares</th>
-				<th data-align="center" data-sortable="true">Transaction Type</th>				
 				<th data-align="center" data-sortable="true" data-sorter="amountSorter">Amount</th>
+				<th data-align="center" data-sortable="true">Transaction Type</th>				
 				<th data-align="center" data-sortable="true">Status</th>
 			</tr>
 
@@ -62,10 +62,8 @@
 			<c:forEach var="transaction" items="${transactionsHistory}">
 				<tr>
 					<c:choose>
-						<c:when
-							test="${transaction.trasaction_type.equals('deposit') || transaction.trasaction_type.equals('request')}">
-							<td>${transaction.transaction_id}</td>
-							<c:choose>
+						<c:when test="${transaction.trasaction_type.equals('deposit') || transaction.trasaction_type.equals('request')}">
+                                <c:choose>
 								<c:when test="${empty transaction.execute_date }">
 									<td>(pending)</td>
 								</c:when>
@@ -74,22 +72,29 @@
 								</c:otherwise>
 							</c:choose>
 							<td>--</td>
-							<td>${transaction.trasaction_type}</td>
-							<td><fmt:formatNumber value="${transaction.amount}" type="number"
+							<c:if test="${transaction.amount==0}">
+									<td>--</td>
+							</c:if>
+						    <c:if test="${transaction.amount!=0}">
+						       <td><fmt:formatNumber value="${transaction.amount}" type="number"
 								maxFractionDigits="2" minFractionDigits="2"/></td>
+							</c:if>
+								
+							<td>${transaction.trasaction_type}</td>
+							
 							<c:if test="${transaction.is_success}">
 								<td>Completed</td>
 							</c:if>
 							<c:if test="${!transaction.is_complete}">
 								<td>Pending</td>
 							</c:if>
-							<c:if
+						    <c:if
 								test="${transaction.is_complete && !transaction.is_success}">
 								<td>Failed</td>
 							</c:if>
 						</c:when>
 						<c:otherwise>
-							<td>${transaction.transaction_id}</td>
+							
 							<c:choose>
 								<c:when test="${empty transaction.execute_date }">
 									<td>(pending)</td>
@@ -100,24 +105,28 @@
 							</c:choose>
 							<c:choose>
 								<c:when test="${empty transaction.shares }">
-									<td>(pending)</td>
+									<td>--</td>
 								</c:when>
 								<c:otherwise>
 									<td><fmt:formatNumber value="${transaction.shares}" type="number"
 								maxFractionDigits="3" minFractionDigits="3"/></td>
 								</c:otherwise>
 							</c:choose>
-							<td>${transaction.trasaction_type}</td>
-							<td><fmt:formatNumber value="${transaction.amount}"  type="number"
-								maxFractionDigits="2" minFractionDigits="2" pattern=".00"/></td>
+							<c:if test="${transaction.amount==0}">
+									<td>--</td>
+							</c:if>
+						    <c:if test="${transaction.amount!=0}">
+						       <td><fmt:formatNumber value="${transaction.amount}" type="number"
+								maxFractionDigits="2" minFractionDigits="2"/></td>
+							</c:if>
+						    <td>${transaction.trasaction_type}</td>	
 							<c:if test="${transaction.is_success}">
 								<td>Completed</td>
 							</c:if>
 							<c:if test="${!transaction.is_complete}">
 								<td>Pending</td>
 							</c:if>
-							<c:if
-								test="${transaction.is_complete && !transaction.is_success}">
+							<c:if test="${transaction.is_complete && !transaction.is_success}">
 								<td>Failed</td>
 							</c:if>
 						</c:otherwise>

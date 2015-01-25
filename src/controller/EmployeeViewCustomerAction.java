@@ -30,8 +30,8 @@ public class EmployeeViewCustomerAction  extends Action{
 
 	public String perform(HttpServletRequest request){
 		List<String> errors = new ArrayList<String>();
-		String messages;
 		request.setAttribute("errors",errors);
+		String messages;
 		
 		try{
 			String customerName=(String)request.getParameter("customername");
